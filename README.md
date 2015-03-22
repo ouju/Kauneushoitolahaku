@@ -1,4 +1,5 @@
 # Kauneushoitolahaku
+* [Linkki sovellukseen](http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/)
 
 Löytyy tästä osoitteesta:
 http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/
