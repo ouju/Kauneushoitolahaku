@@ -4,6 +4,7 @@
  */
 package Servletit;
 
+import Mallit.Yritys;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -31,11 +32,9 @@ public class Testi extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<String> asiat = new ArrayList<String>();
-        asiat.add("Kirahvi");
-        asiat.add("Trumpetti");
-        asiat.add("Jeesus");
-        asiat.add("Parta");
+        List<Yritys> yritykset = new ArrayList<Yritys>();
+        yritykset.add(new Yritys(24, "getwell", "parannet44n"));
+        yritykset.add(new Yritys(56, "beauty", "feelgood99"));
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -44,8 +43,8 @@ public class Testi extends HttpServlet {
             out.println("<head><title>Servlet TestiServlet</title></head>");
             out.println("<body>");
             out.println("<ul>");
-            for (String asia : asiat) {
-                out.println("<li>" + asia + "</li>");
+            for (Yritys yritys : yritykset) {
+                out.println("<li>" + yritys.getTunnus() + "</li>");
             }
             out.println("</ul>");
             out.println("</body>");
