@@ -8,3 +8,6 @@ http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/Testi
 
 Esittelysivu:
 http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/esittelysivu.html
+
+Dokumentaatio:
+https://github.com/ouju/Kauneushoitolahaku/blob/master/docs/dokumentaatio.pdf
