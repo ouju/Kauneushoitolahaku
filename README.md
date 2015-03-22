@@ -1,4 +1,7 @@
 # Kauneushoitolahaku
 
-Löytyy tästä osoitteesta:
+LÃ¶ytyy tÃ¤stÃ¤ osoitteesta:
 http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/
+
+Listaustesti:
+http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/Testi
