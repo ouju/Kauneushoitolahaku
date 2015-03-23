@@ -8,21 +8,25 @@
     <body>
         <h1>Kirjaudu sisään</h1>
 
-        <!-- Kaikki lomakkeen elementit form-tagin sisään -->
+        <form action="login" method="POST">
+            Käyttäjänimi: <input type="text" name="username" value="${kayttaja}" />
+            Salasana: <input type="password" name="password" />
+            <button type="submit">Kirjaudu</button>
+        </form>
+        
+        <!-- Kaikki lomakkeen elementit form-tagin sisään
         <form>
-            <!-- Tekstikenttä käyttäjätunnukselle -->
             <div class="form-group">
                 <label>Käyttäjätunnus</label>
                 <input type="text" class="form-control">
             </div>
 
-            <!-- Salasanakenttä salasanalle -->
             <div class="form-group">
                 <label>Salasana</label>
                 <input type="password" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
-        </form>
+        </form> -->
     </body>
 </html>

@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servletit;
+package Kauneushoitolahaku.Servletit;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Outi
  */
-public class Testi extends HttpServlet {
+public class Servletti extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -31,7 +32,30 @@ public class Testi extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*List<Yritys> yritykset = new ArrayList<Yritys>();
+        response.setContentType("text/html;charset=UTF-8");
+        //PrintWriter out = response.getWriter();
+        /* Asetetaan virheviesti */
+        request.setAttribute("virheViesti", "Virhe sivustolla!");
+
+        /* Näytetään JSP-sivu */
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+        /*try {
+            
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Servletti</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Servletti at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        } finally {
+            out.close();
+        }
+        
+        
+        List<Yritys> yritykset = new ArrayList<Yritys>();
         yritykset.add(new Yritys(24, "getwell", "parannet44n"));
         yritykset.add(new Yritys(56, "beauty", "feelgood99"));
 

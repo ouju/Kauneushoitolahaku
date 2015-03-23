@@ -4,7 +4,7 @@
     Author     : Outi
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,6 +38,9 @@
                     </ul>
                 </div>
             </div>
+            <c:if test="${virheViesti != null}">
+                <div class="alert alert-danger">Virhe! ${virheViesti}</div>
+            </c:if>
         </nav>
     </body>
 </html>
