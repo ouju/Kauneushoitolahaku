@@ -13,5 +13,31 @@
     </head>
     <body>
         <h1>Tervetuloa kauneushoitoloiden hakusivustolle!</h1>
+
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Etusivu -->
+                    <a class="navbar-brand" href="#">Etusivu</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navigation">
+                    <ul class="nav navbar-nav">
+                        <!-- Navigaation linkit -->
+                        <li><a href="haku.html">Haku</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="kirjautuminen.html">Kirjaudu sisään</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </body>
 </html>
