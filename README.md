@@ -8,4 +8,4 @@
 * [Linkki listaustestiin](http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/Testi)
 * [Linkki erilliselle esittelysivulle](http://t-ouju.users.cs.helsinki.fi/Kauneushoitolahaku/esittelysivu.html)
 * [Linkki dokumentaatioon](https://github.com/ouju/Kauneushoitolahaku/blob/master/docs/dokumentaatio.pdf)
-* [ConnectionsTest](http://t-ouju.users.cs.helsinki.fi/ConnectionTest/)
+* [ConnectionTest](http://t-ouju.users.cs.helsinki.fi/ConnectionTest/)
