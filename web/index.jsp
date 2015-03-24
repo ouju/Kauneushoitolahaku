@@ -24,23 +24,20 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Etusivu -->
-                    <a class="navbar-brand" href="#">Etusivu</a>
+                    <a class="navbar-brand" href="">Etusivu</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <ul class="nav navbar-nav">
                         <!-- Navigaation linkit -->
-                        <li><a href="haku.html">Haku</a></li>
+                        <li><a href="haku.jsp">Hae kauneushoitolaa</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="kirjautuminen.html">Kirjaudu sisään</a></li>
+                        <li><a href="kirjautuminen.jsp">Kirjaudu sisään</a></li>
                     </ul>
                 </div>
             </div>
-            <c:if test="${virheViesti != null}">
-                <div class="alert alert-danger">Virhe! ${virheViesti}</div>
-            </c:if>
         </nav>
     </body>
 </html>

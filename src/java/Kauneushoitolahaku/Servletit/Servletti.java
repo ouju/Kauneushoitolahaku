@@ -35,7 +35,7 @@ public class Servletti extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //PrintWriter out = response.getWriter();
         /* Asetetaan virheviesti */
-        request.setAttribute("virheViesti", "Virhe sivustolla!");
+        //request.setAttribute("virheViesti", "Virhe sivustolla!");
 
         /* Näytetään JSP-sivu */
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");

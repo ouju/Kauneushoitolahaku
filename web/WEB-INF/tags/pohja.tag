@@ -15,5 +15,5 @@
 <link href="css/main.css" rel="stylesheet">
 
 <c:if test="${virheViesti != null}">
-  <div class="alert alert-danger">Virhe! ${virheViesti}</div>
+    <div class="alert alert-danger">Virhe! ${virheViesti}</div>
 </c:if>

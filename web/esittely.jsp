@@ -1,15 +1,21 @@
+<%-- 
+    Document   : esittely
+    Created on : 24.3.2015, 18:56:42
+    Author     : Outi
+--%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title></title>
     </head>
     <body>
-        <h1>Pyhakko</h1>
+        <h1>Pyhäkkö</h1>
         <!-- Painikkeet tähän -->
         <p>
-            <a href="www.pyhakko.fi" class="btn btn-default">Kotisivuille</a>
+            <a href="http://www.pyhakko.fi/" class="btn btn-default">Kotisivuille</a>
         </p>
         <!-- Tiedot tulee listana tähän -->
         <ul>
