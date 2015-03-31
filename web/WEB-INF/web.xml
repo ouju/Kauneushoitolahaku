@@ -12,6 +12,10 @@
         <servlet-name>haku</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.haku</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>kirjautunut</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.kirjautunut</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
         <url-pattern>/Servletti</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>haku</servlet-name>
         <url-pattern>/haku</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>kirjautunut</servlet-name>
+        <url-pattern>/kirjautunut</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

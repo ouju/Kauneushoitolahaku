@@ -22,6 +22,7 @@
             <thead>
                 <tr>
                     <th>Nimi</th>
+                    <th>Tunnus</th>
                     <th>Hintaluokka</th>
                     <th>Sijainti</th>
                     <th>Osoite</th>
@@ -32,10 +33,11 @@
             <tbody>
                 <!-- Listataan hoitolat tähän -->
                 <tr>
-                    <td><a href="http://www.pyhakko.fi/">Pyhäkkö</a></td>
-                    <td>Keskitaso</td>
-                    <td>Helsinki</td>
-                    <td>Mannerkuja 13</td>
+                    <td><a href="http://www.pyhakko.fi/">${yritys.nimi}</a></td>
+                    <td>${yritys.tunnus}</td>
+                    <td>${yritys.hintataso}</td>
+                    <td>${yritys.sijainti}</td>
+                    <td>${yritys.osoite}</td>
                     <th><a class="btn btn-default btn-sm" href="muokkaus.jsp">Muokkaa</a></th>
                 </tr>
             </tbody>

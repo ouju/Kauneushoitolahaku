@@ -20,14 +20,15 @@ public class Yritykset {
 
     private int id;
     private String nimi;
+    private String tunnus;
     private String hintataso;
+    private String osoite;
     private String sijainti;
     private int tarjontaId;
 
-    public Yritykset(){
-        
+    public Yritykset() {
     }
-    
+
     private Yritykset(ResultSet tulos) throws SQLException {
         this.id = tulos.getInt("id");
         this.nimi = tulos.getString("nimi");
@@ -44,9 +45,14 @@ public class Yritykset {
         this.tarjontaId = tarjontaId;
     }
 
-    /**
-     * Hakee tietokannasta yksittäisen yrityksen id-numeron perusteella
-     */
+    public Yritykset(String nimi, String tunnus, String hintataso, String osoite) {
+
+        this.nimi = nimi;
+        this.tunnus = tunnus;
+        this.hintataso = hintataso;
+        this.osoite = osoite;
+    }
+
     public static Yritykset haeYritysId(int id) throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -122,11 +128,50 @@ public class Yritykset {
 
     }
 
+    public static Yritykset haeYritys(String tunnus)
+            throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+        Yritykset yritys = null;
+
+        try {
+            String sql = "SELECT * FROM yritys WHERE tunnus = ?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, tunnus);
+            tulokset = kysely.executeQuery();
+            while (tulokset.next()) {
+                String yNimi = tulokset.getString("nimi");
+                String yHintataso = tulokset.getString("hintataso");
+                String sijainti = tulokset.getString("sijainti");
+
+                yritys = new Yritykset(yNimi, tunnus, yHintataso, sijainti);
+            }
+
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+        return yritys;
+    }
+
     /**
      * Hakee tietokannasta listan yrityksistä
      */
     public static List<Yritykset> kaikkiYritykset() throws SQLException {
-        
+
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -243,6 +288,22 @@ public class Yritykset {
 
     public void setNimi(String nimi) {
         this.nimi = nimi;
+    }
+
+    public String getTunnus() {
+        return this.tunnus;
+    }
+
+    public void setTunnus(String tunnus) {
+        this.tunnus = tunnus;
+    }
+
+    public String getOsoite() {
+        return this.osoite;
+    }
+
+    public void setOsoite(String osoite) {
+        this.osoite = osoite;
     }
 
     public String getHintataso() {

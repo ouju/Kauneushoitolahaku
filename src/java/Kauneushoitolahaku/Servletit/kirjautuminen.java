@@ -41,18 +41,18 @@ public class kirjautuminen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        String kayttaja = request.getParameter("tunnus");
+        String tunnus = request.getParameter("tunnus");
         String salasana = request.getParameter("salasana");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        if (kayttaja.isEmpty() || kayttaja == null || salasana == null) {
+        if (tunnus.isEmpty() || tunnus == null || salasana == null) {
             request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.");
             naytaJSP("kirjautuminen.jsp", request, response);
             return;
         }
 
         //Tarkistetaan että vaaditut kentät on täytetty:
-        if (kayttaja.isEmpty() || kayttaja == null || kayttaja.equals("")) {
+        if (tunnus.isEmpty() || tunnus == null || tunnus.equals("")) {
             request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.");
             naytaJSP("kirjautuminen.jsp", request, response);
             return;
@@ -78,7 +78,8 @@ public class kirjautuminen extends HttpServlet {
         boolean yritys = Kirjautunut.tunnusJaSalasanaOikein(request.getParameter("tunnus"), request.getParameter("salasana"));
         if (yritys) {
             //Tallennetaan istuntoon käyttäjäolio
-            session.setAttribute("kirjautunut", yritys);
+            session.setAttribute("tunnus", tunnus);
+            response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
         }
     }
 
