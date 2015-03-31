@@ -24,12 +24,16 @@ public class Yritykset {
     private String sijainti;
     private int tarjontaId;
 
+    public Yritykset(){
+        
+    }
+    
     private Yritykset(ResultSet tulos) throws SQLException {
-        tulos.getInt("id");
-        tulos.getString("nimi");
-        tulos.getString("hintataso");
-        tulos.getString("sijainti");
-        tulos.getInt("tarjontaId");
+        this.id = tulos.getInt("id");
+        this.nimi = tulos.getString("nimi");
+        this.hintataso = tulos.getString("hintataso");
+        this.sijainti = tulos.getString("sijainti");
+        this.tarjontaId = tulos.getInt("tarjontaId");
     }
 
     public Yritykset(int id, String nimi, String hintataso, String sijainti, int tarjontaId) {
@@ -41,9 +45,9 @@ public class Yritykset {
     }
 
     /**
-     * Hakee tietokannasta yksittäisen kissan id-numeron perusteella
+     * Hakee tietokannasta yksittäisen yrityksen id-numeron perusteella
      */
-    public static Yritykset haeYritys(int id) throws Exception {
+    public static Yritykset haeYritysId(int id) throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -51,7 +55,7 @@ public class Yritykset {
         try {
             String sql = "SELECT * FROM yritys WHERE id = ?";
             yhteys = Yhteys.getYhteys();
-            //kysely = yhteys.getKysely(sql);
+            kysely = yhteys.prepareStatement(sql);
             kysely.setInt(1, id);
             tulokset = kysely.executeQuery();
 
@@ -75,13 +79,12 @@ public class Yritykset {
             } catch (Exception e) {
             }
         }
-
     }
 
     /**
      * Hakee tietokannasta listan yrityksiä nimen perusteella
      */
-    public static List<Yritykset> haeYritykset(String nimi)
+    public static List<Yritykset> haeNimella(String nimi)
             throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -90,8 +93,49 @@ public class Yritykset {
         try {
             String sql = "SELECT * FROM yritys WHERE nimi = ?";
             yhteys = Yhteys.getYhteys();
-            //kysely = yhteys.getKysely(sql);
+            kysely = yhteys.prepareStatement(sql);
             kysely.setString(1, nimi);
+            tulokset = kysely.executeQuery();
+
+            ArrayList<Yritykset> l = new ArrayList<Yritykset>();
+            while (tulokset.next()) {
+                Yritykset y = new Yritykset();
+                y.setNimi(tulokset.getString("nimi"));
+                l.add(y);
+            }
+            return l;
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    /**
+     * Hakee tietokannasta listan yrityksistä
+     */
+    public static List<Yritykset> kaikkiYritykset() throws SQLException {
+        
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
+        try {
+            String sql = "SELECT * FROM yritys";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            //kysely.setString(1, nimi);
             tulokset = kysely.executeQuery();
 
             ArrayList<Yritykset> l = new ArrayList<Yritykset>();
@@ -114,7 +158,6 @@ public class Yritykset {
             } catch (Exception e) {
             }
         }
-
     }
 
     /**
@@ -128,7 +171,7 @@ public class Yritykset {
         try {
             String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, tarjontaId) VALUES(?,?,?, ?) RETURNING id";
             yhteys = Yhteys.getYhteys();
-            //kysely = yhteys.getKysely(sql);
+            kysely = yhteys.prepareStatement(sql);
             kysely.setString(1, nimi);
             kysely.setString(2, hintataso);
             kysely.setString(3, sijainti);
@@ -168,7 +211,7 @@ public class Yritykset {
         try {
             String sql = "DELETE FROM yritys where id = ?";
             yhteys = Yhteys.getYhteys();
-            //kysely = yhteys.getKysely(sql);
+            kysely = yhteys.prepareStatement(sql);
             kysely.setInt(1, id);
             return kysely.execute();
         } finally {
@@ -217,6 +260,7 @@ public class Yritykset {
     public void setSijainti(String sijainti) {
         this.sijainti = sijainti;
     }
+
     public int getTarjontaId() {
         return this.tarjontaId;
     }

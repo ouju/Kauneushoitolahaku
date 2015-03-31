@@ -14,16 +14,16 @@ import java.sql.SQLException;
  *
  * @author Outi
  */
-public class Kayttaja {
+public class Kirjautunut {
 
     private int id;
     private String tunnus;
     private String salasana;
 
-    public Kayttaja(){
+    public Kirjautunut(){
         
     }
-    public Kayttaja(int id, String tunnus, String salasana) {
+    public Kirjautunut(int id, String tunnus, String salasana) {
         this.id = id;
         this.tunnus = tunnus;
         this.salasana = salasana;
@@ -52,8 +52,26 @@ public class Kayttaja {
     public void setSalasana(String salasana) {
         this.salasana = salasana;
     }
+    
+    public static boolean tunnusJaSalasanaOikein(String tunnus, String salasana) throws SQLException{
+        String sql = "SELECT tunnus, salasana from yritys where tunnus=? and salasana=?";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, tunnus);
+        kysely.setString(2, salasana);
+        ResultSet tulokset = kysely.executeQuery();
+        
+        if(tulokset.next()){
+            tulokset.close();
+            kysely.close();
+            yhteys.close();
+            return true;
+        }
+        return false;
+        
+    }
 
-    public static Kayttaja etsiKayttajaTunnuksilla(String kayttaja, String salasana) throws SQLException {
+    public static Kirjautunut etsiKayttajaTunnuksilla(String kayttaja, String salasana) throws SQLException {
         String sql = "SELECT id,tunnus, salasana from yritys";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
@@ -62,7 +80,7 @@ public class Kayttaja {
         ResultSet rs = kysely.executeQuery();
 
         //Alustetaan muuttuja, joka sisältää löydetyn käyttäjän
-        Kayttaja kirjautunut = null;
+        Kirjautunut kirjautunut = null;
 
         //next-metodia on kutsuttava aina, kun käsitellään 
         //vasta kannasta saatuja ResultSet-olioita.
@@ -72,7 +90,7 @@ public class Kayttaja {
         if (rs.next()) {
             //Kutsutaan sopivat tiedot vastaanottavaa konstruktoria 
             //ja asetetaan palautettava olio:
-            kirjautunut = new Kayttaja();
+            kirjautunut = new Kirjautunut();
             kirjautunut.setId(rs.getInt("id"));
             kirjautunut.setTunnus(rs.getString("username"));
             kirjautunut.setSalasana(rs.getString("password"));

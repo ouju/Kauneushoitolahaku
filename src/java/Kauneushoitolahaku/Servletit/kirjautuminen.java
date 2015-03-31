@@ -4,7 +4,7 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Kayttaja;
+import Kauneushoitolahaku.Mallit.Kirjautunut;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -41,9 +41,8 @@ public class kirjautuminen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-
-        String salasana = request.getParameter("password");
-        String kayttaja = request.getParameter("username");
+        String kayttaja = request.getParameter("tunnus");
+        String salasana = request.getParameter("salasana");
         HttpSession session = request.getSession();
         session = request.getSession(false);
         if (kayttaja.isEmpty() || kayttaja == null || salasana == null) {
@@ -66,18 +65,18 @@ public class kirjautuminen extends HttpServlet {
             naytaJSP("kirjautuminen.jsp", request, response);
             return;
         }
-        if ("pyhakko".equals(kayttaja) && "pyhakko99".equals(salasana)) {
-            request.setAttribute("kayttaja", kayttaja);
-            response.sendRedirect("yritys.jsp");
-        } else {
-            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.");
-            request.setAttribute("kayttaja", kayttaja);
-            naytaJSP("kirjautuminen.jsp", request, response);
-        }
+//        if () {
+//            request.setAttribute("kayttaja", kayttaja);
+//            response.sendRedirect("yritys.jsp");
+//        } else {
+//            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.");
+//            request.setAttribute("kayttaja", kayttaja);
+//            naytaJSP("kirjautuminen.jsp", request, response);
+//        }
 
 
-        Kayttaja yritys = Kayttaja.etsiKayttajaTunnuksilla("pyhakko", request.getParameter("pyhakko99"));
-        if (yritys != null) {
+        boolean yritys = Kirjautunut.tunnusJaSalasanaOikein(request.getParameter("tunnus"), request.getParameter("salasana"));
+        if (yritys) {
             //Tallennetaan istuntoon käyttäjäolio
             session.setAttribute("kirjautunut", yritys);
         }

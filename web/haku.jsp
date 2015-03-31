@@ -3,7 +3,7 @@
     Created on : 24.3.2015, 19:05:04
     Author     : Outi
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,10 +15,10 @@
         <h1>Haku</h1>
 
         <!-- Kaikki lomakkeen elementit form-tagin sisään -->
-        <form>
+        <form action="haku" method="post">
             <div class="form-group">
                 <label>Hae nimellä:</label>
-                <input type="text" class="form-control">
+                <input type="text" name="haeNimella" class="form-control">
             </div>
 
             <div class="form-group">
@@ -32,6 +32,12 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Hae</button>
+            
         </form>
+        <c:forEach var="kirjaus" items="${listaus}">
+            ${kirjaus.nimi}
+        </c:forEach>
+        ${viesti}
+        
     </body>
 </html>

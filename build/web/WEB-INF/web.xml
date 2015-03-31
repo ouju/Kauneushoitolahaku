@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    
     <servlet>
         <servlet-name>Servletti</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.Servletti</servlet-class>
@@ -9,7 +8,10 @@
         <servlet-name>kirjautuminen</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.kirjautuminen</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>haku</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.haku</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
         <url-pattern>/Servletti</url-pattern>
@@ -17,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>kirjautuminen</servlet-name>
         <url-pattern>/kirjautuminen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>haku</servlet-name>
+        <url-pattern>/haku</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

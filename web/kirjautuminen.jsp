@@ -15,8 +15,8 @@
         <h1>Kirjaudu sisään</h1>
 
         <form action="kirjautuminen" method="post">
-            Käyttäjänimi: <input type="text" name="username" value="${kayttaja}" />
-            Salasana: <input type="password" name="password" />
+            Käyttäjänimi: <input type="text" name="tunnus" value="${kayttaja}" />
+            Salasana: <input type="password" name="salasana" />
             <button type="submit">Kirjaudu</button>
             
         </form>
