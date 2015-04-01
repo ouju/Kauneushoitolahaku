@@ -9,4 +9,4 @@
 * [Linkki dokumentaatioon](https://github.com/ouju/Kauneushoitolahaku/blob/master/docs/dokumentaatio.pdf)
 * [ConnectionTest](http://t-ouju.users.cs.helsinki.fi/ConnectionTest/)
 
-Kirjautumissivu testattavissa käyttäjätunnuksella ja salasanalla: pyhakko, pyhakko99
+Kirjautumissivu testattavissa käyttäjätunnuksella ja salasanalla: venus, veveve
