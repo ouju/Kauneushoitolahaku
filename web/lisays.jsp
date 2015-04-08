@@ -13,15 +13,20 @@
     </head>
     <body>
         <h1>Lisää yritys</h1>
-        
+
         <form>
-            <div class="form-group">
+            <div class="form-group" name="nimi" placeholder="Yrityksen nimi" value="${yritys.nimi}">
                 <label>Nimi</label>
                 <input type="text" class="form-control">
+                <c:out value="${kissa.nimi}"/>
             </div>
             <div class="form-group">
                 <label>Hintaluokka</label>
-                <input type="text" class="form-control">
+                <select name="hintataso">
+                    <option>Edullinen</option>
+                    <option>Keskitaso</option>
+                    <option>Hintavampi</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>Sijainti</label>
@@ -39,9 +44,18 @@
                 <label>Kuvaus</label>
                 <textarea class="form-control"></textarea>
             </div>
+            <label>Tarjonta</label>
+            <select name="tarjonta_id">
+                <c:forEach var="tarjonta" items="${tarjonnat}">
+                    <option value="${tarjonta.id}">${tarjonta.nimi}</option>
+                </c:forEach>
+            </select>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Tallenna</button>
             </div>
         </form>
-    </body>
+    <c:if test="${ilmoitus != null}">
+        <div class="alert alert-info">${ilmoitus}</div>
+    </c:if>
+</body>
 </html>

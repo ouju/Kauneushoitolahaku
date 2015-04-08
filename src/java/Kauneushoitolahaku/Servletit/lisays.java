@@ -4,11 +4,11 @@
  */
 package Kauneushoitolahaku.Servletit;
 
+import Kauneushoitolahaku.Mallit.Kirjautunut;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -16,18 +16,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Outi
  */
-public class haku extends HttpServlet {
-
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
+public class lisays extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -41,40 +36,57 @@ public class haku extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
+        //PrintWriter out = response.getWriter();
+     //   try {
+            Kirjautunut uusi = new Kirjautunut();
+            uusi.setNimi(request.getParameter("nimi"));
+            uusi.setHintataso(request.getParameter("hintataso"));
+            uusi.setSijainti(request.getParameter("sijainti"));
+            uusi.setOsoite(request.getParameter("osoite"));
 
-        String hakusana = request.getParameter("haeNimella");
-        List<Yritykset> y = new ArrayList();
-        int lkm = 0;
+            if (uusi.onkoKelvollinen()) {
+                uusi.tallenna();
 
-        if (hakusana != null && hakusana.length() > 0) {
-            y = Yritykset.haeNimella(hakusana);
-        } else {
-            y = Yritykset.kaikkiYritykset();
-        }
-//        for (Yritykset yritykset : y) {
-//             System.out.println(yritykset.getNimi());
-//        }
+                //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
+                response.sendRedirect("yritys.jsp");
 
-        //request.setAttribute("yritykset", y);
-        if (y.isEmpty()) {
-            request.setAttribute("viesti", "Yrityksiä ei löytynyt");
-            naytaJSP("haku.jsp", request, response);
-        } else {
-            lkm = y.size();
-            if (lkm == 1) {
-                request.setAttribute("lkm", "Haulla löytyi seuraava yritys:");
+                //Asetetaan istuntoon ilmoitus siitä, että on lisätty
+                HttpSession session = request.getSession();
+                session.setAttribute("ilmoitus", "Yritys lisätty onnistuneesti.");
+
             } else {
-                request.setAttribute("lkm", "Haulla löytyi seuraavat " + lkm + " yritystä:");
+                Collection<String> virheet = uusi.getVirheet();
+
+                request.setAttribute("virheet", virheet);
+                request.setAttribute("yritys", uusi);
+                naytaJSP("lisays.jsp", request, response);
             }
-            request.setAttribute("listaus", y);
-            naytaJSP("haku.jsp", request, response);
+       // } finally {
+       //     out.close();
+       // }
+    }
+/*
+    public void haeIlmoitus(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String ilmoitus = (String) session.getAttribute("ilmoitus");
+
+        if (ilmoitus != null) {
+            // Samalla kun viesti haetaan, se poistetaan istunnosta,
+            // ettei se näkyisi myöhemmin jollain toisella sivulla uudestaan.
+            session.removeAttribute("ilmoitus");
+
+            request.setAttribute("ilmoitus", ilmoitus);
         }
+    }
+*/
+    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+        dispatcher.forward(request, response);
 
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.
@@ -90,7 +102,7 @@ public class haku extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(haku.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(lisays.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -109,7 +121,7 @@ public class haku extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(haku.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(lisays.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

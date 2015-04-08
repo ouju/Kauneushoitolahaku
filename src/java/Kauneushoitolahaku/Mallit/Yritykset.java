@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.naming.NamingException;
 
 /**
  *
@@ -45,11 +46,12 @@ public class Yritykset {
         this.tarjontaId = tarjontaId;
     }
 
-    public Yritykset(String nimi, String tunnus, String hintataso, String osoite) {
+    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite) {
 
         this.nimi = nimi;
         this.tunnus = tunnus;
         this.hintataso = hintataso;
+        this.sijainti = sijainti;
         this.osoite = osoite;
     }
 
@@ -145,8 +147,9 @@ public class Yritykset {
                 String yNimi = tulokset.getString("nimi");
                 String yHintataso = tulokset.getString("hintataso");
                 String sijainti = tulokset.getString("sijainti");
+                String osoite = tulokset.getString("osoite");
 
-                yritys = new Yritykset(yNimi, tunnus, yHintataso, sijainti);
+                yritys = new Yritykset(yNimi, tunnus, yHintataso, sijainti, osoite);
             }
 
 
@@ -171,7 +174,6 @@ public class Yritykset {
      * Hakee tietokannasta listan yrityksistä
      */
     public static List<Yritykset> kaikkiYritykset() throws SQLException {
-
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -180,12 +182,13 @@ public class Yritykset {
             String sql = "SELECT * FROM yritys";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
-            //kysely.setString(1, nimi);
             tulokset = kysely.executeQuery();
 
             ArrayList<Yritykset> l = new ArrayList<Yritykset>();
             while (tulokset.next()) {
-                l.add(new Yritykset(tulokset));
+                Yritykset y = new Yritykset();
+                y.setNimi(tulokset.getString("nimi"));
+                l.add(y);
             }
             return l;
 
@@ -204,72 +207,33 @@ public class Yritykset {
             }
         }
     }
+/*
+    public static int lukumaara() throws NamingException, SQLException {
+        String sql = "SELECT count(*) as lkm FROM yritys";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        ResultSet tulokset = kysely.executeQuery();
 
-    /**
-     * Tallentaa yrityksen tietokantaan
-     */
-    public boolean tallenna() throws Exception {
-        Connection yhteys = null;
-        PreparedStatement kysely = null;
-        ResultSet tulokset = null;
+        tulokset.next();
+        int lkm = tulokset.getInt("lkm");
 
+        //Suljetaan kaikki resurssit:
         try {
-            String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, tarjontaId) VALUES(?,?,?, ?) RETURNING id";
-            yhteys = Yhteys.getYhteys();
-            kysely = yhteys.prepareStatement(sql);
-            kysely.setString(1, nimi);
-            kysely.setString(2, hintataso);
-            kysely.setString(3, sijainti);
-            kysely.setInt(4, tarjontaId);
-            tulokset = kysely.executeQuery();
-
-            if (tulokset.next()) {
-                id = tulokset.getInt("id");
-                return true;
-            } else {
-                return false;
-            }
-
-        } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            tulokset.close();
+        } catch (Exception e) {
         }
-    }
-
-    /**
-     * Poistaa yrityksen tietokannasta
-     */
-    public boolean poista() throws Exception {
-        Connection yhteys = null;
-        PreparedStatement kysely = null;
-
         try {
-            String sql = "DELETE FROM yritys where id = ?";
-            yhteys = Yhteys.getYhteys();
-            kysely = yhteys.prepareStatement(sql);
-            kysely.setInt(1, id);
-            return kysely.execute();
-        } finally {
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            kysely.close();
+        } catch (Exception e) {
         }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+
+        return lkm;
     }
+*/
 
     /**
      * Getterit ja setterit

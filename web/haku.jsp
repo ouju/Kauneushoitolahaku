@@ -9,11 +9,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Kauneushoitolahaku</title>
     </head>
     <body>
         <h1>Haku</h1>
-
+        Jättämällä kentät tyhjiksi ja valitsemalla Hae, näet listan kaikista sivuston yrityksistä.
         <!-- Kaikki lomakkeen elementit form-tagin sisään -->
         <form action="haku" method="post">
             <div class="form-group">
@@ -34,8 +34,9 @@
             <button type="submit" class="btn btn-primary">Hae</button>
             
         </form>
+        ${lkm}<br>
         <c:forEach var="kirjaus" items="${listaus}">
-            ${kirjaus.nimi}
+            ${kirjaus.nimi}<br>
         </c:forEach>
         ${viesti}
         

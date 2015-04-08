@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -19,56 +22,135 @@ public class Kirjautunut {
     private int id;
     private String tunnus;
     private String salasana;
+    private String nimi;
+    private String hintataso;
+    private String osoite;
+    private String sijainti;
+    private int tarjontaId;
+    private Map<String, String> virheet = new HashMap<String, String>();
 
-    public Kirjautunut(){
-        
+    public Kirjautunut() {
     }
+
     public Kirjautunut(int id, String tunnus, String salasana) {
         this.id = id;
         this.tunnus = tunnus;
         this.salasana = salasana;
     }
 
-    public int getId() {
-        return id;
-    }
+    /**
+     * Tallentaa yrityksen tietokantaan
+     */
+    public void tallenna() throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+        try {
+            String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, osoite, tarjontaId) VALUES(?,?,?,?,?) RETURNING id";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, this.getNimi());
+            kysely.setString(2, this.getHintataso());
+            kysely.setString(3, this.getSijainti());
+            kysely.setString(4, this.getOsoite());
+            kysely.setInt(5, this.getTarjontaId());
+            tulokset = kysely.executeQuery();
 
-    public String getTunnus() {
-        return tunnus;
-    }
+            tulokset.next();
+            this.id = tulokset.getInt(1);
 
-    public void setTunnus(String tunnus) {
-        this.tunnus = tunnus;
-    }
-
-    public String getSalasana() {
-        return salasana;
-    }
-
-    public void setSalasana(String salasana) {
-        this.salasana = salasana;
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
     }
     
-    public static boolean tunnusJaSalasanaOikein(String tunnus, String salasana) throws SQLException{
+    public void muokkaa() throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
+        try {
+            String sql = "UPDATE yritys SET nimi = ?, hintataso = ?, sijainti = ?, osoite = ? WHERE id = ?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, this.getNimi());
+            kysely.setString(2, this.getHintataso());
+            kysely.setString(3, this.getSijainti());
+            kysely.setString(4, this.getOsoite());
+            tulokset = kysely.executeQuery();
+
+            tulokset.next();
+            this.id = tulokset.getInt(1);
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    /**
+     * Poistaa yrityksen tietokannasta
+     */
+    public boolean poista() throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+
+        try {
+            String sql = "DELETE FROM yritys where id = ?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setInt(1, id);
+            return kysely.execute();
+        } finally {
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public static boolean tunnusJaSalasanaOikein(String tunnus, String salasana) throws SQLException {
         String sql = "SELECT tunnus, salasana from yritys where tunnus=? and salasana=?";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
         kysely.setString(1, tunnus);
         kysely.setString(2, salasana);
         ResultSet tulokset = kysely.executeQuery();
-        
-        if(tulokset.next()){
+
+        if (tulokset.next()) {
             tulokset.close();
             kysely.close();
             yhteys.close();
             return true;
         }
         return false;
-        
+
     }
 
     public static Kirjautunut etsiKayttajaTunnuksilla(String kayttaja, String salasana) throws SQLException {
@@ -114,5 +196,120 @@ public class Kirjautunut {
 
         //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
         return kirjautunut;
+    }
+    
+    public boolean onkoKelvollinen() {
+        return this.virheet.isEmpty();
+    }
+
+    public Collection<String> getVirheet() {
+        return virheet.values();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTunnus() {
+        return tunnus;
+    }
+
+    public void setTunnus(String tunnus) {
+        this.tunnus = tunnus;
+    }
+
+    public String getSalasana() {
+        return salasana;
+    }
+
+    public void setSalasana(String salasana) {
+        this.salasana = salasana;
+    }
+
+    /**
+     * @return the nimi
+     */
+    public String getNimi() {
+        return nimi;
+    }
+
+    /**
+     * @param nimi the nimi to set
+     */
+    public void setNimi(String nimi) {
+        this.nimi = nimi;
+
+        if (nimi.trim().length() == 0) {
+            virheet.put("nimi", "Nimi ei saa olla tyhjä.");
+        } else {
+            virheet.remove("nimi");
+        }
+    }
+
+    /**
+     * @return the hintataso
+     */
+    public String getHintataso() {
+        return hintataso;
+    }
+
+    /**
+     * @param hintataso the hintataso to set
+     */
+    public void setHintataso(String hintataso) {
+        this.hintataso = hintataso;
+
+        if (!"edullinen".equals(hintataso) || !"keskitaso".equals(hintataso) || !"hintavampi".equals(hintataso)) {
+            virheet.put("hintataso", "Valitse edullinen, keskitaso tai hintavampi.");
+        } else {
+            virheet.remove("hintataso");
+        }
+
+    }
+
+    /**
+     * @return the osoite
+     */
+    public String getOsoite() {
+        return osoite;
+    }
+
+    /**
+     * @param osoite the osoite to set
+     */
+    public void setOsoite(String osoite) {
+        this.osoite = osoite;
+    }
+
+    /**
+     * @return the sijainti
+     */
+    public String getSijainti() {
+        return sijainti;
+    }
+
+    /**
+     * @param sijainti the sijainti to set
+     */
+    public void setSijainti(String sijainti) {
+        this.sijainti = sijainti;
+    }
+
+    /**
+     * @return the tarjontaId
+     */
+    public int getTarjontaId() {
+        return tarjontaId;
+    }
+
+    /**
+     * @param tarjontaId the tarjontaId to set
+     */
+    public void setTarjontaId(int tarjontaId) {
+        this.tarjontaId = tarjontaId;
     }
 }
