@@ -7,6 +7,7 @@ package Kauneushoitolahaku.Servletit;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -42,9 +43,9 @@ public class kirjautunut extends HttpServlet {
             response.sendRedirect("/Kaneushoitolahaku/kirjautuminen");
         }
         
-        Yritykset yritys = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
+        ArrayList<Yritykset> y = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
         System.out.println((String)session.getAttribute("tunnus"));
-        request.setAttribute("yritys", yritys);
+        request.setAttribute("y", y);
         naytaJSP("yritys.jsp", request, response);
     }
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

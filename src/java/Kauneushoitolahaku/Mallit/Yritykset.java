@@ -99,7 +99,7 @@ public class Yritykset {
         ResultSet tulokset = null;
 
         try {
-            String sql = "SELECT * FROM yritys WHERE nimi = ?";
+            String sql = "SELECT * FROM yritys WHERE nimi = ? ORDER BY nimi";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setString(1, nimi);
@@ -130,13 +130,13 @@ public class Yritykset {
 
     }
 
-    public static Yritykset haeYritys(String tunnus)
+    public static ArrayList<Yritykset> haeYritys(String tunnus)
             throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
         Yritykset yritys = null;
-
+        ArrayList<Yritykset> y = new ArrayList();
         try {
             String sql = "SELECT * FROM yritys WHERE tunnus = ?";
             yhteys = Yhteys.getYhteys();
@@ -150,6 +150,7 @@ public class Yritykset {
                 String osoite = tulokset.getString("osoite");
 
                 yritys = new Yritykset(yNimi, tunnus, yHintataso, sijainti, osoite);
+                y.add(yritys);
             }
 
 
@@ -167,7 +168,7 @@ public class Yritykset {
             } catch (Exception e) {
             }
         }
-        return yritys;
+        return y;
     }
 
     /**
@@ -179,7 +180,7 @@ public class Yritykset {
         ResultSet tulokset = null;
 
         try {
-            String sql = "SELECT * FROM yritys";
+            String sql = "SELECT * FROM yritys ORDER BY nimi";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             tulokset = kysely.executeQuery();

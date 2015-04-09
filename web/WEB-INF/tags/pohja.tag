@@ -13,7 +13,7 @@
 <%-- any content can be specified here e.g.: --%>
 <h2>${message}</h2>
 
-<link href="css/main.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">
 
 <c:if test="${virheViesti != null}">
     <div class="alert alert-danger">Virhe! ${virheViesti}</div>

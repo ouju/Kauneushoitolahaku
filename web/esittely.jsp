@@ -15,11 +15,11 @@
         <h1>Pyhäkkö</h1>
         <!-- Painikkeet tähän -->
         <p>
-            <a href="http://www.pyhakko.fi/" class="btn btn-default">Kotisivuille</a>
+            <a href="http://www.kuvitteleyrityksennettisivuttahan.fi/" class="btn btn-default">Kotisivuille</a>
         </p>
         <!-- Tiedot tulee listana tähän -->
         <ul>
-            <li><strong>Nimi:</strong> Pyhäkkö</li>
+            <li><strong>Nimi:</strong> ${"nimi"}</li>
             <li><strong>Hintaluokka:</strong> Keskitaso</li>
             <li><strong>Sijainti:</strong> Helsinki</li>
             <li><strong>Osoite:</strong> Mannerkuja 13</li>

@@ -14,11 +14,12 @@
     <body>
         <h1>Lisää yritys</h1>
 
-        <form>
+        <form action="lisays" method="POST">
+            
             <div class="form-group" name="nimi" placeholder="Yrityksen nimi" value="${yritys.nimi}">
                 <label>Nimi</label>
-                <input type="text" class="form-control">
-                <c:out value="${kissa.nimi}"/>
+                <input type="text" name="nimi" class="form-control">
+                <c:out value="${yritys.nimi}"/>
             </div>
             <div class="form-group">
                 <label>Hintaluokka</label>
@@ -30,19 +31,19 @@
             </div>
             <div class="form-group">
                 <label>Sijainti</label>
-                <input type="text" class="form-control">
+                <input type="text" name="sijainti" class="form-control">
             </div>
             <div class="form-group">
                 <label>Osoite</label>
-                <input type="text" class="form-control">
+                <input type="text" name="osoite" class="form-control">
             </div>
             <div class="form-group">
                 <label>Kotisivut</label>
-                <input type="text" class="form-control">
+                <input type="text" name="kotisivut" class="form-control">
             </div>
             <div class="form-group">
                 <label>Kuvaus</label>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" name="kuvaus"></textarea>
             </div>
             <label>Tarjonta</label>
             <select name="tarjonta_id">

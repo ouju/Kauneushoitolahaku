@@ -26,6 +26,8 @@ public class Kirjautunut {
     private String hintataso;
     private String osoite;
     private String sijainti;
+    private String kotisivut;
+    private String kuvaus;
     private int tarjontaId;
     private Map<String, String> virheet = new HashMap<String, String>();
 
@@ -37,45 +39,49 @@ public class Kirjautunut {
         this.tunnus = tunnus;
         this.salasana = salasana;
     }
+    
 
     /**
      * Tallentaa yrityksen tietokantaan
      */
-    public void tallenna() throws Exception {
+    public void lisaa(String tunnus) throws Exception {
         Connection yhteys = null;
-        PreparedStatement kysely = null;
-        ResultSet tulokset = null;
+        PreparedStatement kysely1 = null;
+        PreparedStatement kysely2 = null;
+        ResultSet tulokset1 = null;
+        ResultSet tulokset2 = null;
 
         try {
-            String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, osoite, tarjontaId) VALUES(?,?,?,?,?) RETURNING id";
+            String salasana = "SELECT salasana FROM yritys WHERE tunnus = ?";
+            String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, osoite, kuvaus, tunnus, salasana) VALUES(?,?,?,?,?,?,?) RETURNING id";
             yhteys = Yhteys.getYhteys();
-            kysely = yhteys.prepareStatement(sql);
-            kysely.setString(1, this.getNimi());
-            kysely.setString(2, this.getHintataso());
-            kysely.setString(3, this.getSijainti());
-            kysely.setString(4, this.getOsoite());
-            kysely.setInt(5, this.getTarjontaId());
-            tulokset = kysely.executeQuery();
+            kysely2 = yhteys.prepareStatement(salasana);
+            kysely2.setString(1, tunnus);
+            tulokset2 = kysely2.executeQuery();
+            tulokset2.next();
+            kysely1 = yhteys.prepareStatement(sql);
+            kysely1.setString(1, this.getNimi());
+            kysely1.setString(2, this.getHintataso());
+            kysely1.setString(3, this.getSijainti());
+            kysely1.setString(4, this.getOsoite());
+            kysely1.setString(5, this.getKuvaus());
+            kysely1.setString(6, tunnus);
+            kysely1.setString(7, tulokset2.getString(1));
+            //kysely.setInt(6, this.getTarjontaId());
+            tulokset1 = kysely1.executeQuery();
 
-            tulokset.next();
-            this.id = tulokset.getInt(1);
+            tulokset1.next();
+            this.id = tulokset1.getInt(1);
 
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            tulokset1.close();
+            kysely1.close();
+            tulokset2.close();
+            kysely2.close();
+            yhteys.close();
         }
     }
-    
+
     public void muokkaa() throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -197,7 +203,7 @@ public class Kirjautunut {
         //Käyttäjä palautetaan vasta täällä, kun resurssit on suljettu onnistuneesti.
         return kirjautunut;
     }
-    
+
     public boolean onkoKelvollinen() {
         return this.virheet.isEmpty();
     }
@@ -244,7 +250,7 @@ public class Kirjautunut {
         this.nimi = nimi;
 
         if (nimi.trim().length() == 0) {
-            virheet.put("nimi", "Nimi ei saa olla tyhjä.");
+            virheet.put(nimi, "Nimi ei saa olla tyhjä.");
         } else {
             virheet.remove("nimi");
         }
@@ -262,13 +268,6 @@ public class Kirjautunut {
      */
     public void setHintataso(String hintataso) {
         this.hintataso = hintataso;
-
-        if (!"edullinen".equals(hintataso) || !"keskitaso".equals(hintataso) || !"hintavampi".equals(hintataso)) {
-            virheet.put("hintataso", "Valitse edullinen, keskitaso tai hintavampi.");
-        } else {
-            virheet.remove("hintataso");
-        }
-
     }
 
     /**
@@ -311,5 +310,33 @@ public class Kirjautunut {
      */
     public void setTarjontaId(int tarjontaId) {
         this.tarjontaId = tarjontaId;
+    }
+
+    /**
+     * @return the kotisivut
+     */
+    public String getKotisivut() {
+        return kotisivut;
+    }
+
+    /**
+     * @param kotisivut the kotisivut to set
+     */
+    public void setKotisivut(String kotisivut) {
+        this.kotisivut = kotisivut;
+    }
+
+    /**
+     * @return the kuvaus
+     */
+    public String getKuvaus() {
+        return kuvaus;
+    }
+
+    /**
+     * @param kuvaus the kuvaus to set
+     */
+    public void setKuvaus(String kuvaus) {
+        this.kuvaus = kuvaus;
     }
 }

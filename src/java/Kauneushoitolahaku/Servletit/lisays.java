@@ -37,6 +37,8 @@ public class lisays extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        session = request.getSession(false);
         //PrintWriter out = response.getWriter();
      //   try {
             Kirjautunut uusi = new Kirjautunut();
@@ -44,16 +46,14 @@ public class lisays extends HttpServlet {
             uusi.setHintataso(request.getParameter("hintataso"));
             uusi.setSijainti(request.getParameter("sijainti"));
             uusi.setOsoite(request.getParameter("osoite"));
-
             if (uusi.onkoKelvollinen()) {
-                uusi.tallenna();
-
-                //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
-                response.sendRedirect("yritys.jsp");
+                uusi.lisaa((String)session.getAttribute("tunnus"));
 
                 //Asetetaan istuntoon ilmoitus siitä, että on lisätty
-                HttpSession session = request.getSession();
+                
                 session.setAttribute("ilmoitus", "Yritys lisätty onnistuneesti.");
+                //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
+                response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
 
             } else {
                 Collection<String> virheet = uusi.getVirheet();

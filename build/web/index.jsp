@@ -17,24 +17,29 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                    <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!-- Etusivu -->
+                    <!-- Etusivu 
                     <a class="navbar-brand" href="">Etusivu</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <ul class="nav navbar-nav">
-                        <!-- Navigaation linkit -->
+                        <!-- Navigaation linkit 
                         <li><a href="haku.jsp">Hae kauneushoitolaa</a></li>
                     </ul>
-
+-->
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a href="haku.jsp">Hae kauneushoitolaa</a></li>
+                        Hakusivusto auttaa sinua löytämään juuri tarvitsemasi kauneushoitolan.<br>
+                        Voit hakea nimen, hintatason, sijainnin tai tarjonnan perusteella mieleisesi.
                         <li><a href="kirjautuminen.jsp">Kirjaudu sisään</a></li>
+                        Kirjautumalla sisään pääset lisäämään yrityksesi sivustolle, <br>
+                        sekä muokkaamaan yritystesi tietoja.
                     </ul>
                 </div>
             </div>
