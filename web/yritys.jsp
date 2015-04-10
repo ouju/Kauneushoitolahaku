@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>Kauneushoitolahaku</title>
     </head>
     <body>
         <h1>Tunnuksella ${tunnus} hallitsemasi yritykset:</h1>
@@ -42,13 +42,20 @@
 
                     <tr>
 
-                        <td><a href="esittely.jsp">${yritys.nimi}</a></td>
+                        <td>
+                            <form action="Esittely" method="post">
+                                <input type="hidden" value="${yritys.nimi}" name="nimi"></input>
+                                <input value="${yritys.nimi}" name="${yritys.nimi}" type="submit"></input>
+                            </form>
+                                <!--a href="esittely.jsp">${yritys.nimi}</a-->
+                        </td>
                         <td>${yritys.hintataso}</td>
                         <td>${yritys.sijainti}</td>
                         <td>${yritys.osoite}</td>
                         <td>${yritys.kuvaus}</td>
                         <td>Tarjontaa</td>
-                        <td><form action="muokkaus" method="post">
+                        <td>
+                            <form action="muokkaus" method="post">
                                 <input type="hidden" value="${yritys.nimi}" name="nimi"></input>
                                 <input type="hidden" value="${yritys.hintataso}" name="hintataso"></input>
                                 <input type="hidden" value="${yritys.sijainti}" name="sijainti"></input>

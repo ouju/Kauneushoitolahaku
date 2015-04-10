@@ -4,22 +4,22 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Kirjautunut;
+import Kauneushoitolahaku.Mallit.Tarjonnat;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Outi
  */
-public class poisto extends HttpServlet {
+public class Tarjonta extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,15 +32,9 @@ public class poisto extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        session = request.getSession(false);
-        String nimi = request.getParameter("nimi");
-        Kirjautunut k = new Kirjautunut();
-        k.setNimi(nimi);
-        k.poista();
-        response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
+        request.setAttribute("tarjonnat", Tarjonnat.haeKaikki());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,8 +52,8 @@ public class poisto extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(poisto.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tarjonta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -77,8 +71,8 @@ public class poisto extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(poisto.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tarjonta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

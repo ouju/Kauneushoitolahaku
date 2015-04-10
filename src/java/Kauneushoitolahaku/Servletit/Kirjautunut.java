@@ -7,6 +7,9 @@ package Kauneushoitolahaku.Servletit;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Outi
  */
-public class muokkaus extends HttpServlet {
+public class Kirjautunut extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -30,39 +33,27 @@ public class muokkaus extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        session = request.getSession(false);
+        if(session.getAttribute("tunnus")==null){
+            response.sendRedirect("/Kaneushoitolahaku/kirjautuminen");
+        }
+        
+        ArrayList<Yritykset> yritykset = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
+        System.out.println((String)session.getAttribute("tunnus"));
+        request.setAttribute("y", yritykset);
+        naytaJSP("yritys.jsp", request, response);
+    }
+    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
         dispatcher.forward(request, response);
 
     }
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        session = request.getSession(false);
-        int id = 0;
-        try {
-            id = Integer.parseInt(request.getParameter("id"));
-        } catch (Exception e) {
-            //Virhetilanne. Näytetään käyttäjälle virhe.
-        }
 
-        Yritykset yritys = new Yritykset();
-        
-        yritys.setNimi(request.getParameter("nimi"));
-        yritys.setHintataso(request.getParameter("hintataso"));
-        yritys.setSijainti(request.getParameter("sijainti"));
-        yritys.setOsoite(request.getParameter("osoite"));
-        yritys.setKuvaus(request.getParameter("kuvaus"));
-        
-        request.setAttribute("yritys", yritys);
-        
-        naytaJSP("muokkaus.jsp", request, response);
-        
-//        response.sendRedirect("/Kauneushoitolahaku/muokkaus.jsp");
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -77,7 +68,11 @@ public class muokkaus extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(Kirjautunut.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,7 +87,11 @@ public class muokkaus extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(Kirjautunut.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

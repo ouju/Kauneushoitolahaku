@@ -17,32 +17,39 @@
         <!-- Kaikki lomakkeen elementit form-tagin sisään -->
         <form action="haku" method="post">
             <div class="form-group">
-                <label>Hae nimellä:</label>
+                <label>Hae nimellä:</label><br>
                 <input type="text" name="haeNimella" class="form-control">
             </div>
 
             <div class="form-group">
-                <label>Hae hintaluokka:</label>
+                <label>Hae hintaluokka:</label><br>
                 <input type="text" name="haeHintaluokka" class="form-control">
             </div>
-            
+
             <div class="form-group">
-                <label>Hae sijainti:</label>
+                <label>Hae sijainti:</label><br>
                 <input type="text" name="haeSijainti" class="form-control">
             </div>
             <div class="form-group">
                 <label>Hae tarjontaa:</label>
-                <input type="text" name="haeTarjontaa" class="form-control">
+                <br>
+                <input type="checkbox" name="tarjonnat" value="hieronta">Hieronta
+                <br>
+                <input type="checkbox" name="tarjonnat" value="hiukset">Hiukset
+                <br>
+                <input type="checkbox" name="tarjonnat" value="kasvot">Kasvot
+                <br>
+                <input type="checkbox" name="tarjonnat" value="kynnet">Kynnet
             </div>
 
             <button type="submit" class="btn btn-primary">Hae</button>
-            
+
         </form>
         ${lkm}<br>
         <c:forEach var="kirjaus" items="${listaus}">
             ${kirjaus.nimi}<br>
         </c:forEach>
         ${viesti}
-        
+
     </body>
 </html>

@@ -4,10 +4,11 @@
  */
 package Kauneushoitolahaku.Servletit;
 
+import Kauneushoitolahaku.Mallit.Kirjautunut;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Outi
  */
-public class Esittely extends HttpServlet {
+public class Lisays extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -35,38 +36,54 @@ public class Esittely extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        ArrayList<Yritykset> yritys = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
-        System.out.println((String)session.getAttribute("tunnus"));
-        request.setAttribute("yritys", yritys);
-        naytaJSP("esittely.jsp", request, response);
-//        int id = 0;
-//        try {
-//            id = Integer.parseInt(request.getParameter("id"));
-//        } catch (Exception e) {
-//            //Virhetilanne. Näytetään käyttäjälle virhe.
-//        }
-//        
-//        Yritykset yritys = new Yritykset();
-//        
-//        yritys.setNimi(request.getParameter("nimi"));
-//        yritys.setHintataso(request.getParameter("hintataso"));
-//        yritys.setSijainti(request.getParameter("sijainti"));
-//        yritys.setOsoite(request.getParameter("osoite"));
-//        yritys.setKuvaus(request.getParameter("kuvaus"));
-//        
-//        request.setAttribute("yritys", yritys);
-//        
-//        naytaJSP("esittely.jsp", request, response);
-        //response.sendRedirect("/Kauneushoitolahaku/Esittely");
+        //PrintWriter out = response.getWriter();
+     //   try {
+            Kirjautunut uusi = new Kirjautunut();
+            uusi.setNimi(request.getParameter("nimi"));
+            uusi.setHintataso(request.getParameter("hintataso"));
+            uusi.setSijainti(request.getParameter("sijainti"));
+            uusi.setOsoite(request.getParameter("osoite"));
+            if (uusi.onkoKelvollinen()) {
+                uusi.lisaa((String)session.getAttribute("tunnus"));
+
+                //Asetetaan istuntoon ilmoitus siitä, että on lisätty
+                
+                session.setAttribute("ilmoitus", "Yritys lisätty onnistuneesti.");
+                //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
+                response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
+
+            } else {
+                Collection<String> virheet = uusi.getVirheet();
+
+                request.setAttribute("virheet", virheet);
+                request.setAttribute("yritys", uusi);
+                naytaJSP("lisays.jsp", request, response);
+            }
+       // } finally {
+       //     out.close();
+       // }
     }
-    
+/*
+    public void haeIlmoitus(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String ilmoitus = (String) session.getAttribute("ilmoitus");
+
+        if (ilmoitus != null) {
+            // Samalla kun viesti haetaan, se poistetaan istunnosta,
+            // ettei se näkyisi myöhemmin jollain toisella sivulla uudestaan.
+            session.removeAttribute("ilmoitus");
+
+            request.setAttribute("ilmoitus", ilmoitus);
+        }
+    }
+*/
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
         dispatcher.forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -85,7 +102,7 @@ public class Esittely extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(Esittely.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Lisays.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -104,7 +121,7 @@ public class Esittely extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(Esittely.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Lisays.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

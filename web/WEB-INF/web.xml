@@ -6,31 +6,27 @@
     </servlet>
     <servlet>
         <servlet-name>kirjautuminen</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.kirjautuminen</servlet-class>
+        <servlet-class>Kauneushoitolahaku.Servletit.Kirjautuminen</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>haku</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.haku</servlet-class>
+        <servlet-class>Kauneushoitolahaku.Servletit.Haku</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>kirjautunut</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.kirjautunut</servlet-class>
+        <servlet-class>Kauneushoitolahaku.Servletit.Kirjautunut</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>lisays</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.lisays</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>tarjonnat</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.tarjonnat</servlet-class>
+        <servlet-class>Kauneushoitolahaku.Servletit.Lisays</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>muokkaus</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.muokkaus</servlet-class>
+        <servlet-class>Kauneushoitolahaku.Servletit.Muokkaus</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>poisto</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.poisto</servlet-class>
+        <servlet-class>Kauneushoitolahaku.Servletit.Poisto</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>tallennaMuokkaus</servlet-name>
@@ -39,6 +35,10 @@
     <servlet>
         <servlet-name>Esittely</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.Esittely</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Tarjonta</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.Tarjonta</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
@@ -61,10 +61,6 @@
         <url-pattern>/lisays</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>tarjonnat</servlet-name>
-        <url-pattern>/tarjonnat</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>muokkaus</servlet-name>
         <url-pattern>/muokkaus</url-pattern>
     </servlet-mapping>
@@ -79,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>Esittely</servlet-name>
         <url-pattern>/Esittely</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Tarjonta</servlet-name>
+        <url-pattern>/Tarjonta</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

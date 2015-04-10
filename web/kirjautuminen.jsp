@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>Kauneushoitolahaku</title>
     </head>
     <body>
         <h1>Kirjaudu sisään</h1>

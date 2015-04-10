@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title>Kauneushoitolahaku</title>
     </head>
     <body>
         <h1>Lisää yritys</h1>
@@ -17,12 +17,12 @@
         <form action="lisays" method="POST">
 
             <div class="form-group" name="nimi" placeholder="Yrityksen nimi" value="${yritys.nimi}">
-                <label>Nimi</label>
+                <label>Nimi</label><br>
                 <input type="text" name="nimi" class="form-control">
                 <c:out value="${yritys.nimi}"/>
             </div>
             <div class="form-group">
-                <label>Hintataso</label>
+                <label>Hintataso</label><br>
                 <select name="hintataso">
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
@@ -30,19 +30,19 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Sijainti</label>
+                <label>Sijainti</label><br>
                 <input type="text" name="sijainti" class="form-control">
             </div>
             <div class="form-group">
-                <label>Osoite</label>
+                <label>Osoite</label><br>
                 <input type="text" name="osoite" class="form-control">
             </div>
             <div class="form-group">
-                <label>Kotisivut</label>
+                <label>Kotisivut</label><br>
                 <input type="text" name="kotisivut" class="form-control">
             </div>
             <div class="form-group">
-                <label>Kuvaus</label>
+                <label>Kuvaus</label><br>
                 <textarea class="form-control" name="kuvaus"></textarea>
             </div>
             <label>Tarjonta</label>
