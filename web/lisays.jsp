@@ -15,14 +15,14 @@
         <h1>Lisää yritys</h1>
 
         <form action="lisays" method="POST">
-            
+
             <div class="form-group" name="nimi" placeholder="Yrityksen nimi" value="${yritys.nimi}">
                 <label>Nimi</label>
                 <input type="text" name="nimi" class="form-control">
                 <c:out value="${yritys.nimi}"/>
             </div>
             <div class="form-group">
-                <label>Hintaluokka</label>
+                <label>Hintataso</label>
                 <select name="hintataso">
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
@@ -46,17 +46,22 @@
                 <textarea class="form-control" name="kuvaus"></textarea>
             </div>
             <label>Tarjonta</label>
-            <select name="tarjonta_id">
+            <br>
+            <input type="checkbox" name="tarjonnat" value="hieronta">Hieronta
+            <br>
+            <input type="checkbox" name="tarjonnat" value="hiukset">Hiukset
+            <br>
+            <input type="checkbox" name="tarjonnat" value="kasvot">Kasvot
+            <br>
+            <input type="checkbox" name="tarjonnat" value="kynnet">Kynnet
+            <!--<select name="tarjonta_id">
                 <c:forEach var="tarjonta" items="${tarjonnat}">
                     <option value="${tarjonta.id}">${tarjonta.nimi}</option>
                 </c:forEach>
-            </select>
+            </select>-->
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Tallenna</button>
             </div>
         </form>
-    <c:if test="${ilmoitus != null}">
-        <div class="alert alert-info">${ilmoitus}</div>
-    </c:if>
-</body>
+    </body>
 </html>

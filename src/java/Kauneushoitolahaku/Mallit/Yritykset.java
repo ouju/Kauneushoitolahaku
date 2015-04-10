@@ -25,6 +25,7 @@ public class Yritykset {
     private String hintataso;
     private String osoite;
     private String sijainti;
+    private String kuvaus;
     private int tarjontaId;
 
     public Yritykset() {
@@ -109,6 +110,44 @@ public class Yritykset {
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
                 y.setNimi(tulokset.getString("nimi"));
+                l.add(y);
+            }
+            return l;
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+
+    }
+    
+    public static List<Yritykset> haeSijainti(String sijainti)
+            throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
+        try {
+            String sql = "SELECT * FROM yritys WHERE sijainti = ? ORDER BY nimi";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, sijainti);
+            tulokset = kysely.executeQuery();
+
+            ArrayList<Yritykset> l = new ArrayList<Yritykset>();
+            while (tulokset.next()) {
+                Yritykset y = new Yritykset();
+                y.setNimi(tulokset.getString("sijainti"));
                 l.add(y);
             }
             return l;
@@ -293,5 +332,19 @@ public class Yritykset {
 
     public void setTarjontaId(int tarjontaId) {
         this.tarjontaId = tarjontaId;
+    }
+
+    /**
+     * @return the kuvaus
+     */
+    public String getKuvaus() {
+        return kuvaus;
+    }
+
+    /**
+     * @param kuvaus the kuvaus to set
+     */
+    public void setKuvaus(String kuvaus) {
+        this.kuvaus = kuvaus;
     }
 }

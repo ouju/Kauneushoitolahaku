@@ -14,26 +14,30 @@
     <body>
         <h1>Muokkaa yrityksen tietoja</h1>
 
-        <form>
+        <form action="tallennaMuokkaus" method="POST">
             <div class="form-group">
                 <label>Nimi</label>
-                <input type="text" class="form-control" value="Pyhäkkö">
+                <input type="text" name="nimi" class="form-control" value="${yritys.nimi}">
             </div>
             <div class="form-group">
-                <label>Hintaluokka</label>
-                <input type="text" class="form-control" value="Keskitaso">
+                <label>Hintataso</label>
+                <select name="hintataso" value="${yritye.hintataso}">
+                    <option>Edullinen</option>
+                    <option>Keskitaso</option>
+                    <option>Hintavampi</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>Sijainti</label>
-                <input type="text" class="form-control" value="Helsinki">
+                <input type="text" name="sijainti" class="form-control" value="${yritys.sijainti}">
             </div>
             <div class="form-group">
                 <label>Osoite</label>
-                <input type="text" class="form-control" value="Mannerkuja 13">
+                <input type="text" name="osoite" class="form-control" value="${yritys.osoite}">
             </div>
             <div class="form-group">
                 <label>Kuvaus</label>
-                <textarea class="form-control">Tule Pyhäkköön osaaviin, ammattitaitoisiin käsiin, me pidämme sinusta huolen!.
+                <textarea class="form-control" type="text" name="kuvaus" value="${yritys.kuvaus}">
                 </textarea>
             </div>
             <div class="form-group">

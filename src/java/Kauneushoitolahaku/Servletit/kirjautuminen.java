@@ -64,15 +64,7 @@ public class kirjautuminen extends HttpServlet {
             request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut salasanaa.");
             naytaJSP("kirjautuminen.jsp", request, response);
             return;
-        }
-//        if () {
-//            request.setAttribute("kayttaja", kayttaja);
-//            response.sendRedirect("yritys.jsp");
-//        } else {
-//            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.");
-//            request.setAttribute("kayttaja", kayttaja);
-//            naytaJSP("kirjautuminen.jsp", request, response);
-//        }
+        } 
 
 
         boolean yritys = Kirjautunut.tunnusJaSalasanaOikein(request.getParameter("tunnus"), request.getParameter("salasana"));
@@ -80,6 +72,10 @@ public class kirjautuminen extends HttpServlet {
             //Tallennetaan istuntoon käyttäjäolio
             session.setAttribute("tunnus", tunnus);
             response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
+        }else {
+            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.");
+            //request.setAttribute("kayttaja", kayttaja);
+            naytaJSP("kirjautuminen.jsp", request, response);
         }
     }
 

@@ -4,21 +4,18 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Outi
  */
-public class muokkaus extends HttpServlet {
+public class Esittely extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -30,38 +27,23 @@ public class muokkaus extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        session = request.getSession(false);
-        int id = 0;
+        PrintWriter out = response.getWriter();
         try {
-            id = Integer.parseInt(request.getParameter("id"));
-        } catch (Exception e) {
-            //Virhetilanne. Näytetään käyttäjälle virhe.
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Esittely</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Esittely at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        } finally {            
+            out.close();
         }
-
-        Yritykset yritys = new Yritykset();
-        
-        yritys.setNimi(request.getParameter("nimi"));
-        yritys.setHintataso(request.getParameter("hintataso"));
-        yritys.setSijainti(request.getParameter("sijainti"));
-        yritys.setOsoite(request.getParameter("osoite"));
-        yritys.setKuvaus(request.getParameter("kuvaus"));
-        
-        request.setAttribute("yritys", yritys);
-        
-        naytaJSP("muokkaus.jsp", request, response);
-        
-//        response.sendRedirect("/Kauneushoitolahaku/muokkaus.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

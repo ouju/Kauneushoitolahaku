@@ -85,35 +85,24 @@ public class Kirjautunut {
     public void muokkaa() throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
-        ResultSet tulokset = null;
+        //ResultSet tulokset = null;
 
-        try {
-            String sql = "UPDATE yritys SET nimi = ?, hintataso = ?, sijainti = ?, osoite = ? WHERE id = ?";
+            String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kuvaus=? WHERE nimi=?";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setString(1, this.getNimi());
             kysely.setString(2, this.getHintataso());
             kysely.setString(3, this.getSijainti());
             kysely.setString(4, this.getOsoite());
-            tulokset = kysely.executeQuery();
+            kysely.setString(5, this.getKuvaus());
+            kysely.setString(6, this.getNimi());
+            kysely.executeUpdate();
+            System.out.println(this.getNimi());
 
-            tulokset.next();
-            this.id = tulokset.getInt(1);
-
-        } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
+                //tulokset.close();
                 kysely.close();
-            } catch (Exception e) {
-            }
-            try {
                 yhteys.close();
-            } catch (Exception e) {
-            }
-        }
+        
     }
 
     /**
@@ -124,10 +113,10 @@ public class Kirjautunut {
         PreparedStatement kysely = null;
 
         try {
-            String sql = "DELETE FROM yritys where id = ?";
+            String sql = "DELETE FROM yritys where nimi = ?";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
-            kysely.setInt(1, id);
+            kysely.setString(1, nimi);
             return kysely.execute();
         } finally {
             try {

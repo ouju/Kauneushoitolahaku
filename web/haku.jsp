@@ -23,12 +23,16 @@
 
             <div class="form-group">
                 <label>Hae hintaluokka:</label>
-                <input type="text" class="form-control">
+                <input type="text" name="haeHintaluokka" class="form-control">
             </div>
             
             <div class="form-group">
                 <label>Hae sijainti:</label>
-                <input type="text" class="form-control">
+                <input type="text" name="haeSijainti" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Hae tarjontaa:</label>
+                <input type="text" name="haeTarjontaa" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary">Hae</button>

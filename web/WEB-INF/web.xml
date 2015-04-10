@@ -28,6 +28,18 @@
         <servlet-name>muokkaus</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.muokkaus</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>poisto</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.poisto</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tallennaMuokkaus</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.TallennaMuokkaus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Esittely</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.Esittely</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
         <url-pattern>/Servletti</url-pattern>
@@ -55,6 +67,18 @@
     <servlet-mapping>
         <servlet-name>muokkaus</servlet-name>
         <url-pattern>/muokkaus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>poisto</servlet-name>
+        <url-pattern>/poisto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tallennaMuokkaus</servlet-name>
+        <url-pattern>/tallennaMuokkaus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Esittely</servlet-name>
+        <url-pattern>/Esittely</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
