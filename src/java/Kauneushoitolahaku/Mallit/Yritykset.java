@@ -144,13 +144,51 @@ public class Yritykset {
             kysely.setString(1, sijainti);
             tulokset = kysely.executeQuery();
 
-            ArrayList<Yritykset> l = new ArrayList<Yritykset>();
+            ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
                 y.setNimi(tulokset.getString("sijainti"));
-                l.add(y);
+                lista.add(y);
             }
-            return l;
+            return lista;
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+
+    }
+    
+    public static List<Yritykset> haeHintataso(String sijainti)
+            throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
+        try {
+            String sql = "SELECT * FROM yritys WHERE hintataso = ? ORDER BY nimi";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, sijainti);
+            tulokset = kysely.executeQuery();
+
+            ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
+            while (tulokset.next()) {
+                Yritykset y = new Yritykset();
+                y.setNimi(tulokset.getString("hintataso"));
+                lista.add(y);
+            }
+            return lista;
 
         } finally {
             try {

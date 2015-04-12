@@ -38,7 +38,7 @@
             <tbody>
                 <!-- Listataan hoitolat tähän -->
 
-                <c:forEach var="yritys" items="${y}">
+                <c:forEach var="yritys" items="${yritys}">
 
                     <tr>
 

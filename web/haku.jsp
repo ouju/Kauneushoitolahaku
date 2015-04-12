@@ -22,8 +22,12 @@
             </div>
 
             <div class="form-group">
-                <label>Hae hintaluokka:</label><br>
-                <input type="text" name="haeHintaluokka" class="form-control">
+                <label>Hae hintataso:</label><br>
+                <select name="hintataso">
+                    <option>Edullinen</option>
+                    <option>Keskitaso</option>
+                    <option>Hintavampi</option>
+                </select>
             </div>
 
             <div class="form-group">

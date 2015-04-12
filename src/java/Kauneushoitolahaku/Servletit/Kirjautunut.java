@@ -45,7 +45,7 @@ public class Kirjautunut extends HttpServlet {
         
         ArrayList<Yritykset> yritykset = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
         System.out.println((String)session.getAttribute("tunnus"));
-        request.setAttribute("y", yritykset);
+        request.setAttribute("yritys", yritykset);
         naytaJSP("yritys.jsp", request, response);
     }
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
