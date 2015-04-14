@@ -39,28 +39,31 @@ public class Esittely extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        ArrayList<Yritykset> yritys = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
-        System.out.println((String)session.getAttribute("tunnus"));
-        request.setAttribute("yritys", yritys);
-        naytaJSP("esittely.jsp", request, response);
-//        int id = 0;
-//        try {
-//            id = Integer.parseInt(request.getParameter("id"));
-//        } catch (Exception e) {
-//            //Virhetilanne. Näytetään käyttäjälle virhe.
-//        }
-//        
-//        Yritykset yritys = new Yritykset();
-//        
+        /*ArrayList<Yritykset> yritys = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
+        System.out.println((String)session.getAttribute("tunnus"));*/
+        String idParam = request.getParameter("id");
+        int id;
+        try {
+          id = Integer.parseInt(idParam);
+        } catch(Exception e) {
+          // Id-numero nolla ei käytännössä koskaan löydy kannasta, 
+          // joten koodin suoritus päätyy
+          // alla olevan if-lauseen else-haaraan
+          id = 0;
+        }
+        Yritykset yritys = new Yritykset();
+        yritys = yritys.haeYritysId(id);
+        System.out.println(id + yritys.getOsoite());
+        
 //        yritys.setNimi(request.getParameter("nimi"));
 //        yritys.setHintataso(request.getParameter("hintataso"));
 //        yritys.setSijainti(request.getParameter("sijainti"));
 //        yritys.setOsoite(request.getParameter("osoite"));
 //        yritys.setKuvaus(request.getParameter("kuvaus"));
-//        
-//        request.setAttribute("yritys", yritys);
-//        
-//        naytaJSP("esittely.jsp", request, response);
+        
+        request.setAttribute("yritys", yritys);
+        naytaJSP("esittely.jsp", request, response);
+
         //response.sendRedirect("/Kauneushoitolahaku/Esittely");
     }
     

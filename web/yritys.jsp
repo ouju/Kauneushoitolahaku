@@ -43,10 +43,11 @@
                     <tr>
 
                         <td>
-                            <form action="Esittely" method="post">
+                            <!--<form action="Esittely" method="post">
                                 <input type="hidden" value="${yritys.nimi}" name="nimi"></input>
                                 <input value="${yritys.nimi}" name="${yritys.nimi}" type="submit"></input>
-                            </form>
+                            </form>-->
+                            <a href="Esittely?id=${yritys.id}">${yritys.nimi}</a>
                                 <!--a href="esittely.jsp">${yritys.nimi}</a-->
                         </td>
                         <td>${yritys.hintataso}</td>

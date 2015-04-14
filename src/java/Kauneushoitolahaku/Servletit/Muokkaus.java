@@ -42,6 +42,9 @@ public class Muokkaus extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
+        if(session.getAttribute("tunnus")==null){
+            response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
+        }
         int id = 0;
         try {
             id = Integer.parseInt(request.getParameter("id"));

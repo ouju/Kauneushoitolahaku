@@ -31,12 +31,13 @@ public class Yritykset {
     public Yritykset() {
     }
 
-    private Yritykset(ResultSet tulos) throws SQLException {
+    public Yritykset(ResultSet tulos) throws SQLException {
         this.id = tulos.getInt("id");
         this.nimi = tulos.getString("nimi");
         this.hintataso = tulos.getString("hintataso");
         this.sijainti = tulos.getString("sijainti");
-        this.tarjontaId = tulos.getInt("tarjontaId");
+        this.osoite = tulos.getString("osoite");
+        this.tarjontaId = tulos.getInt("tarjonta_id");
     }
 
     public Yritykset(int id, String nimi, String hintataso, String sijainti, int tarjontaId) {
@@ -56,7 +57,7 @@ public class Yritykset {
         this.osoite = osoite;
     }
 
-    public static Yritykset haeYritysId(int id) throws Exception {
+    public Yritykset haeYritysId(int id) throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -225,8 +226,10 @@ public class Yritykset {
                 String yHintataso = tulokset.getString("hintataso");
                 String sijainti = tulokset.getString("sijainti");
                 String osoite = tulokset.getString("osoite");
+                int id = tulokset.getInt("id");
 
                 yritys = new Yritykset(yNimi, tunnus, yHintataso, sijainti, osoite);
+                yritys.setId(id);
                 y.add(yritys);
             }
 

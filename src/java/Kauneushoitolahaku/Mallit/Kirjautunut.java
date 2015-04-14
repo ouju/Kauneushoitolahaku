@@ -39,7 +39,6 @@ public class Kirjautunut {
         this.tunnus = tunnus;
         this.salasana = salasana;
     }
-    
 
     /**
      * Tallentaa yrityksen tietokantaan
@@ -59,25 +58,30 @@ public class Kirjautunut {
             kysely2.setString(1, tunnus);
             tulokset2 = kysely2.executeQuery();
             tulokset2.next();
-            kysely1 = yhteys.prepareStatement(sql);
-            kysely1.setString(1, this.getNimi());
-            kysely1.setString(2, this.getHintataso());
-            kysely1.setString(3, this.getSijainti());
-            kysely1.setString(4, this.getOsoite());
-            kysely1.setString(5, this.getKuvaus());
-            kysely1.setString(6, tunnus);
-            kysely1.setString(7, tulokset2.getString(1));
-            //kysely.setInt(6, this.getTarjontaId());
-            tulokset1 = kysely1.executeQuery();
+            if (tulokset2 != null || !tulokset2.getString(1).isEmpty()) {
+                kysely1 = yhteys.prepareStatement(sql);
+                kysely1.setString(1, this.getNimi());
+                kysely1.setString(2, this.getHintataso());
+                kysely1.setString(3, this.getSijainti());
+                kysely1.setString(4, this.getOsoite());
+                kysely1.setString(5, this.getKuvaus());
+                kysely1.setString(6, tunnus);
+                kysely1.setString(7, tulokset2.getString(1));
+                //kysely.setInt(6, this.getTarjontaId());
+                tulokset1 = kysely1.executeQuery();
 
-            tulokset1.next();
-            this.id = tulokset1.getInt(1);
-
+                tulokset1.next();
+                this.id = tulokset1.getInt(1);
+            }
         } finally {
-            tulokset1.close();
-            kysely1.close();
-            tulokset2.close();
-            kysely2.close();
+            if (tulokset1 != null) {
+                tulokset1.close();
+                tulokset2.close();
+                kysely1.close();
+                kysely2.close();
+            }
+
+
             yhteys.close();
         }
     }
@@ -87,22 +91,22 @@ public class Kirjautunut {
         PreparedStatement kysely = null;
         //ResultSet tulokset = null;
 
-            String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kuvaus=? WHERE nimi=?";
-            yhteys = Yhteys.getYhteys();
-            kysely = yhteys.prepareStatement(sql);
-            kysely.setString(1, this.getNimi());
-            kysely.setString(2, this.getHintataso());
-            kysely.setString(3, this.getSijainti());
-            kysely.setString(4, this.getOsoite());
-            kysely.setString(5, this.getKuvaus());
-            kysely.setString(6, this.getNimi());
-            kysely.executeUpdate();
-            System.out.println(this.getNimi());
+        String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kuvaus=? WHERE nimi=?";
+        yhteys = Yhteys.getYhteys();
+        kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, this.getNimi());
+        kysely.setString(2, this.getHintataso());
+        kysely.setString(3, this.getSijainti());
+        kysely.setString(4, this.getOsoite());
+        kysely.setString(5, this.getKuvaus());
+        kysely.setString(6, this.getNimi());
+        kysely.executeUpdate();
+        System.out.println(this.getNimi());
 
-                //tulokset.close();
-                kysely.close();
-                yhteys.close();
-        
+        //tulokset.close();
+        kysely.close();
+        yhteys.close();
+
     }
 
     /**

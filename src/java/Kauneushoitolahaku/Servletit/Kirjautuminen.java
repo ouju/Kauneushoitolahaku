@@ -45,15 +45,15 @@ public class Kirjautuminen extends HttpServlet {
         String salasana = request.getParameter("salasana");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        if (tunnus.isEmpty() || tunnus == null || salasana == null) {
-            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.");
-            naytaJSP("kirjautuminen.jsp", request, response);
-            return;
-        }
+//        if (tunnus == null || tunnus.isEmpty() || salasana == null) {
+//            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.");
+//            naytaJSP("kirjautuminen.jsp", request, response);
+//            return;
+//        }
 
         //Tarkistetaan että vaaditut kentät on täytetty:
-        if (tunnus.isEmpty() || tunnus == null || tunnus.equals("")) {
-            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.");
+        if ( tunnus == null ||tunnus.isEmpty() || tunnus.equals("")) {
+            request.setAttribute("virheViesti", "Kirjaudu sisään antamalla käyttäjätunnus ja salasana!");
             naytaJSP("kirjautuminen.jsp", request, response);
             return;
         }
