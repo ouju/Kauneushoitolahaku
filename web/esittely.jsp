@@ -27,7 +27,6 @@
                 <li><strong>Sijainti:</strong> ${yritys.sijainti}</li>
                 <li><strong>Osoite:</strong> ${yritys.osoite}</li>
                 <li><strong>Tarjonta:</strong> tarjontaaa</li>
-
             </ul>
             <!-- Kuvaus tulee tähän -->
             <p>

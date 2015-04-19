@@ -40,6 +40,10 @@
         <servlet-name>Tarjonta</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.Tarjonta</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Uloskirjautuminen</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.Uloskirjautuminen</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
         <url-pattern>/Servletti</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>Tarjonta</servlet-name>
         <url-pattern>/Tarjonta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Uloskirjautuminen</servlet-name>
+        <url-pattern>/Uloskirjautuminen</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

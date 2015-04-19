@@ -37,6 +37,7 @@ public class Yritykset {
         this.hintataso = tulos.getString("hintataso");
         this.sijainti = tulos.getString("sijainti");
         this.osoite = tulos.getString("osoite");
+        this.kuvaus = tulos.getString("kuvaus");
         this.tarjontaId = tulos.getInt("tarjonta_id");
     }
 
@@ -56,6 +57,16 @@ public class Yritykset {
         this.sijainti = sijainti;
         this.osoite = osoite;
     }
+    
+    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite, String kuvaus) {
+
+        this.nimi = nimi;
+        this.tunnus = tunnus;
+        this.hintataso = hintataso;
+        this.sijainti = sijainti;
+        this.osoite = osoite;
+        this.kuvaus = kuvaus;
+    }
 
     public Yritykset haeYritysId(int id) throws Exception {
         Connection yhteys = null;
@@ -70,6 +81,7 @@ public class Yritykset {
             tulokset = kysely.executeQuery();
 
             if (tulokset.next()) {
+                System.out.println(tulokset.getString("kuvaus"));
                 return new Yritykset(tulokset);
             } else {
                 return null;
@@ -110,6 +122,7 @@ public class Yritykset {
             ArrayList<Yritykset> l = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
+                y.setId(tulokset.getInt("id"));
                 y.setNimi(tulokset.getString("nimi"));
                 l.add(y);
             }
@@ -148,7 +161,8 @@ public class Yritykset {
             ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
-                y.setNimi(tulokset.getString("sijainti"));
+                y.setId(tulokset.getInt("id"));
+                y.setNimi(tulokset.getString("nimi"));
                 lista.add(y);
             }
             return lista;
@@ -170,7 +184,7 @@ public class Yritykset {
 
     }
     
-    public static List<Yritykset> haeHintataso(String sijainti)
+    public static List<Yritykset> haeHintataso(String hintataso)
             throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -180,13 +194,53 @@ public class Yritykset {
             String sql = "SELECT * FROM yritys WHERE hintataso = ? ORDER BY nimi";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
-            kysely.setString(1, sijainti);
+            kysely.setString(1, hintataso);
             tulokset = kysely.executeQuery();
 
             ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
-                y.setNimi(tulokset.getString("hintataso"));
+                y.setId(tulokset.getInt("id"));
+                y.setNimi(tulokset.getString("nimi"));
+                lista.add(y);
+            }
+            return lista;
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+
+    }
+    
+    public static List<Yritykset> haeTarjontaa(String tarjonta)
+            throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
+        try {
+            String sql = "SELECT * FROM yritys WHERE tarjonta_id = ? ORDER BY nimi";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, tarjonta);
+            tulokset = kysely.executeQuery();
+
+            ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
+            while (tulokset.next()) {
+                Yritykset y = new Yritykset();
+                y.setId(tulokset.getInt("id"));
+                y.setNimi(tulokset.getString("nimi"));
                 lista.add(y);
             }
             return lista;

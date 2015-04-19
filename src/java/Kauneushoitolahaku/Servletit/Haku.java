@@ -44,12 +44,21 @@ public class Haku extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        String hakusana = request.getParameter("haeNimella");
+        String hakuNimella = request.getParameter("haeNimella");
+        String hakuHinnalla = request.getParameter("haeHintataso");
+        String hakuSijainnilla = request.getParameter("haeSijainti");
+        String hakuTarjonnalla = request.getParameter("haeTarjontaa");
         List<Yritykset> y = new ArrayList();
         int lkm = 0;
 
-        if (hakusana != null && hakusana.length() > 0) {
-            y = Yritykset.haeNimella(hakusana);
+        if (hakuNimella != null && hakuNimella.length() > 0) {
+            y = Yritykset.haeNimella(hakuNimella);
+        } else if (hakuSijainnilla!= null && hakuSijainnilla.length() > 0) {
+            y = Yritykset.haeSijainti(hakuSijainnilla);
+        } else if (hakuHinnalla!= null && hakuHinnalla.length() > 0) {
+            y = Yritykset.haeHintataso(hakuHinnalla);
+        } else if (hakuTarjonnalla!= null && hakuTarjonnalla.length() > 0) {
+            y = Yritykset.haeTarjontaa(hakuTarjonnalla);
         } else {
             y = Yritykset.kaikkiYritykset();
         }

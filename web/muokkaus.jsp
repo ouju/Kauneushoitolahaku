@@ -22,6 +22,7 @@
             <div class="form-group">
                 <label>Hintataso</label><br>
                 <select name="hintataso" value="${yritye.hintataso}">
+                    <option></option>
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
                     <option>Hintavampi</option>

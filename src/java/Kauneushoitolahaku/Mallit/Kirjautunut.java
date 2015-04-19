@@ -101,7 +101,7 @@ public class Kirjautunut {
         kysely.setString(5, this.getKuvaus());
         kysely.setString(6, this.getNimi());
         kysely.executeUpdate();
-        System.out.println(this.getNimi());
+        System.out.println(this.getKuvaus());
 
         //tulokset.close();
         kysely.close();
@@ -243,7 +243,7 @@ public class Kirjautunut {
         this.nimi = nimi;
 
         if (nimi.trim().length() == 0) {
-            virheet.put(nimi, "Nimi ei saa olla tyhjä.");
+            virheet.put(nimi, "Yrityksellä tulee olla nimi.");
         } else {
             virheet.remove("nimi");
         }

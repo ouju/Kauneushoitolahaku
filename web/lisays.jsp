@@ -24,6 +24,7 @@
             <div class="form-group">
                 <label>Hintataso</label><br>
                 <select name="hintataso">
+                    <option></option>
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
                     <option>Hintavampi</option>
@@ -43,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label>Kuvaus</label><br>
-                <textarea class="form-control" name="kuvaus"></textarea>
+                <textarea type="text" class="form-control" name="kuvaus"></textarea>
             </div>
             <label>Tarjonta</label>
             <br>
@@ -62,6 +63,7 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Tallenna</button>
             </div>
+            ${virheet}
         </form>
     </body>
 </html>
