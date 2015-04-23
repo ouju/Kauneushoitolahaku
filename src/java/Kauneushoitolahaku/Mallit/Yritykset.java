@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import javax.naming.NamingException;
 
 /**
@@ -26,7 +29,9 @@ public class Yritykset {
     private String osoite;
     private String sijainti;
     private String kuvaus;
-    private int tarjontaId;
+    private int tarjonta_id;
+    private int tyontekija_id;
+    private Map<String, String> virheet = new HashMap<String, String>();
 
     public Yritykset() {
     }
@@ -38,34 +43,101 @@ public class Yritykset {
         this.sijainti = tulos.getString("sijainti");
         this.osoite = tulos.getString("osoite");
         this.kuvaus = tulos.getString("kuvaus");
-        this.tarjontaId = tulos.getInt("tarjonta_id");
+        this.tarjonta_id = tulos.getInt("tarjonta_id");
     }
 
-    public Yritykset(int id, String nimi, String hintataso, String sijainti, int tarjontaId) {
-        this.id = id;
+    public Yritykset(String nimi, String hintataso, String sijainti, String osoite, String kuvaus, int tyontekija_id) {
         this.nimi = nimi;
-        this.hintataso = hintataso;
-        this.sijainti = sijainti;
-        this.tarjontaId = tarjontaId;
-    }
-
-    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite) {
-
-        this.nimi = nimi;
-        this.tunnus = tunnus;
-        this.hintataso = hintataso;
-        this.sijainti = sijainti;
-        this.osoite = osoite;
-    }
-    
-    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite, String kuvaus) {
-
-        this.nimi = nimi;
-        this.tunnus = tunnus;
         this.hintataso = hintataso;
         this.sijainti = sijainti;
         this.osoite = osoite;
         this.kuvaus = kuvaus;
+        this.tyontekija_id = tyontekija_id;
+    }
+
+    public Yritykset(int id, String nimi, String hintataso, String sijainti, String osoite, String kuvaus, int tarjonta_id) {
+        this.id = id;
+        this.nimi = nimi;
+        this.hintataso = hintataso;
+        this.sijainti = sijainti;
+        this.osoite = osoite;
+        this.kuvaus = kuvaus;
+        this.tarjonta_id = tarjonta_id;
+    }
+
+//    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite) {
+//
+//        this.nimi = nimi;
+//        this.tunnus = tunnus;
+//        this.hintataso = hintataso;
+//        this.sijainti = sijainti;
+//        this.osoite = osoite;
+//    }
+//
+//    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite, String kuvaus) {
+//
+//        this.nimi = nimi;
+//        this.tunnus = tunnus;
+//        this.hintataso = hintataso;
+//        this.sijainti = sijainti;
+//        this.osoite = osoite;
+//        this.kuvaus = kuvaus;
+//    }
+
+    public static ArrayList<Yritykset> haeTunnuksella(int tyontekija_id) throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+        Yritykset yritys = null;
+        ArrayList<Yritykset> y = new ArrayList();
+        try {
+            String sql = "SELECT * FROM yritys WHERE tyontekija_id = ?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setInt(1, tyontekija_id);
+            tulokset = kysely.executeQuery();
+            while (tulokset.next()) {
+                String nimi = tulokset.getString("nimi");
+                String hintataso = tulokset.getString("hintataso");
+                String sijainti = tulokset.getString("sijainti");
+                String osoite = tulokset.getString("osoite");
+                String kuvaus = tulokset.getString("kuvaus");
+                int id = tulokset.getInt("id");
+                yritys = new Yritykset(nimi, hintataso, sijainti, osoite, kuvaus, tyontekija_id);
+                yritys.setId(id);
+                y.add(yritys);
+            }
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+        return y;
+    }
+
+    public static boolean tunnusJaSalasanaOikein(String tunnus, String salasana) throws SQLException {
+        String sql = "SELECT tunnus, salasana from tyontekija where tunnus=? and salasana=?";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, tunnus);
+        kysely.setString(2, salasana);
+        ResultSet tulokset = kysely.executeQuery();
+        if (tulokset.next()) {
+            tulokset.close();
+            kysely.close();
+            yhteys.close();
+            return true;
+        }
+        return false;
     }
 
     public Yritykset haeYritysId(int id) throws Exception {
@@ -119,14 +191,14 @@ public class Yritykset {
             kysely.setString(1, nimi);
             tulokset = kysely.executeQuery();
 
-            ArrayList<Yritykset> l = new ArrayList<Yritykset>();
+            ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
                 y.setId(tulokset.getInt("id"));
                 y.setNimi(tulokset.getString("nimi"));
-                l.add(y);
+                lista.add(y);
             }
-            return l;
+            return lista;
 
         } finally {
             try {
@@ -144,7 +216,7 @@ public class Yritykset {
         }
 
     }
-    
+
     public static List<Yritykset> haeSijainti(String sijainti)
             throws Exception {
         Connection yhteys = null;
@@ -183,7 +255,7 @@ public class Yritykset {
         }
 
     }
-    
+
     public static List<Yritykset> haeHintataso(String hintataso)
             throws Exception {
         Connection yhteys = null;
@@ -222,7 +294,7 @@ public class Yritykset {
         }
 
     }
-    
+
     public static List<Yritykset> haeTarjontaa(String tarjonta)
             throws Exception {
         Connection yhteys = null;
@@ -262,49 +334,6 @@ public class Yritykset {
 
     }
 
-    public static ArrayList<Yritykset> haeYritys(String tunnus)
-            throws Exception {
-        Connection yhteys = null;
-        PreparedStatement kysely = null;
-        ResultSet tulokset = null;
-        Yritykset yritys = null;
-        ArrayList<Yritykset> y = new ArrayList();
-        try {
-            String sql = "SELECT * FROM yritys WHERE tunnus = ?";
-            yhteys = Yhteys.getYhteys();
-            kysely = yhteys.prepareStatement(sql);
-            kysely.setString(1, tunnus);
-            tulokset = kysely.executeQuery();
-            while (tulokset.next()) {
-                String yNimi = tulokset.getString("nimi");
-                String yHintataso = tulokset.getString("hintataso");
-                String sijainti = tulokset.getString("sijainti");
-                String osoite = tulokset.getString("osoite");
-                int id = tulokset.getInt("id");
-
-                yritys = new Yritykset(yNimi, tunnus, yHintataso, sijainti, osoite);
-                yritys.setId(id);
-                y.add(yritys);
-            }
-
-
-        } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
-        }
-        return y;
-    }
-
     /**
      * Hakee tietokannasta listan yrityksistä
      */
@@ -342,33 +371,117 @@ public class Yritykset {
             }
         }
     }
-/*
-    public static int lukumaara() throws NamingException, SQLException {
-        String sql = "SELECT count(*) as lkm FROM yritys";
-        Connection yhteys = Yhteys.getYhteys();
-        PreparedStatement kysely = yhteys.prepareStatement(sql);
-        ResultSet tulokset = kysely.executeQuery();
 
-        tulokset.next();
-        int lkm = tulokset.getInt("lkm");
-
-        //Suljetaan kaikki resurssit:
+    public void lisaaYritys(Yritykset yritys) throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely1 = null;
+        ResultSet tulokset1 = null;
         try {
-            tulokset.close();
-        } catch (Exception e) {
+            String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, osoite, kuvaus, tyontekija_id) VALUES(?,?,?,?,?,?) RETURNING id";
+            yhteys = Yhteys.getYhteys();
+            kysely1 = yhteys.prepareStatement(sql);
+            kysely1.setString(1, yritys.getNimi());
+            kysely1.setString(2, yritys.getHintataso());
+            kysely1.setString(3, yritys.getSijainti());
+            kysely1.setString(4, yritys.getOsoite());
+            kysely1.setString(5, yritys.getKuvaus());
+            kysely1.setInt(6, yritys.getTyontekija_id());
+            tulokset1 = kysely1.executeQuery();
+            tulokset1.next();
+            yritys.id = tulokset1.getInt(1);
+        } finally {
+            try {
+                tulokset1.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely1.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
         }
-        try {
-            kysely.close();
-        } catch (Exception e) {
-        }
-        try {
-            yhteys.close();
-        } catch (Exception e) {
-        }
-
-        return lkm;
     }
-*/
+
+    public boolean onkoKelvollinen(Yritykset yritys) {
+        return yritys.virheet.isEmpty();
+    }
+
+    /**
+     * Poistaa yrityksen tietokannasta
+     */
+    public void poistaYritys() throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        try {
+            String sql = "DELETE FROM yritys WHERE id = ?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setInt(1, this.getId());
+            kysely.execute();
+        } finally {
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public void muokkaaYritysta() throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        
+        try {
+            String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kuvaus=?, tarjonta_id=? WHERE id=?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, this.getNimi());
+            kysely.setString(2, this.getHintataso());
+            kysely.setString(3, this.getSijainti());
+            kysely.setString(4, this.getOsoite());
+            kysely.setString(5, this.getKuvaus());
+            kysely.setInt(6, this.getTarjonta_id());
+            kysely.setInt(7, this.getId());
+            
+            kysely.executeUpdate();
+        } finally {
+            kysely.close();
+            yhteys.close();
+        }
+    }
+    /*
+     public static int lukumaara() throws NamingException, SQLException {
+     String sql = "SELECT count(*) as lkm FROM yritys";
+     Connection yhteys = Yhteys.getYhteys();
+     PreparedStatement kysely = yhteys.prepareStatement(sql);
+     ResultSet tulokset = kysely.executeQuery();
+
+     tulokset.next();
+     int lkm = tulokset.getInt("lkm");
+
+     //Suljetaan kaikki resurssit:
+     try {
+     tulokset.close();
+     } catch (Exception e) {
+     }
+     try {
+     kysely.close();
+     } catch (Exception e) {
+     }
+     try {
+     yhteys.close();
+     } catch (Exception e) {
+     }
+
+     return lkm;
+     }
+     */
 
     /**
      * Getterit ja setterit
@@ -387,16 +500,21 @@ public class Yritykset {
 
     public void setNimi(String nimi) {
         this.nimi = nimi;
+
+        if (nimi.trim().length() == 0) {
+            virheet.put(nimi, "Yrityksellä tulee olla nimi.");
+        } else {
+            virheet.remove("nimi");
+        }
     }
 
-    public String getTunnus() {
-        return this.tunnus;
-    }
-
-    public void setTunnus(String tunnus) {
-        this.tunnus = tunnus;
-    }
-
+//    public String getTunnus() {
+//        return this.tunnus;
+//    }
+//
+//    public void setTunnus(String tunnus) {
+//        this.tunnus = tunnus;
+//    }
     public String getOsoite() {
         return this.osoite;
     }
@@ -421,14 +539,6 @@ public class Yritykset {
         this.sijainti = sijainti;
     }
 
-    public int getTarjontaId() {
-        return this.tarjontaId;
-    }
-
-    public void setTarjontaId(int tarjontaId) {
-        this.tarjontaId = tarjontaId;
-    }
-
     /**
      * @return the kuvaus
      */
@@ -442,4 +552,63 @@ public class Yritykset {
     public void setKuvaus(String kuvaus) {
         this.kuvaus = kuvaus;
     }
+
+    /**
+     * @return the tunnus
+     */
+    public String getTunnus() {
+        return tunnus;
+    }
+
+    /**
+     * @param tunnus the tunnus to set
+     */
+    public void setTunnus(String tunnus) {
+        this.tunnus = tunnus;
+    }
+
+    /**
+     * @return the tarjonta_id
+     */
+    public int getTarjonta_id() {
+        return tarjonta_id;
+    }
+
+    /**
+     * @param tarjonta_id the tarjonta_id to set
+     */
+    public void setTarjonta_id(int tarjonta_id) {
+        this.tarjonta_id = tarjonta_id;
+    }
+
+    /**
+     * @return the tyontekija_id
+     */
+    public int getTyontekija_id() {
+        return tyontekija_id;
+    }
+
+    /**
+     * @param tyontekija_id the tyontekija_id to set
+     */
+    public void setTyontekija_id(int tyontekija_id) {
+        this.tyontekija_id = tyontekija_id;
+    }
+
+    /**
+     * @return the virheet
+     */
+    public Collection<String> getVirheet() {
+        return virheet.values();
+    }
+
+    /**
+     * @param virheet the virheet to set
+     */
+    public void setVirheet(Map<String, String> virheet) {
+        this.virheet = virheet;
+    }
+    /**
+     * Tallentaa yrityksen tietokantaan
+     */
 }

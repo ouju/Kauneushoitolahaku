@@ -4,10 +4,8 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Kirjautunut;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,13 +42,18 @@ public class Lisays extends HttpServlet {
         }
         //PrintWriter out = response.getWriter();
      //   try {
-            Kirjautunut uusi = new Kirjautunut();
+            Yritykset uusi = new Yritykset();
             uusi.setNimi(request.getParameter("nimi"));
             uusi.setHintataso(request.getParameter("hintataso"));
             uusi.setSijainti(request.getParameter("sijainti"));
             uusi.setOsoite(request.getParameter("osoite"));
-            if (uusi.onkoKelvollinen()) {
-                uusi.lisaa((String)session.getAttribute("tunnus"));
+            uusi.setKuvaus(request.getParameter("kuvaus"));
+            
+            int tyontekija = (Integer)session.getAttribute("tyontekija_id");
+            uusi.setTyontekija_id(tyontekija);
+            
+            if (uusi.onkoKelvollinen(uusi)) {
+                uusi.lisaaYritys(uusi);
 
                 //Asetetaan istuntoon ilmoitus siitä, että on lisätty
                 

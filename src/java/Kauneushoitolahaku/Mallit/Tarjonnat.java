@@ -17,7 +17,51 @@ import java.util.List;
  * @author Outi
  */
 public class Tarjonnat {
+    private int id;
     private String nimi;
+    
+    public Tarjonnat(){
+        
+    }
+    
+    public Tarjonnat(ResultSet tulos) throws SQLException {
+        this.id = tulos.getInt("id");
+        this.nimi = tulos.getString("nimi");
+    }
+    
+    public Tarjonnat haeId(int id) throws SQLException {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
+        try {
+            String sql = "SELECT * FROM tarjonta where id=?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setInt(1, id);
+            tulokset = kysely.executeQuery();
+
+            if (tulokset.next()) {
+                return new Tarjonnat(tulokset);
+            } else {
+                return null;
+            }
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+    }
     
     public static List<Tarjonnat> haeKaikki() throws SQLException {
         Connection yhteys = null;
@@ -25,7 +69,7 @@ public class Tarjonnat {
         ResultSet tulokset = null;
 
         try {
-            String sql = "SELECT * FROM yritys";
+            String sql = "SELECT * FROM tarjonta";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             tulokset = kysely.executeQuery();
@@ -56,5 +100,26 @@ public class Tarjonnat {
 
     private void setNimi(String nimi) {
         this.nimi = nimi;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the nimi
+     */
+    public String getNimi() {
+        return nimi;
     }
 }

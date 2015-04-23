@@ -4,7 +4,6 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Kirjautunut;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,15 +47,17 @@ public class TallennaMuokkaus extends HttpServlet {
             response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
         }
         
-        Kirjautunut yritys = new Kirjautunut();
+        Yritykset yritys = new Yritykset();
         
+        int id = Integer.parseInt(request.getParameter("id"));
+        yritys.setId(id);
         yritys.setNimi(request.getParameter("nimi"));
         yritys.setHintataso(request.getParameter("hintataso"));
         yritys.setSijainti(request.getParameter("sijainti"));
         yritys.setOsoite(request.getParameter("osoite"));
         yritys.setKuvaus(request.getParameter("kuvaus"));
         
-        yritys.muokkaa();
+        yritys.muokkaaYritysta();
         
         response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
         

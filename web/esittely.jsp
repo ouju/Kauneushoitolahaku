@@ -13,11 +13,11 @@
     </head>
     <body>
         <form action="Esittely" method="POST">
-            
+
             <h1>${yritys.nimi}</h1>
             <!-- Painikkeet tähän -->
             <p>
-                <a href="http://www.kuvitteleyrityksennettisivuttahan.fi/" class="btn btn-default">Kotisivuille</a>
+                <a href="http://www.kuvitteleyrityksenkotisivuttahan.fi/" class="btn btn-default">Kotisivuille</a>
             </p>
             <!-- Tiedot tulee listana tähän -->
             <ul>
@@ -26,7 +26,12 @@
 
                 <li><strong>Sijainti:</strong> ${yritys.sijainti}</li>
                 <li><strong>Osoite:</strong> ${yritys.osoite}</li>
-                <li><strong>Tarjonta:</strong> tarjontaaa</li>
+                <li>
+                    <strong>Tarjonta:</strong> 
+                <c:forEach var="yritys" items="${yritys}">
+                    ${yritys.tarjonta_id}<br>
+                </c:forEach>
+                </li>
             </ul>
             <!-- Kuvaus tulee tähän -->
             <p>

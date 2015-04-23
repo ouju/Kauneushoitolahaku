@@ -4,9 +4,8 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Kirjautunut;
+import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -36,13 +35,17 @@ public class Poisto extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
+        
         if(session.getAttribute("tunnus")==null){
             response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
         }
-        String nimi = request.getParameter("nimi");
-        Kirjautunut k = new Kirjautunut();
-        k.setNimi(nimi);
-        k.poista();
+        
+        Yritykset yritys = new Yritykset();
+        
+        int id = Integer.parseInt(request.getParameter("id"));
+        yritys.setId(id);
+        
+        yritys.poistaYritys();
         response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
     }
 

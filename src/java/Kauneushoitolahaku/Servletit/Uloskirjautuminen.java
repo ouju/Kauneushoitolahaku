@@ -31,8 +31,8 @@ public class Uloskirjautuminen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        naytaJSP("index.jsp", request, response);
+        request.getSession(false).invalidate();
+        response.sendRedirect("kirjautuminen");
     }
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);

@@ -11,12 +11,12 @@
     <div class = "keskiosa">
         <ul class="nav nav-tabs">
             <li role="presentation" ><a href="index.jsp">Etusivu</a></li>
-            <li role="presentation" class="middle"><a href="haku.jsp">Haku</a></li>
+            <li role="presentation" class="middle active"><a href="haku.jsp">Haku</a></li>
             <li role="presentation" class="right"><a href="kirjautuminen.jsp">Kirjautuminen</a></li>
         </ul>
 
         <div>
-            <pre align = "leftF" style = "border:1px lightpink; height: 1000px; border-bottom-color: lightpink; border-bottom-style: solid;
+            <pre align = "leftF" style = "border:1px lightpink; height: 1500px; border-bottom-color: lightpink; border-bottom-style: solid;
                  border-top-style: solid; border-top-color: white; background-color: lavenderblush">
 
                 <font size = "4">

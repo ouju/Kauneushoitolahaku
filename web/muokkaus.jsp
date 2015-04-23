@@ -15,14 +15,14 @@
         <h1>Muokkaa yrityksen tietoja</h1>
 
         <form action="tallennaMuokkaus" method="POST">
+            <input type="hidden" name="id" value="${yritys.id}">
             <div class="form-group">
                 <label>Nimi</label><br>
                 <input type="text" name="nimi" class="form-control" value="${yritys.nimi}">
             </div>
             <div class="form-group">
                 <label>Hintataso</label><br>
-                <select name="hintataso" value="${yritye.hintataso}">
-                    <option></option>
+                <select name="hintataso" value="${yritys.hintataso}">
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
                     <option>Hintavampi</option>

@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>kirjautunut</servlet-name>
-        <servlet-class>Kauneushoitolahaku.Servletit.Kirjautunut</servlet-class>
+        <servlet-class>Kauneushoitolahaku.Servletit.KirjautunutKayttaja</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>lisays</servlet-name>
@@ -43,6 +43,10 @@
     <servlet>
         <servlet-name>Uloskirjautuminen</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.Uloskirjautuminen</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Rekisteroityminen</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.Rekisteroityminen</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>Uloskirjautuminen</servlet-name>
         <url-pattern>/Uloskirjautuminen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Rekisteroityminen</servlet-name>
+        <url-pattern>/Rekisteroityminen</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

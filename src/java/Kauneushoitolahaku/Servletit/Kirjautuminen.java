@@ -4,7 +4,8 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Kirjautunut;
+import Kauneushoitolahaku.Mallit.Tyontekija;
+import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -67,10 +68,12 @@ public class Kirjautuminen extends HttpServlet {
         } 
 
 
-        boolean yritys = Kirjautunut.tunnusJaSalasanaOikein(request.getParameter("tunnus"), request.getParameter("salasana"));
+        boolean yritys = Yritykset.tunnusJaSalasanaOikein(request.getParameter("tunnus"), request.getParameter("salasana"));
         if (yritys) {
             //Tallennetaan istuntoon käyttäjäolio
             session.setAttribute("tunnus", tunnus);
+            System.out.println(tunnus);
+            session.setAttribute("tyontekija_id", Tyontekija.etsiTunnuksella(tunnus));
             response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
         }else {
             request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.");

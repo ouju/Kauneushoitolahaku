@@ -4,10 +4,10 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Yritykset;
+import Kauneushoitolahaku.Mallit.Tyontekija;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Outi
  */
-public class Kirjautunut extends HttpServlet {
+public class Rekisteroityminen extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -34,26 +34,38 @@ public class Kirjautunut extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        if(session.getAttribute("tunnus")==null){
-            response.sendRedirect("/Kaneushoitolahaku/kirjautuminen");
-        }
         
-        ArrayList<Yritykset> yritykset = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
-        System.out.println((String)session.getAttribute("tunnus"));
-        request.setAttribute("yritys", yritykset);
-        naytaJSP("yritys.jsp", request, response);
+        Tyontekija uusi = new Tyontekija();
+        uusi.setTunnus(request.getParameter("tunnus"));
+        uusi.setSalasana(request.getParameter("salasana"));
+        
+        if (uusi.salasanatTasmaa() && uusi.tunnusEiKaytossa()) {
+                uusi.lisaaTyontekija();
+
+                //Asetetaan istuntoon ilmoitus siitä, että on lisätty
+                
+                session.setAttribute("ilmoitus", "Käyttäjä rekisteröity onnistuneesti.");
+                //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
+                response.sendRedirect("/Kauneushoitolahaku/kirjautuminen.jsp");
+
+            } else {
+                Collection<String> virheet = uusi.getVirheet();
+
+                request.setAttribute("virheet", virheet);
+                request.setAttribute("yritys", uusi);
+                naytaJSP("rekisteroidy.jsp", request, response);
+            }
     }
+    
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
         dispatcher.forward(request, response);
 
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -70,8 +82,8 @@ public class Kirjautunut extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(Kirjautunut.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Rekisteroityminen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -89,8 +101,8 @@ public class Kirjautunut extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(Kirjautunut.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Rekisteroityminen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -18,13 +18,12 @@
 
             <div class="form-group" name="nimi" placeholder="Yrityksen nimi" value="${yritys.nimi}">
                 <label>Nimi</label><br>
-                <input type="text" name="nimi" class="form-control">
+                <input type="text" name="nimi" class="form-control"
                 <c:out value="${yritys.nimi}"/>
             </div>
             <div class="form-group">
                 <label>Hintataso</label><br>
                 <select name="hintataso">
-                    <option></option>
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
                     <option>Hintavampi</option>

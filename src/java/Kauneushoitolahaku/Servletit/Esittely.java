@@ -46,9 +46,6 @@ public class Esittely extends HttpServlet {
         try {
           id = Integer.parseInt(idParam);
         } catch(Exception e) {
-          // Id-numero nolla ei käytännössä koskaan löydy kannasta, 
-          // joten koodin suoritus päätyy
-          // alla olevan if-lauseen else-haaraan
           id = 0;
         }
         Yritykset yritys = new Yritykset();

@@ -9,7 +9,7 @@
 <t:etupohja pageTitle ="Etusivu">     
     <div class = "keskiosa">
         <ul class="nav nav-tabs">
-            <li role="presentation" ><a href="index.jsp">Etusivu</a></li>
+            <li role="presentation" class="active" style="outline-color: lavenderblush"><a href="index.jsp">Etusivu</a></li>
             <li role="presentation" class="middle"><a href="haku.jsp">Haku</a></li>
             <li role="presentation" class="right"><a href="kirjautuminen.jsp">Kirjautuminen</a></li>
         </ul>
