@@ -24,6 +24,7 @@
             <div class="form-group">
                 <label>Hintataso</label><br>
                 <select name="hintataso">
+                    <option selected="selected"></option>
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
                     <option>Hintavampi</option>

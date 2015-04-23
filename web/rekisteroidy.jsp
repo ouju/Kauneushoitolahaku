@@ -4,7 +4,8 @@
     Author     : Outi
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+
 <!DOCTYPE html>
 <html>
     <head>

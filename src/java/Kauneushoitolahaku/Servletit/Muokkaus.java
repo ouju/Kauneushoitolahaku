@@ -54,7 +54,7 @@ public class Muokkaus extends HttpServlet {
         }
 
         Yritykset yritys = new Yritykset();
-        System.out.println(request.getParameter("kuvaus"));
+        System.out.println("TÄTÄTÄTÄTÄ"+request.getParameter("hintataso") +request.getParameter("kuvaus"));
         
         yritys.setId(id);
         yritys.setNimi(request.getParameter("nimi"));

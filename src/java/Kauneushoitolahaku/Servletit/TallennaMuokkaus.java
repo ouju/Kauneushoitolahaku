@@ -56,7 +56,8 @@ public class TallennaMuokkaus extends HttpServlet {
         yritys.setSijainti(request.getParameter("sijainti"));
         yritys.setOsoite(request.getParameter("osoite"));
         yritys.setKuvaus(request.getParameter("kuvaus"));
-        
+        System.out.println("OOOSSS"+request.getParameter("hintataso") +request.getParameter("kuvaus"));
+
         yritys.muokkaaYritysta();
         
         response.sendRedirect("/Kauneushoitolahaku/kirjautunut");

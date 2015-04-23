@@ -22,7 +22,8 @@
             </div>
             <div class="form-group">
                 <label>Hintataso</label><br>
-                <select name="hintataso" value="${yritys.hintataso}">
+                <select data-selected="${yritys.hintataso}" name="hintataso" value="${yritys.hintataso}">
+                    <option></option>
                     <option>Edullinen</option>
                     <option>Keskitaso</option>
                     <option>Hintavampi</option>
@@ -38,8 +39,7 @@
             </div>
             <div class="form-group">
                 <label>Kuvaus</label><br>
-                <textarea class="form-control" type="text" name="kuvaus" value="${yritys.kuvaus}">
-                </textarea>
+                <textarea type="text" name="kuvaus" class="form-control">${yritys.kuvaus}</textarea>
             </div>
             <div class="form-group">
                 <label>Tarjonta:</label>

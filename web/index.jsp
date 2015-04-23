@@ -15,10 +15,10 @@
         </ul>
 
         <div>
-            <pre align = "leftF" style = "border:1px lightpink; height: 700px; border-bottom-color: lightpink; border-bottom-style: solid;
-                 border-top-style: so; border-top-color: white; background-color: lavenderblush">
+            <pre align = "leftF" style = "border:1px; border-top-style: solid;
+                 border-bottom-style: solid; background-color: lavenderblush">
 
-                <font size = "4">
+                <font size = "3">
                 <h1>Tervetuloa kauneushoitoloiden hakusivustolle!</h1>
                 Hakusivusto auttaa sinua löytämään juuri tarvitsemasi kauneushoitolan.<br>
                 Voit hakea nimen, hintatason, sijainnin tai tarjonnan perusteella mieleisesi.

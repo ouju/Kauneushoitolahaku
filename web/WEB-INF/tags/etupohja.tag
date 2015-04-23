@@ -21,15 +21,7 @@
         <link href="css/main.css" rel="stylesheet">
     </head>
     <body>
-        <div class = "päädiv">
-            <!--div class="container">
-                <!--div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <!--div id="imaginary_container">
-                        </div>
-                    </div>
-                </div>
-            </div-->
+        <div class = "maindiv">
             <jsp:doBody/>
         </div>
     </body>

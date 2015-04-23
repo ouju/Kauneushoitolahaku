@@ -91,7 +91,7 @@ public class Yritykset {
         Yritykset yritys = null;
         ArrayList<Yritykset> y = new ArrayList();
         try {
-            String sql = "SELECT * FROM yritys WHERE tyontekija_id = ?";
+            String sql = "SELECT * FROM yritys WHERE tyontekija_id = ? ORDER BY nimi";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setInt(1, tyontekija_id);
@@ -146,14 +146,13 @@ public class Yritykset {
         ResultSet tulokset = null;
 
         try {
-            String sql = "SELECT * FROM yritys WHERE id = ?";
+            String sql = "SELECT * FROM yritys WHERE id = ? ORDER BY nimi";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setInt(1, id);
             tulokset = kysely.executeQuery();
 
             if (tulokset.next()) {
-                System.out.println(tulokset.getString("kuvaus"));
                 return new Yritykset(tulokset);
             } else {
                 return null;
@@ -374,28 +373,28 @@ public class Yritykset {
 
     public void lisaaYritys(Yritykset yritys) throws Exception {
         Connection yhteys = null;
-        PreparedStatement kysely1 = null;
-        ResultSet tulokset1 = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
         try {
             String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, osoite, kuvaus, tyontekija_id) VALUES(?,?,?,?,?,?) RETURNING id";
             yhteys = Yhteys.getYhteys();
-            kysely1 = yhteys.prepareStatement(sql);
-            kysely1.setString(1, yritys.getNimi());
-            kysely1.setString(2, yritys.getHintataso());
-            kysely1.setString(3, yritys.getSijainti());
-            kysely1.setString(4, yritys.getOsoite());
-            kysely1.setString(5, yritys.getKuvaus());
-            kysely1.setInt(6, yritys.getTyontekija_id());
-            tulokset1 = kysely1.executeQuery();
-            tulokset1.next();
-            yritys.id = tulokset1.getInt(1);
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, yritys.getNimi());
+            kysely.setString(2, yritys.getHintataso());
+            kysely.setString(3, yritys.getSijainti());
+            kysely.setString(4, yritys.getOsoite());
+            kysely.setString(5, yritys.getKuvaus());
+            kysely.setInt(6, yritys.getTyontekija_id());
+            tulokset = kysely.executeQuery();
+            tulokset.next();
+            yritys.id = tulokset.getInt(1);
         } finally {
             try {
-                tulokset1.close();
+                tulokset.close();
             } catch (Exception e) {
             }
             try {
-                kysely1.close();
+                kysely.close();
             } catch (Exception e) {
             }
             try {

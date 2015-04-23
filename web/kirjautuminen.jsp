@@ -14,16 +14,16 @@
         </ul>
 
         <div>
-            <pre align = "leftF" style = "border:1px lightpink; height: 700px; border-bottom-color: lightpink; border-bottom-style: solid;
-                 border-top-style: so; border-top-color: white; background-color: lavenderblush">
+            <pre align = "leftF" style = "border:1px; border-top-style: solid;
+                 border-bottom-style: solid; background-color: lavenderblush">
 
-                <font size = "4">
+                <font size = "3">
                 <h1>Kirjaudu sisään</h1>
                 ${ilmoitus}
                 <form action="kirjautuminen" method="post">
                     Käyttäjätunnus: <input type="text" name="tunnus" value="${kayttaja}" />
                     Salasana: <input type="password" name="salasana" /><br>
-                    <button type="submit" class="btn-success">Kirjaudu</button>
+                    <button type="submit" class="btn-primary">Kirjaudu</button>
                     ${virheViesti}
                 </form>
 
