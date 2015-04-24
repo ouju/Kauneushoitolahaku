@@ -17,19 +17,57 @@ import java.util.List;
  * @author Outi
  */
 public class Tarjonnat {
+
     private int id;
     private String nimi;
-    
-    public Tarjonnat(){
-        
+
+    public Tarjonnat() {
     }
-    
+
     public Tarjonnat(ResultSet tulos) throws SQLException {
         this.id = tulos.getInt("id");
         this.nimi = tulos.getString("nimi");
     }
-    
-    public Tarjonnat haeId(int id) throws SQLException {
+
+    public static int haeTarjontaaNimella(String nimi) throws SQLException {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+
+        try {
+            String sql = "SELECT id FROM tarjonta where nimi=?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, nimi);
+            tulokset = kysely.executeQuery();
+
+            if (tulokset.next()) {
+                Tarjonnat tarjonnat = new Tarjonnat();
+                tarjonnat.setId(tulokset.getInt("id"));
+                tarjonnat.setNimi(tulokset.getString("nimi"));
+                System.out.println("TÄTÄTÄTTÄÄ "+tarjonnat.getId());
+                return tarjonnat.getId();
+            } else {
+                return 000;
+            }
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public static Tarjonnat haeId(int id) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -62,7 +100,7 @@ public class Tarjonnat {
             }
         }
     }
-    
+
     public static List<Tarjonnat> haeKaikki() throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;

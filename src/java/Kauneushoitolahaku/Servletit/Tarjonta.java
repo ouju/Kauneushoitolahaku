@@ -5,6 +5,7 @@
 package Kauneushoitolahaku.Servletit;
 
 import Kauneushoitolahaku.Mallit.Tarjonnat;
+import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -33,6 +34,11 @@ public class Tarjonta extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        Yritykset yritys = new Yritykset();
+        
+        yritys.setTarjonta_id(Integer.parseInt(request.getParameter("tarjonta_id")));
+        
         request.setAttribute("tarjonnat", Tarjonnat.haeKaikki());
     }
 

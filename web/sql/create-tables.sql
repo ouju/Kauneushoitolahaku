@@ -2,7 +2,6 @@ CREATE TABLE Yritys
 (
 id SERIAL PRIMARY KEY,
 tyontekija_id INTEGER REFERENCES Tyontekija(id),
-tarjonta_id INTEGER REFERENCES Tarjonta(id),
 nimi varchar(50),
 hintataso varchar(10),
 osoite varchar(50),

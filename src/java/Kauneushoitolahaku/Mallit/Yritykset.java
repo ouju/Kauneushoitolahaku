@@ -371,7 +371,7 @@ public class Yritykset {
         }
     }
 
-    public void lisaaYritys(Yritykset yritys) throws Exception {
+    public int lisaaYritys(Yritykset yritys) throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -402,6 +402,7 @@ public class Yritykset {
             } catch (Exception e) {
             }
         }
+        return id;
     }
 
     public boolean onkoKelvollinen(Yritykset yritys) {

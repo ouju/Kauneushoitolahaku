@@ -48,13 +48,13 @@
             </div>
             <label>Tarjonta</label>
             <br>
-            <input type="checkbox" name="tarjonnat" value="hieronta">Hieronta
+            <input type="checkbox" name="hieronta" value="hieronta">Hieronta
             <br>
-            <input type="checkbox" name="tarjonnat" value="hiukset">Hiukset
+            <input type="checkbox" name="hiukset" value="hiukset">Hiukset
             <br>
-            <input type="checkbox" name="tarjonnat" value="kasvot">Kasvot
+            <input type="checkbox" name="kasvot" value="kasvot">Kasvot
             <br>
-            <input type="checkbox" name="tarjonnat" value="kynnet">Kynnet
+            <input type="checkbox" name="kynnet" value="kynnet">Kynnet
             <!--<select name="tarjonta_id">
                 <c:forEach var="tarjonta" items="${tarjonnat}">
                     <option value="${tarjonta.id}">${tarjonta.nimi}</option>

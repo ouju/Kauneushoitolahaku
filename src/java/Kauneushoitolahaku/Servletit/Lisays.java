@@ -4,6 +4,8 @@
  */
 package Kauneushoitolahaku.Servletit;
 
+import Kauneushoitolahaku.Mallit.Tarjonnat;
+import Kauneushoitolahaku.Mallit.Tarjonta_yritys;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.util.Collection;
@@ -37,55 +39,82 @@ public class Lisays extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        if(session.getAttribute("tunnus")==null){
+        if (session.getAttribute("tunnus") == null) {
             response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
         }
-        //PrintWriter out = response.getWriter();
-     //   try {
-            Yritykset uusi = new Yritykset();
-            uusi.setNimi(request.getParameter("nimi"));
-            uusi.setHintataso(request.getParameter("hintataso"));
-            uusi.setSijainti(request.getParameter("sijainti"));
-            uusi.setOsoite(request.getParameter("osoite"));
-            uusi.setKuvaus(request.getParameter("kuvaus"));
+        //   try {
+        Yritykset uusi = new Yritykset();
+        //uusi.setId(request.getParameter("id"));
+        uusi.setNimi(request.getParameter("nimi"));
+        uusi.setHintataso(request.getParameter("hintataso"));
+        uusi.setSijainti(request.getParameter("sijainti"));
+        uusi.setOsoite(request.getParameter("osoite"));
+        uusi.setKuvaus(request.getParameter("kuvaus"));
+        int tyontekija = (Integer) session.getAttribute("tyontekija_id");
+        uusi.setTyontekija_id(tyontekija);
+
+
+
+
+        if (uusi.onkoKelvollinen(uusi)) {
+            int id = uusi.lisaaYritys(uusi);
             
-            int tyontekija = (Integer)session.getAttribute("tyontekija_id");
-            uusi.setTyontekija_id(tyontekija);
-            
-            if (uusi.onkoKelvollinen(uusi)) {
-                uusi.lisaaYritys(uusi);
-
-                //Asetetaan istuntoon ilmoitus siitä, että on lisätty
-                
-                session.setAttribute("ilmoitus", "Yritys lisätty onnistuneesti.");
-                //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
-                response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
-
-            } else {
-                Collection<String> virheet = uusi.getVirheet();
-
-                request.setAttribute("virheet", virheet);
-                request.setAttribute("yritys", uusi);
-                naytaJSP("lisays.jsp", request, response);
+            if (request.getParameter("hieronta") != null) {
+                uusi.setTarjonta_id(2);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(2);
+                Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
-       // } finally {
-       //     out.close();
-       // }
-    }
-/*
-    public void haeIlmoitus(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String ilmoitus = (String) session.getAttribute("ilmoitus");
+            if (request.getParameter("hiukset") != null) {
+                uusi.setTarjonta_id(1);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(1);
+                Tarjonta_yritys.lisaa(uusi, tarjonta);
+            }
+            if (request.getParameter("kasvot") != null) {
+                uusi.setTarjonta_id(3);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(3);
+                Tarjonta_yritys.lisaa(uusi, tarjonta);
+            }
+            if (request.getParameter("kynnet") != null) {
+                uusi.setTarjonta_id(4);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(4);
+                Tarjonta_yritys.lisaa(uusi, tarjonta);
+            }
+            //Asetetaan istuntoon ilmoitus siitä, että on lisätty
 
-        if (ilmoitus != null) {
-            // Samalla kun viesti haetaan, se poistetaan istunnosta,
-            // ettei se näkyisi myöhemmin jollain toisella sivulla uudestaan.
-            session.removeAttribute("ilmoitus");
+            session.setAttribute("ilmoitus", "Yritys lisätty onnistuneesti.");
+            //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
+            response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
 
-            request.setAttribute("ilmoitus", ilmoitus);
+        } else {
+            Collection<String> virheet = uusi.getVirheet();
+
+            request.setAttribute("virheet", virheet);
+            request.setAttribute("yritys", uusi);
+            naytaJSP("lisays.jsp", request, response);
         }
+        // } finally {
+        //     out.close();
+        // }
     }
-*/
+    /*
+     public void haeIlmoitus(HttpServletRequest request) {
+     HttpSession session = request.getSession();
+     String ilmoitus = (String) session.getAttribute("ilmoitus");
+
+     if (ilmoitus != null) {
+     // Samalla kun viesti haetaan, se poistetaan istunnosta,
+     // ettei se näkyisi myöhemmin jollain toisella sivulla uudestaan.
+     session.removeAttribute("ilmoitus");
+
+     request.setAttribute("ilmoitus", ilmoitus);
+     }
+     }
+     */
+
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
         dispatcher.forward(request, response);
