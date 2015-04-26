@@ -43,7 +43,7 @@ public class Yritykset {
         this.sijainti = tulos.getString("sijainti");
         this.osoite = tulos.getString("osoite");
         this.kuvaus = tulos.getString("kuvaus");
-        this.tarjonta_id = tulos.getInt("tarjonta_id");
+        //this.tarjonta_id = tulos.getInt("tarjonta_id");
     }
 
     public Yritykset(String nimi, String hintataso, String sijainti, String osoite, String kuvaus, int tyontekija_id) {
@@ -438,7 +438,7 @@ public class Yritykset {
         PreparedStatement kysely = null;
         
         try {
-            String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kuvaus=?, tarjonta_id=? WHERE id=?";
+            String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kuvaus=? WHERE id=?";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setString(1, this.getNimi());
@@ -446,8 +446,8 @@ public class Yritykset {
             kysely.setString(3, this.getSijainti());
             kysely.setString(4, this.getOsoite());
             kysely.setString(5, this.getKuvaus());
-            kysely.setInt(6, this.getTarjonta_id());
-            kysely.setInt(7, this.getId());
+            //kysely.setInt(6, this.getTarjonta_id());
+            kysely.setInt(6, this.getId());
             
             kysely.executeUpdate();
         } finally {

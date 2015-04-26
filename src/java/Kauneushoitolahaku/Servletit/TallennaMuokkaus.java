@@ -56,6 +56,8 @@ public class TallennaMuokkaus extends HttpServlet {
         yritys.setSijainti(request.getParameter("sijainti"));
         yritys.setOsoite(request.getParameter("osoite"));
         yritys.setKuvaus(request.getParameter("kuvaus"));
+//        int tarjonta = Integer.parseInt(request.getParameter("tarjonta_id"));
+//        yritys.setTarjonta_id(tarjonta);
         System.out.println("OOOSSS"+request.getParameter("hintataso") +request.getParameter("kuvaus"));
 
         yritys.muokkaaYritysta();
