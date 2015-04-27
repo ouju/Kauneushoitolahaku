@@ -57,6 +57,10 @@ public class Tarjonta_yritys {
             }
         }
     }
+    
+    public static void muokkaaTarjontaa(){
+        
+    }
 
     /**
      * @return the id

@@ -43,13 +43,9 @@ public class Rekisteroityminen extends HttpServlet {
         uusi.setTunnus(request.getParameter("tunnus"));
         uusi.setSalasana(request.getParameter("salasana"));
         
-        if (uusi.salasanatTasmaa() && uusi.tunnusEiKaytossa()) {
+        if (uusi.getTunnus()!=null && uusi.getSalasana()!=null) {
                 uusi.lisaaTyontekija();
-
-                //Asetetaan istuntoon ilmoitus siitä, että on lisätty
-                
-                session.setAttribute("ilmoitus", "Käyttäjä rekisteröity onnistuneesti.");
-                //lisättiin kantaan onnistuneesti, lähetetään käyttäjä eteenpäin
+                session.setAttribute("rekisteroity", "Käyttäjä rekisteröity onnistuneesti.");
                 response.sendRedirect("/Kauneushoitolahaku/kirjautuminen.jsp");
 
             } else {

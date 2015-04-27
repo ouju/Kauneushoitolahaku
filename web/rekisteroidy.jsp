@@ -21,7 +21,6 @@
 
             <!-- Uuden käyttäjän käyttäjätunnus-->
             <div class="control-group">
-              <p>${tunnusEiKaytossa}</p>
               <label class="control-label" for="tunnus">Käyttäjätunnus</label>
               <div class="controls">
                 <input id="textinput" name="tunnus" maxlength="20" type="text" placeholder="" class="input-xlarge">
@@ -30,18 +29,9 @@
 
             <!-- Salasana-->
             <div class="control-group">
-                <p>${salasanatTasmaa}</p>
               <label class="control-label" for="salasana">Salasana</label>
               <div class="controls">
                 <input id="Salasana" name="salasana" maxlength="20" type="password" placeholder="" class="input-xlarge">
-              </div>
-            </div>
-
-            <!-- Salasanan varmistus-->
-            <div class="control-group">
-              <label class="control-label" for="salasanaUudestaan">Salasana uudestaan</label>
-              <div class="controls">
-                <input id="Salasana uudestaan" name="salasanaUudestaan" maxlength="20" type="password" placeholder="" class="input-xlarge">
               </div>
             </div>
 

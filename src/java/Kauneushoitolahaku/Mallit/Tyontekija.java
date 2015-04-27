@@ -22,23 +22,14 @@ public class Tyontekija {
     private int id;
     private String tunnus;
     private String salasana;
-    private String salasanaUudestaan;
     private Map<String, String> virheet = new HashMap<String, String>();
 
     public Tyontekija() {
     }
 
-    public boolean salasanatTasmaa() {
-        if (salasana.equals(salasanaUudestaan)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean tunnusEiKaytossa() {
-        return false;
-    }
+//    public boolean tunnusEiKaytossa() {
+//        return true;
+//    }
 
     public static int etsiTunnuksella(String tunnus) throws SQLException {
         String sql = "SELECT id FROM tyontekija WHERE tunnus = ?";
@@ -172,27 +163,5 @@ public class Tyontekija {
      */
     public void setVirheet(Map<String, String> virheet) {
         this.virheet = virheet;
-    }
-
-    /**
-     * @return the salasanaUudestaan
-     */
-    public String getSalasanaUudestaan() {
-        return salasanaUudestaan;
-    }
-
-    /**
-     * @param salasanaUudestaan the salasanaUudestaan to set
-     */
-    public void setSalasanaUudestaan(String salasanaUudestaan) {
-        this.salasanaUudestaan = salasanaUudestaan;
-
-        if (salasanaUudestaan.trim().length() == 0) {
-            virheet.put(salasanaUudestaan, "Kirjoita salasana uudestaan!");
-        
-        } else {
-            virheet.remove("salasanaUudestaan");
-        }
-        
     }
 }

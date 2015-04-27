@@ -19,7 +19,7 @@
 
                 <font size = "3">
                 <h1>Kirjaudu sisään</h1>
-                ${ilmoitus}
+                ${rekisteroity}
                 <form action="kirjautuminen" method="post">
                     Käyttäjätunnus: <input type="text" name="tunnus" value="${kayttaja}" />
                     Salasana: <input type="password" name="salasana" /><br>
