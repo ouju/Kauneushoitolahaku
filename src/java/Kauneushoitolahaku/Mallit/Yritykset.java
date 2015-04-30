@@ -350,6 +350,7 @@ public class Yritykset {
             ArrayList<Yritykset> l = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
+                y.setId(tulokset.getInt("id"));
                 y.setNimi(tulokset.getString("nimi"));
                 l.add(y);
             }

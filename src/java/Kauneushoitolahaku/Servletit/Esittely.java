@@ -4,6 +4,7 @@
  */
 package Kauneushoitolahaku.Servletit;
 
+import Kauneushoitolahaku.Mallit.Tarjonta_yritys;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,30 +41,33 @@ public class Esittely extends HttpServlet {
         HttpSession session = request.getSession();
         session = request.getSession(false);
         /*ArrayList<Yritykset> yritys = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
-        System.out.println((String)session.getAttribute("tunnus"));*/
-        String idParam = request.getParameter("id");
-        int id;
-        try {
-          id = Integer.parseInt(idParam);
-        } catch(Exception e) {
-          id = 0;
-        }
+         System.out.println((String)session.getAttribute("tunnus"));*/
+        // String idParam = request.getParameter("id");
+//        int id;
+//        try {
+//            id = Integer.parseInt(request.getParameter("id"));
+//        } catch (Exception e) {
+//            id = 0;
+//        }
         Yritykset yritys = new Yritykset();
-        yritys = yritys.haeYritysId(id);
-        System.out.println(id + yritys.getKuvaus());
+        //System.out.println("TÄTÄTÄTÄ" + id + request.getParameter("nimi"));
         
-//        yritys.setNimi(request.getParameter("nimi"));
+        int id = Integer.parseInt(request.getParameter("id"));
+        yritys.setId(id);
+        yritys = yritys.haeYritysId(id);
+//        yritys.setNimi(yritys.getNimi());
 //        yritys.setHintataso(request.getParameter("hintataso"));
 //        yritys.setSijainti(request.getParameter("sijainti"));
 //        yritys.setOsoite(request.getParameter("osoite"));
 //        yritys.setKuvaus(request.getParameter("kuvaus"));
-        
+
         request.setAttribute("yritys", yritys);
+        request.setAttribute("tarjonnat", Tarjonta_yritys.haeYrityksenTarjonta(yritys));
         naytaJSP("esittely.jsp", request, response);
 
-        //response.sendRedirect("/Kauneushoitolahaku/Esittely");
+        //response.sendRedirect("/Kauneushoitolahaku/Tarjonta");
     }
-    
+
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
         dispatcher.forward(request, response);

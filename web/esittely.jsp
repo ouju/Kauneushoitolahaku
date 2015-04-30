@@ -27,10 +27,13 @@
                 <li><strong>Sijainti:</strong> ${yritys.sijainti}</li>
                 <li><strong>Osoite:</strong> ${yritys.osoite}</li>
                 <li>
-                    <strong>Tarjonta:</strong> 
-                <c:forEach var="yritys" items="${yritys}">
-                    ${yritys.tarjonta_id}<br>
-                </c:forEach>
+                    <strong>Tarjonta:</strong> ${tarjonnat}
+                    <!--ul>
+                        <c:forEach var="tarjonta" items="${tarjonnat}">
+                            <li>${tarjonta.nimi}</li>
+                        </c:foreach>
+                    </ul-->
+
                 </li>
             </ul>
             <!-- Kuvaus tulee tähän -->

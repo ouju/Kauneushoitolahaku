@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,6 +28,51 @@ public class Tarjonta_yritys {
         this.id = id;
         this.tarjonta_id = tarjonta_id;
         this.yritys_id = yritys_id;
+    }
+    
+    public static ArrayList<String> haeYrityksenTarjonta(Yritykset yritys) throws SQLException{
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+        try {
+            String sql = "SELECT tarjonta_id FROM tarjonta_yritys WHERE yritys_id=?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setInt(1, yritys.getId());
+            tulokset = kysely.executeQuery();
+            //tulokset.next();
+            //int id = tulokset.getInt(1);
+            
+            ArrayList<String> lista = new ArrayList<String>();
+            //int x = 1;
+            while (tulokset.next()) {
+                
+                String tarjonta = Tarjonnat.haeId(tulokset.getInt(1)).getNimi();
+                
+                lista.add(tarjonta);
+                //x++;
+                //tulokset.next();
+//                Yritykset y = new Yritykset();
+//                y.setId(tulokset.getInt("id"));
+//                y.setNimi(tulokset.getString("nimi"));
+//                lista.add(y);
+            }
+            return lista;
+            
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
     }
     
     public static void lisaa(Yritykset yritys, Tarjonnat tarjonta) throws SQLException{

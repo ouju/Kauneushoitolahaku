@@ -45,8 +45,8 @@
                     <button type="submit" class="btn btn-primary">Hae</button>
                 </form>
                 ${lkm}<br>
-                <c:forEach var="kirjaus" items="${listaus}">
-                    <a href="Esittely?id=${kirjaus.id}">${kirjaus.nimi}</a><br>
+                <c:forEach var="yritys" items="${listaus}">
+                    <a href="Esittely?id=${yritys.id}">${yritys.nimi}</a><br>
                 </c:forEach>
                 ${viesti}
 

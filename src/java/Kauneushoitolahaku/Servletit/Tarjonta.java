@@ -5,15 +5,18 @@
 package Kauneushoitolahaku.Servletit;
 
 import Kauneushoitolahaku.Mallit.Tarjonnat;
+import Kauneushoitolahaku.Mallit.Tarjonta_yritys;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,14 +36,39 @@ public class Tarjonta extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        Yritykset yritys = new Yritykset();
-        
-        yritys.setTarjonta_id(Integer.parseInt(request.getParameter("tarjonta_id")));
-        
-        request.setAttribute("tarjonnat", Tarjonnat.haeKaikki());
+        request.setCharacterEncoding("UTF-8");
+//        response.setContentType("text/html;charset=UTF-8");
+//        HttpSession session = request.getSession();
+//        session = request.getSession(false);
+//        
+//        String idParam = request.getParameter("id");
+//        int id;
+//        try {
+//            id = Integer.parseInt(idParam);
+//        } catch (Exception e) {
+//            id = 0;
+//        }
+//        
+//        Yritykset yritys = new Yritykset();
+//        
+//        yritys.setId(id);
+//        
+//        yritys.setNimi(request.getParameter("nimi"));
+//        yritys.setHintataso(request.getParameter("hintataso"));
+//        yritys.setSijainti(request.getParameter("sijainti"));
+//        yritys.setOsoite(request.getParameter("osoite"));
+//        yritys.setKuvaus(request.getParameter("kuvaus"));
+//        //yritys.setTarjonta_id(Integer.parseInt(request.getParameter("tarjonta_id")));
+//        request.setAttribute("yritys", yritys);
+//        request.setAttribute("tarjonnat", Tarjonta_yritys.haeYrityksenTarjonta(yritys));
+//        //request.setAttribute("tarjonnat", Tarjonnat.haeKaikki());
+//        naytaJSP("esittely.jsp", request, response);
     }
+    
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
