@@ -19,6 +19,7 @@
     </head>
     <body>
         <a style ="margin-left: 84%;" href="Uloskirjautuminen" class="btn btn-primary">Kirjaudu ulos</a>
+        <a style ="margin-left: 84%;" href="omatTiedot.jsp" class="btn btn-primary">Omat tietoni</a>
 
         <h1>Tunnuksella ${tunnus} hallitsemasi yritykset:</h1>
         <c:if test="${ilmoitus != null}">
@@ -62,7 +63,7 @@
                                 <input type="hidden" value="${yritys.osoite}" name="osoite"></input>
                                 <input type="hidden" value="${yritys.kotisivut}" name="kotisivut"></input>
                                 <input type="hidden" value="${yritys.kuvaus}" name="kuvaus"></input>
-                                <input type="hidden" value="${yritys.tarjonta_id}" name="tarjonta"></input>
+
                                 <input value="Muokkaa" name="Muokkaa" type="submit"></input>
                             </form>
                         </td>

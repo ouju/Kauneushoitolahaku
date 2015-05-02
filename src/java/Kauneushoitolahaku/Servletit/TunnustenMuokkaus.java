@@ -4,8 +4,14 @@
  */
 package Kauneushoitolahaku.Servletit;
 
+import Kauneushoitolahaku.Mallit.Tarjonnat;
+import Kauneushoitolahaku.Mallit.Tarjonta_yritys;
+import Kauneushoitolahaku.Mallit.Tyontekija;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -19,7 +25,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Outi
  */
-public class Muokkaus extends HttpServlet {
+public class TunnustenMuokkaus extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -31,42 +37,41 @@ public class Muokkaus extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException, SQLException, Exception {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        if(session.getAttribute("tunnus")==null){
+        if (session.getAttribute("tunnus") == null) {
             response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
         }
-        int id = 0;
-        try {
-            id = Integer.parseInt(request.getParameter("id"));
-        } catch (Exception e) {
-            //Virhetilanne. Näytetään käyttäjälle virhe.
-            System.out.println("Virhe!");
-        }
 
-        Yritykset yritys = new Yritykset();
-        
-        yritys.setId(id);
-        yritys.setNimi(request.getParameter("nimi"));
-        yritys.setHintataso(request.getParameter("hintataso"));
-        yritys.setSijainti(request.getParameter("sijainti"));
-        yritys.setOsoite(request.getParameter("osoite"));
-        yritys.setKotisivut(request.getParameter("kotisivut"));
-        yritys.setKuvaus(request.getParameter("kuvaus"));
-        
-        request.setAttribute("yritys", yritys);
-        
-        naytaJSP("muokkaus.jsp", request, response);
+        Tyontekija tyontekija = new Tyontekija();
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        tyontekija.setId(id);
+        tyontekija.setTunnus(request.getParameter("tunnus"));
+        tyontekija.setSalasana(request.getParameter("salasana"));
+
+        if (tyontekija.getTunnus() != null && !tyontekija.getTunnus().isEmpty()
+                && tyontekija.getSalasana() != null && !tyontekija.getSalasana().isEmpty()
+                && !Tyontekija.tunnusKaytossa(tyontekija.getTunnus())) {
+            tyontekija.muokkaaTunnuksia();
+            session.setAttribute("ilmoitus", "Tunnuksia muokattu onnistuneesti.");
+            response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
+        } else {
+            Collection<String> virheet = tyontekija.getVirheet();
+
+            request.setAttribute("virheet", virheet);
+            request.setAttribute("yritys", tyontekija);
+            naytaJSP("omatTiedot.jsp", request, response);
+        }
+    }
+
+    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,8 +89,10 @@ public class Muokkaus extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(TunnustenMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(Muokkaus.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TunnustenMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -103,8 +110,10 @@ public class Muokkaus extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(TunnustenMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(Muokkaus.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TunnustenMuokkaus.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

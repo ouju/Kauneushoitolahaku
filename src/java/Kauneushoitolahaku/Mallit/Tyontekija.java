@@ -26,6 +26,23 @@ public class Tyontekija {
 
     public Tyontekija() {
     }
+    
+    public Tyontekija(ResultSet tulos) throws SQLException {
+        this.id = tulos.getInt("id");
+        this.tunnus = tulos.getString("tunnus");
+        this.salasana = tulos.getString("salasana");
+    }
+    
+    public Tyontekija(int id, String tunnus, String salasana){
+        this.id = id;
+        this.tunnus = tunnus;
+        this.salasana = salasana;
+    }
+    
+    public Tyontekija(String tunnus, String salasana){
+        this.tunnus = tunnus;
+        this.salasana = salasana;
+    }
 
     public static boolean tunnusKaytossa(String tunnus) throws SQLException {
         String sql = "SELECT * FROM tyontekija WHERE tunnus = ?";
@@ -97,9 +114,7 @@ public class Tyontekija {
     public int lisaaTyontekija() throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
-        //PreparedStatement kysely2 = null;
         ResultSet tulokset = null;
-        //ResultSet tulokset2 = null;
 
         try {
             String sql = "INSERT INTO tyontekija(tunnus, salasana) VALUES(?,?) RETURNING id";
@@ -129,6 +144,46 @@ public class Tyontekija {
             }
         }
         return this.getId();
+    }
+    
+    public void poistaTunnukset() throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        try {
+            String sql = "DELETE FROM tyontekija WHERE id = ?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setInt(1, this.getId());
+            kysely.execute();
+        } finally {
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public void muokkaaTunnuksia() throws Exception {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        
+        try {
+            String sql = "UPDATE tyontekija SET tunnus=?, salasana=? WHERE id=?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setString(1, this.getTunnus());
+            kysely.setString(2, this.getSalasana());
+            kysely.setInt(3, this.getId());
+            
+            kysely.executeUpdate();
+        } finally {
+            kysely.close();
+            yhteys.close();
+        }
     }
 
     /**

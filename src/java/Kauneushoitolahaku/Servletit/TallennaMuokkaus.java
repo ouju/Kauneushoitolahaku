@@ -4,6 +4,8 @@
  */
 package Kauneushoitolahaku.Servletit;
 
+import Kauneushoitolahaku.Mallit.Tarjonnat;
+import Kauneushoitolahaku.Mallit.Tarjonta_yritys;
 import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,6 +59,32 @@ public class TallennaMuokkaus extends HttpServlet {
         yritys.setOsoite(request.getParameter("osoite"));
         yritys.setKotisivut(request.getParameter("kotisivut"));
         yritys.setKuvaus(request.getParameter("kuvaus"));
+        Tarjonta_yritys.nollaaYrityksenTarjonta(yritys);
+        
+        if (request.getParameter("hieronta") != null) {
+                //yritys.setTarjonta_id(1);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(1);
+                Tarjonta_yritys.lisaa(yritys, tarjonta);
+            }
+            if (request.getParameter("hiukset") != null) {
+                //yritys.setTarjonta_id(2);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(2);
+                Tarjonta_yritys.lisaa(yritys, tarjonta);
+            }
+            if (request.getParameter("kasvot") != null) {
+                //yritys.setTarjonta_id(3);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(3);
+                Tarjonta_yritys.lisaa(yritys, tarjonta);
+            }
+            if (request.getParameter("kynnet") != null) {
+                //yritys.setTarjonta_id(4);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(4);
+                Tarjonta_yritys.lisaa(yritys, tarjonta);
+            }
         
         yritys.muokkaaYritysta();
         

@@ -29,7 +29,7 @@ public class Yritykset {
     private String sijainti;
     private String kotisivut;
     private String kuvaus;
-    private int tarjonta_id;
+    //private int tarjonta_id;
     private int tyontekija_id;
     private Map<String, String> virheet = new HashMap<String, String>();
 
@@ -57,7 +57,7 @@ public class Yritykset {
         this.tyontekija_id = tyontekija_id;
     }
 
-    public Yritykset(int id, String nimi, String hintataso, String sijainti, String osoite, String kotisivut, String kuvaus, int tarjonta_id) {
+    public Yritykset(int id, String nimi, String hintataso, String sijainti, String osoite, String kotisivut, String kuvaus) {
         this.id = id;
         this.nimi = nimi;
         this.hintataso = hintataso;
@@ -65,7 +65,7 @@ public class Yritykset {
         this.osoite = osoite;
         this.kotisivut = kotisivut;
         this.kuvaus = kuvaus;
-        this.tarjonta_id = tarjonta_id;
+        //this.tarjonta_id = tarjonta_id;
     }
 
     public static ArrayList<Yritykset> haeTunnuksella(int tyontekija_id) throws Exception {
@@ -295,7 +295,6 @@ public class Yritykset {
             ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
-                //y.setId(tulokset.getInt("id"));
                 y.setNimi(tulokset.getString("nimi"));
                 lista.add(y);
             }
@@ -369,9 +368,9 @@ public class Yritykset {
             kysely.setString(2, yritys.getHintataso());
             kysely.setString(3, yritys.getSijainti());
             kysely.setString(4, yritys.getOsoite());
-            kysely.setString(4, yritys.getKotisivut());
-            kysely.setString(5, yritys.getKuvaus());
-            kysely.setInt(6, yritys.getTyontekija_id());
+            kysely.setString(5, yritys.getKotisivut());
+            kysely.setString(6, yritys.getKuvaus());
+            kysely.setInt(7, yritys.getTyontekija_id());
             tulokset = kysely.executeQuery();
             tulokset.next();
             yritys.id = tulokset.getInt(1);
@@ -520,19 +519,19 @@ public class Yritykset {
         this.tunnus = tunnus;
     }
 
-    /**
-     * @return the tarjonta_id
-     */
-    public int getTarjonta_id() {
-        return tarjonta_id;
-    }
-
-    /**
-     * @param tarjonta_id the tarjonta_id to set
-     */
-    public void setTarjonta_id(int tarjonta_id) {
-        this.tarjonta_id = tarjonta_id;
-    }
+//    /**
+//     * @return the tarjonta_id
+//     */
+//    public int getTarjonta_id() {
+//        return tarjonta_id;
+//    }
+//
+//    /**
+//     * @param tarjonta_id the tarjonta_id to set
+//     */
+//    public void setTarjonta_id(int tarjonta_id) {
+//        this.tarjonta_id = tarjonta_id;
+//    }
 
     /**
      * @return the tyontekija_id

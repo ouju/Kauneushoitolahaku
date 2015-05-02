@@ -48,6 +48,14 @@
         <servlet-name>Rekisteroityminen</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.Rekisteroityminen</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TunnustenMuokkaus</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.TunnustenMuokkaus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TunnustenPoisto</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.TunnustenPoisto</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
         <url-pattern>/Servletti</url-pattern>
@@ -95,6 +103,14 @@
     <servlet-mapping>
         <servlet-name>Rekisteroityminen</servlet-name>
         <url-pattern>/Rekisteroityminen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TunnustenMuokkaus</servlet-name>
+        <url-pattern>/TunnustenMuokkaus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TunnustenPoisto</servlet-name>
+        <url-pattern>/TunnustenPoisto</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

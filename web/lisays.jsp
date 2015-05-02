@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label>Kotisivut</label><br>
-                <input type="text" name="kotisivut" class="form-control">
+                <input type="text" name="kotisivut" class="form-control" value="http://">
             </div>
             <div class="form-group">
                 <label>Kuvaus</label><br>
@@ -55,11 +55,6 @@
             <input type="checkbox" name="kasvot" value="kasvot">Kasvot
             <br>
             <input type="checkbox" name="kynnet" value="kynnet">Kynnet
-            <!--<select name="tarjonta_id">
-                <c:forEach var="tarjonta" items="${tarjonnat}">
-                    <option value="${tarjonta.id}">${tarjonta.nimi}</option>
-                </c:forEach>
-            </select>-->
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Tallenna</button>
             </div>

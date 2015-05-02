@@ -61,25 +61,25 @@ public class Lisays extends HttpServlet {
             int id = uusi.lisaaYritys(uusi);
             
             if (request.getParameter("hieronta") != null) {
-                uusi.setTarjonta_id(1);
+                //uusi.setTarjonta_id(1);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(1);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
             if (request.getParameter("hiukset") != null) {
-                uusi.setTarjonta_id(2);
+                //uusi.setTarjonta_id(2);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(2);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
             if (request.getParameter("kasvot") != null) {
-                uusi.setTarjonta_id(3);
+                //uusi.setTarjonta_id(3);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(3);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
             if (request.getParameter("kynnet") != null) {
-                uusi.setTarjonta_id(4);
+                //uusi.setTarjonta_id(4);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(4);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);

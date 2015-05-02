@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,15 +25,15 @@
 
                 <li><strong>Hintataso:</strong> <c:out value="${yritys.hintataso}"/></li>
 
-                <li><strong>Sijainti:</strong> ${yritys.sijainti}</li>
+                <li><strong>Sijainti:</strong> <c:out value="${yritys.sijainti}"/></li>
                 <li><strong>Osoite:</strong> <c:out value="${yritys.osoite}"/></li>
                 <li>
-                    <strong>Tarjonta:</strong> ${tarjonnat}
-                    <!--ul>
+                    <strong>Tarjonta:</strong>
+                    <ul>
                         <c:forEach var="tarjonta" items="${tarjonnat}">
-                            <li>${tarjonta.nimi}</li>
-                        </c:foreach>
-                    </ul-->
+                            <li>${tarjonta}</li>
+                        </c:forEach>
+                    </ul>
 
                 </li>
             </ul>

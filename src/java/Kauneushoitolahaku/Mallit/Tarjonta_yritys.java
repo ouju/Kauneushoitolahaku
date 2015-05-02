@@ -16,49 +16,30 @@ import java.util.ArrayList;
  * @author Outi
  */
 public class Tarjonta_yritys {
-    
+
     private int id;
     private int tarjonta_id;
     private int yritys_id;
-    
-    public Tarjonta_yritys(){
-        
+
+    public Tarjonta_yritys() {
     }
-    public Tarjonta_yritys(int id, int tarjonta_id, int yritys_id){
+
+    public Tarjonta_yritys(int id, int tarjonta_id, int yritys_id) {
         this.id = id;
         this.tarjonta_id = tarjonta_id;
         this.yritys_id = yritys_id;
     }
-    
-    public static ArrayList<String> haeYrityksenTarjonta(Yritykset yritys) throws SQLException{
+
+    public static void nollaaYrityksenTarjonta(Yritykset yritys) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
         try {
-            String sql = "SELECT tarjonta_id FROM tarjonta_yritys WHERE yritys_id=?";
+            String sql = "DELETE FROM tarjonta_yritys WHERE yritys_id=?";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setInt(1, yritys.getId());
-            tulokset = kysely.executeQuery();
-            //tulokset.next();
-            //int id = tulokset.getInt(1);
-            
-            ArrayList<String> lista = new ArrayList<String>();
-            //int x = 1;
-            while (tulokset.next()) {
-                
-                String tarjonta = Tarjonnat.haeId(tulokset.getInt(1)).getNimi();
-                
-                lista.add(tarjonta);
-                //x++;
-                //tulokset.next();
-//                Yritykset y = new Yritykset();
-//                y.setId(tulokset.getInt("id"));
-//                y.setNimi(tulokset.getString("nimi"));
-//                lista.add(y);
-            }
-            return lista;
-            
+            kysely.execute();
         } finally {
             try {
                 tulokset.close();
@@ -74,8 +55,42 @@ public class Tarjonta_yritys {
             }
         }
     }
-    
-    public static void lisaa(Yritykset yritys, Tarjonnat tarjonta) throws SQLException{
+
+    public static ArrayList<String> haeYrityksenTarjonta(Yritykset yritys) throws SQLException {
+        Connection yhteys = null;
+        PreparedStatement kysely = null;
+        ResultSet tulokset = null;
+        try {
+            String sql = "SELECT tarjonta_id FROM tarjonta_yritys WHERE yritys_id=?";
+            yhteys = Yhteys.getYhteys();
+            kysely = yhteys.prepareStatement(sql);
+            kysely.setInt(1, yritys.getId());
+            tulokset = kysely.executeQuery();
+
+            ArrayList<String> lista = new ArrayList<String>();
+            while (tulokset.next()) {
+                String tarjonta = Tarjonnat.haeId(tulokset.getInt(1)).getNimi();
+                lista.add(tarjonta);
+            }
+            return lista;
+
+        } finally {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public static void lisaa(Yritykset yritys, Tarjonnat tarjonta) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
@@ -102,10 +117,6 @@ public class Tarjonta_yritys {
             } catch (Exception e) {
             }
         }
-    }
-    
-    public static void muokkaaTarjontaa(){
-        
     }
 
     /**
