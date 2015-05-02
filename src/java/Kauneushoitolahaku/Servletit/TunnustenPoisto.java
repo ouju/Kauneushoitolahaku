@@ -5,9 +5,7 @@
 package Kauneushoitolahaku.Servletit;
 
 import Kauneushoitolahaku.Mallit.Tyontekija;
-import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -37,18 +35,22 @@ public class TunnustenPoisto extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        
-        if(session.getAttribute("tunnus")==null){
+
+        if (session.getAttribute("tunnus") == null) {
             response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
         }
-        
+
         Tyontekija tyontekija = new Tyontekija();
-        System.out.println("PAPAPAPA"+request.getParameter("id"));
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = (Integer) session.getAttribute("tyontekija_id");
         tyontekija.setId(id);
         
-        tyontekija.poistaTunnukset();
-        response.sendRedirect("/Kauneushoitolahaku/index.jsp");
+        if (tyontekija.omistaakoYrityksia()) {
+            session.setAttribute("ilmoitus", "Poista ensin hallitsemasi yritykset!");
+            response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
+        } else {
+            tyontekija.poistaTunnukset();
+            response.sendRedirect("/Kauneushoitolahaku/index.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

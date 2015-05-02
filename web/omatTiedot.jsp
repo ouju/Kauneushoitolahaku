@@ -19,9 +19,6 @@
                 <a style ="margin-left: 84%;" href="TunnustenPoisto" class="btn btn-danger">Poista tunnukset</a>
 
                 <legend>Käyttäjän ${tunnus} tiedot</legend>
-                <c:if test="${ilmoitus != null}">
-                    <div class="alert alert-info">${ilmoitus}</div>
-                </c:if>
 
                 <div class="control-group">
                     <label class="control-label" for="tunnus">Käyttäjätunnus</label>

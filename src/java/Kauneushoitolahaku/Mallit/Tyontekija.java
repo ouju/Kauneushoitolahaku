@@ -185,6 +185,44 @@ public class Tyontekija {
             yhteys.close();
         }
     }
+    
+    public boolean omistaakoYrityksia() throws SQLException{
+        String sql = "SELECT * FROM yritys, tyontekija WHERE tyontekija_id = ? AND tyontekija_id=tyontekija.id";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setInt(1, id);
+        ResultSet tulokset = kysely.executeQuery();
+
+        if (tulokset.next()) {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+            return true;
+        } else {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+            return false;
+        }
+    }
 
     /**
      * @return the id

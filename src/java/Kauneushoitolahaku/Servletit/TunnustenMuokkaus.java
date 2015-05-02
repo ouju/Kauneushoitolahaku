@@ -4,12 +4,8 @@
  */
 package Kauneushoitolahaku.Servletit;
 
-import Kauneushoitolahaku.Mallit.Tarjonnat;
-import Kauneushoitolahaku.Mallit.Tarjonta_yritys;
 import Kauneushoitolahaku.Mallit.Tyontekija;
-import Kauneushoitolahaku.Mallit.Yritykset;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -49,14 +45,15 @@ public class TunnustenMuokkaus extends HttpServlet {
 
         Tyontekija tyontekija = new Tyontekija();
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = (Integer)session.getAttribute("tyontekija_id");
+        String tunnus = (String)session.getAttribute("tunnus");
         tyontekija.setId(id);
         tyontekija.setTunnus(request.getParameter("tunnus"));
         tyontekija.setSalasana(request.getParameter("salasana"));
 
         if (tyontekija.getTunnus() != null && !tyontekija.getTunnus().isEmpty()
                 && tyontekija.getSalasana() != null && !tyontekija.getSalasana().isEmpty()
-                && !Tyontekija.tunnusKaytossa(tyontekija.getTunnus())) {
+                && (tyontekija.getTunnus().equals(tunnus) || !Tyontekija.tunnusKaytossa(tyontekija.getTunnus()))) {
             tyontekija.muokkaaTunnuksia();
             session.setAttribute("ilmoitus", "Tunnuksia muokattu onnistuneesti.");
             response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
