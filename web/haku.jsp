@@ -37,10 +37,10 @@
                         <input type="text" name="haeSijainti">
                     
                         <label>Hae tarjontaa:</label>
-                        <input type="checkbox" name="tarjonnat" value="hieronta">Hieronta
-                        <input type="checkbox" name="tarjonnat" value="hiukset">Hiukset
-                        <input type="checkbox" name="tarjonnat" value="kasvot">Kasvot
-                        <input type="checkbox" name="tarjonnat" value="kynnet">Kynnet
+                        <input type="checkbox" name="hieronta" value="hieronta">Hieronta
+                        <input type="checkbox" name="hiukset" value="hiukset">Hiukset
+                        <input type="checkbox" name="kasvot" value="kasvot">Kasvot
+                        <input type="checkbox" name="kynnet" value="kynnet">Kynnet
                     
                     <button type="submit" class="btn btn-primary">Hae</button>
                 </form>

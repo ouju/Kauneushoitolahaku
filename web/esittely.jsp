@@ -17,15 +17,15 @@
             <h1>${yritys.nimi}</h1>
             <!-- Painikkeet tähän -->
             <p>
-                <a href="http://www.kuvitteleyrityksenkotisivuttahan.fi/" class="btn btn-default">Kotisivuille</a>
+                <a href="${yritys.kotisivut}" class="btn btn-default">Kotisivuille</a>
             </p>
             <!-- Tiedot tulee listana tähän -->
             <ul>
 
-                <li><strong>Hintataso:</strong> ${yritys.hintataso}</li>
+                <li><strong>Hintataso:</strong> <c:out value="${yritys.hintataso}"/></li>
 
                 <li><strong>Sijainti:</strong> ${yritys.sijainti}</li>
-                <li><strong>Osoite:</strong> ${yritys.osoite}</li>
+                <li><strong>Osoite:</strong> <c:out value="${yritys.osoite}"/></li>
                 <li>
                     <strong>Tarjonta:</strong> ${tarjonnat}
                     <!--ul>

@@ -27,9 +27,43 @@ public class Tyontekija {
     public Tyontekija() {
     }
 
-//    public boolean tunnusEiKaytossa() {
-//        return true;
-//    }
+    public static boolean tunnusKaytossa(String tunnus) throws SQLException {
+        String sql = "SELECT * FROM tyontekija WHERE tunnus = ?";
+        Connection yhteys = Yhteys.getYhteys();
+        PreparedStatement kysely = yhteys.prepareStatement(sql);
+        kysely.setString(1, tunnus);
+        ResultSet tulokset = kysely.executeQuery();
+
+        if (tulokset.next()) {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+            return true;
+        } else {
+            try {
+                tulokset.close();
+            } catch (Exception e) {
+            }
+            try {
+                kysely.close();
+            } catch (Exception e) {
+            }
+            try {
+                yhteys.close();
+            } catch (Exception e) {
+            }
+            return false;
+        }
+    }
 
     public static int etsiTunnuksella(String tunnus) throws SQLException {
         String sql = "SELECT id FROM tyontekija WHERE tunnus = ?";
@@ -121,11 +155,13 @@ public class Tyontekija {
     /**
      * @param tunnus the tunnus to set
      */
-    public void setTunnus(String tunnus) {
+    public void setTunnus(String tunnus) throws SQLException {
         this.tunnus = tunnus;
 
         if (tunnus.trim().length() == 0) {
             virheet.put(tunnus, "Aseta käyttäjätunnus!");
+        } else if (tunnusKaytossa(tunnus)) {
+            virheet.put(tunnus, "Tunnus on jo käytössä!");
         } else {
             virheet.remove("tunnus");
         }

@@ -18,7 +18,7 @@
             <input type="hidden" name="id" value="${yritys.id}">
             <div class="form-group">
                 <label>Nimi</label><br>
-                <input type="text" name="nimi" class="form-control" value="${yritys.nimi}">
+                <input type="text" name="nimi" class="form-control" <c:out value="${yritys.nimi}"/>
             </div>
             <div class="form-group">
                 <label>Hintataso</label><br>
@@ -36,6 +36,10 @@
             <div class="form-group">
                 <label>Osoite</label><br>
                 <input type="text" name="osoite" class="form-control" value="${yritys.osoite}">
+            </div>
+            <div class="form-group">
+                <label>Kotisivut</label><br>
+                <input type="text" name="kotisivut" class="form-control" value="${yritys.kotisivut}">
             </div>
             <div class="form-group">
                 <label>Kuvaus</label><br>

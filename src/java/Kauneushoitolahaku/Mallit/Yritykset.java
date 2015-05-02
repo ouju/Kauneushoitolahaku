@@ -5,16 +5,15 @@
 package Kauneushoitolahaku.Mallit;
 
 import Kauneushoitolahaku.Tietokanta.Yhteys;
-import java.util.List;
-import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import javax.naming.NamingException;
 
 /**
  *
@@ -28,6 +27,7 @@ public class Yritykset {
     private String hintataso;
     private String osoite;
     private String sijainti;
+    private String kotisivut;
     private String kuvaus;
     private int tarjonta_id;
     private int tyontekija_id;
@@ -43,46 +43,30 @@ public class Yritykset {
         this.sijainti = tulos.getString("sijainti");
         this.osoite = tulos.getString("osoite");
         this.kuvaus = tulos.getString("kuvaus");
+        this.kotisivut = tulos.getString("kotisivut");
         //this.tarjonta_id = tulos.getInt("tarjonta_id");
     }
 
-    public Yritykset(String nimi, String hintataso, String sijainti, String osoite, String kuvaus, int tyontekija_id) {
+    public Yritykset(String nimi, String hintataso, String sijainti, String osoite, String kotisivut, String kuvaus, int tyontekija_id) {
         this.nimi = nimi;
         this.hintataso = hintataso;
         this.sijainti = sijainti;
         this.osoite = osoite;
+        this.kotisivut = kotisivut;
         this.kuvaus = kuvaus;
         this.tyontekija_id = tyontekija_id;
     }
 
-    public Yritykset(int id, String nimi, String hintataso, String sijainti, String osoite, String kuvaus, int tarjonta_id) {
+    public Yritykset(int id, String nimi, String hintataso, String sijainti, String osoite, String kotisivut, String kuvaus, int tarjonta_id) {
         this.id = id;
         this.nimi = nimi;
         this.hintataso = hintataso;
         this.sijainti = sijainti;
         this.osoite = osoite;
+        this.kotisivut = kotisivut;
         this.kuvaus = kuvaus;
         this.tarjonta_id = tarjonta_id;
     }
-
-//    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite) {
-//
-//        this.nimi = nimi;
-//        this.tunnus = tunnus;
-//        this.hintataso = hintataso;
-//        this.sijainti = sijainti;
-//        this.osoite = osoite;
-//    }
-//
-//    public Yritykset(String nimi, String tunnus, String hintataso, String sijainti, String osoite, String kuvaus) {
-//
-//        this.nimi = nimi;
-//        this.tunnus = tunnus;
-//        this.hintataso = hintataso;
-//        this.sijainti = sijainti;
-//        this.osoite = osoite;
-//        this.kuvaus = kuvaus;
-//    }
 
     public static ArrayList<Yritykset> haeTunnuksella(int tyontekija_id) throws Exception {
         Connection yhteys = null;
@@ -101,9 +85,10 @@ public class Yritykset {
                 String hintataso = tulokset.getString("hintataso");
                 String sijainti = tulokset.getString("sijainti");
                 String osoite = tulokset.getString("osoite");
+                String kotisivut = tulokset.getString("kotisivut");
                 String kuvaus = tulokset.getString("kuvaus");
                 int id = tulokset.getInt("id");
-                yritys = new Yritykset(nimi, hintataso, sijainti, osoite, kuvaus, tyontekija_id);
+                yritys = new Yritykset(nimi, hintataso, sijainti, osoite, kotisivut, kuvaus, tyontekija_id);
                 yritys.setId(id);
                 y.add(yritys);
             }
@@ -294,23 +279,23 @@ public class Yritykset {
 
     }
 
-    public static List<Yritykset> haeTarjontaa(String tarjonta)
+    public static List<Yritykset> haeTarjontaa(int tarjonta_id)
             throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
 
         try {
-            String sql = "SELECT * FROM yritys WHERE tarjonta_id = ? ORDER BY nimi";
+            String sql = "SELECT yritys.nimi FROM tarjonta_yritys, yritys WHERE tarjonta_id = ? AND yritys_id=yritys.id ORDER BY nimi";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
-            kysely.setString(1, tarjonta);
+            kysely.setInt(1, tarjonta_id);
             tulokset = kysely.executeQuery();
 
             ArrayList<Yritykset> lista = new ArrayList<Yritykset>();
             while (tulokset.next()) {
                 Yritykset y = new Yritykset();
-                y.setId(tulokset.getInt("id"));
+                //y.setId(tulokset.getInt("id"));
                 y.setNimi(tulokset.getString("nimi"));
                 lista.add(y);
             }
@@ -377,13 +362,14 @@ public class Yritykset {
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
         try {
-            String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, osoite, kuvaus, tyontekija_id) VALUES(?,?,?,?,?,?) RETURNING id";
+            String sql = "INSERT INTO yritys(nimi, hintataso, sijainti, osoite, kotisivut, kuvaus, tyontekija_id) VALUES(?,?,?,?,?,?,?) RETURNING id";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setString(1, yritys.getNimi());
             kysely.setString(2, yritys.getHintataso());
             kysely.setString(3, yritys.getSijainti());
             kysely.setString(4, yritys.getOsoite());
+            kysely.setString(4, yritys.getKotisivut());
             kysely.setString(5, yritys.getKuvaus());
             kysely.setInt(6, yritys.getTyontekija_id());
             tulokset = kysely.executeQuery();
@@ -439,16 +425,16 @@ public class Yritykset {
         PreparedStatement kysely = null;
         
         try {
-            String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kuvaus=? WHERE id=?";
+            String sql = "UPDATE yritys SET nimi=?, hintataso=?, sijainti=?, osoite=?, kotisivut=?, kuvaus=? WHERE id=?";
             yhteys = Yhteys.getYhteys();
             kysely = yhteys.prepareStatement(sql);
             kysely.setString(1, this.getNimi());
             kysely.setString(2, this.getHintataso());
             kysely.setString(3, this.getSijainti());
             kysely.setString(4, this.getOsoite());
-            kysely.setString(5, this.getKuvaus());
-            //kysely.setInt(6, this.getTarjonta_id());
-            kysely.setInt(6, this.getId());
+            kysely.setString(5, this.getKotisivut());
+            kysely.setString(6, this.getKuvaus());
+            kysely.setInt(7, this.getId());
             
             kysely.executeUpdate();
         } finally {
@@ -456,33 +442,6 @@ public class Yritykset {
             yhteys.close();
         }
     }
-    /*
-     public static int lukumaara() throws NamingException, SQLException {
-     String sql = "SELECT count(*) as lkm FROM yritys";
-     Connection yhteys = Yhteys.getYhteys();
-     PreparedStatement kysely = yhteys.prepareStatement(sql);
-     ResultSet tulokset = kysely.executeQuery();
-
-     tulokset.next();
-     int lkm = tulokset.getInt("lkm");
-
-     //Suljetaan kaikki resurssit:
-     try {
-     tulokset.close();
-     } catch (Exception e) {
-     }
-     try {
-     kysely.close();
-     } catch (Exception e) {
-     }
-     try {
-     yhteys.close();
-     } catch (Exception e) {
-     }
-
-     return lkm;
-     }
-     */
 
     /**
      * Getterit ja setterit
@@ -509,13 +468,6 @@ public class Yritykset {
         }
     }
 
-//    public String getTunnus() {
-//        return this.tunnus;
-//    }
-//
-//    public void setTunnus(String tunnus) {
-//        this.tunnus = tunnus;
-//    }
     public String getOsoite() {
         return this.osoite;
     }
@@ -609,7 +561,18 @@ public class Yritykset {
     public void setVirheet(Map<String, String> virheet) {
         this.virheet = virheet;
     }
+
     /**
-     * Tallentaa yrityksen tietokantaan
+     * @return the kotisivut
      */
+    public String getKotisivut() {
+        return kotisivut;
+    }
+
+    /**
+     * @param kotisivut the kotisivut to set
+     */
+    public void setKotisivut(String kotisivut) {
+        this.kotisivut = kotisivut;
+    }
 }

@@ -49,6 +49,7 @@ public class Lisays extends HttpServlet {
         uusi.setHintataso(request.getParameter("hintataso"));
         uusi.setSijainti(request.getParameter("sijainti"));
         uusi.setOsoite(request.getParameter("osoite"));
+        uusi.setKotisivut(request.getParameter("kotisivut"));
         uusi.setKuvaus(request.getParameter("kuvaus"));
         int tyontekija = (Integer) session.getAttribute("tyontekija_id");
         uusi.setTyontekija_id(tyontekija);
@@ -60,15 +61,15 @@ public class Lisays extends HttpServlet {
             int id = uusi.lisaaYritys(uusi);
             
             if (request.getParameter("hieronta") != null) {
-                uusi.setTarjonta_id(2);
-                Tarjonnat tarjonta = new Tarjonnat();
-                tarjonta.setId(2);
-                Tarjonta_yritys.lisaa(uusi, tarjonta);
-            }
-            if (request.getParameter("hiukset") != null) {
                 uusi.setTarjonta_id(1);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(1);
+                Tarjonta_yritys.lisaa(uusi, tarjonta);
+            }
+            if (request.getParameter("hiukset") != null) {
+                uusi.setTarjonta_id(2);
+                Tarjonnat tarjonta = new Tarjonnat();
+                tarjonta.setId(2);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
             if (request.getParameter("kasvot") != null) {
@@ -96,25 +97,8 @@ public class Lisays extends HttpServlet {
             request.setAttribute("yritys", uusi);
             naytaJSP("lisays.jsp", request, response);
         }
-        // } finally {
-        //     out.close();
-        // }
     }
-    /*
-     public void haeIlmoitus(HttpServletRequest request) {
-     HttpSession session = request.getSession();
-     String ilmoitus = (String) session.getAttribute("ilmoitus");
-
-     if (ilmoitus != null) {
-     // Samalla kun viesti haetaan, se poistetaan istunnosta,
-     // ettei se näkyisi myöhemmin jollain toisella sivulla uudestaan.
-     session.removeAttribute("ilmoitus");
-
-     request.setAttribute("ilmoitus", ilmoitus);
-     }
-     }
-     */
-
+    
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
         dispatcher.forward(request, response);

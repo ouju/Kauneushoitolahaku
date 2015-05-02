@@ -35,7 +35,6 @@
                     <th>Hintataso</th>
                     <th>Sijainti</th>
                     <th>Osoite</th>
-                    <th>Tarjonta</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -49,12 +48,11 @@
                     <tr>
 
                         <td>
-                            <a href="Esittely?id=${yritys.id}">${yritys.nimi}</a>
+                            <a href="Esittely?id=${yritys.id}"><c:out value="${yritys.nimi}"/></a>
                         </td>
                         <td>${yritys.hintataso}</td>
-                        <td>${yritys.sijainti}</td>
-                        <td>${yritys.osoite}</td>
-                        <td>${yritys.tarjonta_id}</td>
+                        <td><c:out value="${yritys.sijainti}"/></td>
+                        <td><c:out value="${yritys.osoite}"/></td>
                         <td>
                             <form action="muokkaus" method="post">
                                 <input type="hidden" value="${yritys.id}" name="id"></input>
@@ -62,6 +60,7 @@
                                 <input type="hidden" value="${yritys.hintataso}" name="hintataso"></input>
                                 <input type="hidden" value="${yritys.sijainti}" name="sijainti"></input>
                                 <input type="hidden" value="${yritys.osoite}" name="osoite"></input>
+                                <input type="hidden" value="${yritys.kotisivut}" name="kotisivut"></input>
                                 <input type="hidden" value="${yritys.kuvaus}" name="kuvaus"></input>
                                 <input type="hidden" value="${yritys.tarjonta_id}" name="tarjonta"></input>
                                 <input value="Muokkaa" name="Muokkaa" type="submit"></input>

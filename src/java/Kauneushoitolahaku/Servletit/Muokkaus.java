@@ -51,6 +51,7 @@ public class Muokkaus extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
         } catch (Exception e) {
             //Virhetilanne. Näytetään käyttäjälle virhe.
+            System.out.println("Virhe!");
         }
 
         Yritykset yritys = new Yritykset();
@@ -60,6 +61,7 @@ public class Muokkaus extends HttpServlet {
         yritys.setHintataso(request.getParameter("hintataso"));
         yritys.setSijainti(request.getParameter("sijainti"));
         yritys.setOsoite(request.getParameter("osoite"));
+        yritys.setKotisivut(request.getParameter("kotisivut"));
         yritys.setKuvaus(request.getParameter("kuvaus"));
         
 //        yritys.muokkaaYritysta();

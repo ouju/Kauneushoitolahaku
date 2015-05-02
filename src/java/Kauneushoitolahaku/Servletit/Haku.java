@@ -46,18 +46,25 @@ public class Haku extends HttpServlet {
         String hakuNimella = request.getParameter("haeNimella");
         String hakuHinnalla = request.getParameter("haeHintataso");
         String hakuSijainnilla = request.getParameter("haeSijainti");
-        String hakuTarjonnalla = request.getParameter("haeTarjontaa");
+//        String hakuTarjonnalla = request.getParameter("haeTarjontaa");
+//        System.out.println("OOOOPPPP"+hakuTarjonnalla);
         List<Yritykset> y = new ArrayList();
         int lkm = 0;
-
+        System.out.println("HOHOHOH"+request.getAttribute("hiukset"));
         if (hakuNimella != null && hakuNimella.length() > 0) {
             y = Yritykset.haeNimella(hakuNimella);
-        } else if (hakuSijainnilla!= null && hakuSijainnilla.length() > 0) {
+        } else if (hakuSijainnilla != null && hakuSijainnilla.length() > 0) {
             y = Yritykset.haeSijainti(hakuSijainnilla);
-        } else if (hakuHinnalla!= null && hakuHinnalla.length() > 0) {
+        } else if (hakuHinnalla != null && hakuHinnalla.length() > 0) {
             y = Yritykset.haeHintataso(hakuHinnalla);
-        } else if (hakuTarjonnalla!= null && hakuTarjonnalla.length() > 0) {
-            y = Yritykset.haeTarjontaa(hakuTarjonnalla);
+        } else if (request.getParameter("hieronta") != null) {
+            y = Yritykset.haeTarjontaa(1);
+        } else if (request.getParameter("hiukset") != null) {
+            y = Yritykset.haeTarjontaa(2);
+        } else if (request.getParameter("kasvot") != null) {
+            y = Yritykset.haeTarjontaa(3);
+        } else if (request.getParameter("kynnet") != null) {
+            y = Yritykset.haeTarjontaa(4);
         } else {
             y = Yritykset.kaikkiYritykset();
         }

@@ -40,32 +40,16 @@ public class Esittely extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        /*ArrayList<Yritykset> yritys = Yritykset.haeYritys((String)session.getAttribute("tunnus"));
-         System.out.println((String)session.getAttribute("tunnus"));*/
-        // String idParam = request.getParameter("id");
-//        int id;
-//        try {
-//            id = Integer.parseInt(request.getParameter("id"));
-//        } catch (Exception e) {
-//            id = 0;
-//        }
+        
         Yritykset yritys = new Yritykset();
-        //System.out.println("TÄTÄTÄTÄ" + id + request.getParameter("nimi"));
         
         int id = Integer.parseInt(request.getParameter("id"));
         yritys.setId(id);
         yritys = yritys.haeYritysId(id);
-//        yritys.setNimi(yritys.getNimi());
-//        yritys.setHintataso(request.getParameter("hintataso"));
-//        yritys.setSijainti(request.getParameter("sijainti"));
-//        yritys.setOsoite(request.getParameter("osoite"));
-//        yritys.setKuvaus(request.getParameter("kuvaus"));
 
         request.setAttribute("yritys", yritys);
         request.setAttribute("tarjonnat", Tarjonta_yritys.haeYrityksenTarjonta(yritys));
         naytaJSP("esittely.jsp", request, response);
-
-        //response.sendRedirect("/Kauneushoitolahaku/Tarjonta");
     }
 
     public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
