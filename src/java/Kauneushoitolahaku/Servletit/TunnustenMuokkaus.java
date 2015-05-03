@@ -62,14 +62,14 @@ public class TunnustenMuokkaus extends HttpServlet {
 
             request.setAttribute("virheet", virheet);
             request.setAttribute("yritys", tyontekija);
-            naytaJSP("omatTiedot.jsp", request, response);
+            Apuservlet.naytaJSP("omatTiedot.jsp", request, response);
         }
     }
 
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-    }
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

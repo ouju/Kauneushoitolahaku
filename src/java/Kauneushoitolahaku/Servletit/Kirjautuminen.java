@@ -33,11 +33,11 @@ public class Kirjautuminen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//
+//    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -45,16 +45,11 @@ public class Kirjautuminen extends HttpServlet {
         String salasana = request.getParameter("salasana");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-//        if (tunnus == null || tunnus.isEmpty() || salasana == null) {
-//            request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.");
-//            naytaJSP("kirjautuminen.jsp", request, response);
-//            return;
-//        }
 
         //Tarkistetaan että vaaditut kentät on täytetty:
         if ( tunnus == null ||tunnus.isEmpty() || tunnus.equals("")) {
             request.setAttribute("virheViesti", "Kirjaudu sisään antamalla käyttäjätunnus ja salasana!");
-            naytaJSP("kirjautuminen.jsp", request, response);
+            Apuservlet.naytaJSP("kirjautuminen.jsp", request, response);
             return;
         }
 
@@ -62,14 +57,13 @@ public class Kirjautuminen extends HttpServlet {
 
         if (salasana == null || salasana.equals("")) {
             request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Et antanut salasanaa.");
-            naytaJSP("kirjautuminen.jsp", request, response);
+            Apuservlet.naytaJSP("kirjautuminen.jsp", request, response);
             return;
         } 
 
 
         boolean yritys = Yritykset.tunnusJaSalasanaOikein(request.getParameter("tunnus"), request.getParameter("salasana"));
         if (yritys) {
-            //Tallennetaan istuntoon käyttäjäolio
             session.setAttribute("tunnus", tunnus);
             System.out.println(tunnus);
             session.setAttribute("tyontekija_id", Tyontekija.etsiTunnuksella(tunnus));
@@ -77,7 +71,7 @@ public class Kirjautuminen extends HttpServlet {
         }else {
             request.setAttribute("virheViesti", "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.");
             //request.setAttribute("kayttaja", kayttaja);
-            naytaJSP("kirjautuminen.jsp", request, response);
+            Apuservlet.naytaJSP("kirjautuminen.jsp", request, response);
         }
     }
 

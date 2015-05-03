@@ -33,11 +33,11 @@ public class TallennaMuokkaus extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//
+//    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         request.setCharacterEncoding("UTF-8");
@@ -61,32 +61,28 @@ public class TallennaMuokkaus extends HttpServlet {
         Tarjonta_yritys.nollaaYrityksenTarjonta(yritys);
         
         if (request.getParameter("hieronta") != null) {
-                //yritys.setTarjonta_id(1);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(1);
                 Tarjonta_yritys.lisaa(yritys, tarjonta);
             }
             if (request.getParameter("hiukset") != null) {
-                //yritys.setTarjonta_id(2);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(2);
                 Tarjonta_yritys.lisaa(yritys, tarjonta);
             }
             if (request.getParameter("kasvot") != null) {
-                //yritys.setTarjonta_id(3);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(3);
                 Tarjonta_yritys.lisaa(yritys, tarjonta);
             }
             if (request.getParameter("kynnet") != null) {
-                //yritys.setTarjonta_id(4);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(4);
                 Tarjonta_yritys.lisaa(yritys, tarjonta);
             }
         
         yritys.muokkaaYritysta();
-        
+        session.setAttribute("ilmoitus", "Yritystä muokattu onnistuneesti!");
         response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
         
     }

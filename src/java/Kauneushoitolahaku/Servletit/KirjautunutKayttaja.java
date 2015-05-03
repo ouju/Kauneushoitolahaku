@@ -45,13 +45,13 @@ public class KirjautunutKayttaja extends HttpServlet {
         ArrayList<Yritykset> yritykset = Yritykset.haeTunnuksella((Integer)session.getAttribute("tyontekija_id"));
         
         request.setAttribute("yritykset", yritykset);
-        naytaJSP("yritys.jsp", request, response);
+        Apuservlet.naytaJSP("yritys.jsp", request, response);
     }
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//
+//    }
 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

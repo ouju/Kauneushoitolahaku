@@ -56,6 +56,10 @@
         <servlet-name>TunnustenPoisto</servlet-name>
         <servlet-class>Kauneushoitolahaku.Servletit.TunnustenPoisto</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Apuservlet</servlet-name>
+        <servlet-class>Kauneushoitolahaku.Servletit.Apuservlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servletti</servlet-name>
         <url-pattern>/Servletti</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>TunnustenPoisto</servlet-name>
         <url-pattern>/TunnustenPoisto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Apuservlet</servlet-name>
+        <url-pattern>/Apuservlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -42,9 +42,8 @@ public class Lisays extends HttpServlet {
         if (session.getAttribute("tunnus") == null) {
             response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
         }
-        //   try {
         Yritykset uusi = new Yritykset();
-        //uusi.setId(request.getParameter("id"));
+        
         uusi.setNimi(request.getParameter("nimi"));
         uusi.setHintataso(request.getParameter("hintataso"));
         uusi.setSijainti(request.getParameter("sijainti"));
@@ -61,25 +60,21 @@ public class Lisays extends HttpServlet {
             int id = uusi.lisaaYritys(uusi);
             
             if (request.getParameter("hieronta") != null) {
-                //uusi.setTarjonta_id(1);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(1);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
             if (request.getParameter("hiukset") != null) {
-                //uusi.setTarjonta_id(2);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(2);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
             if (request.getParameter("kasvot") != null) {
-                //uusi.setTarjonta_id(3);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(3);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
             }
             if (request.getParameter("kynnet") != null) {
-                //uusi.setTarjonta_id(4);
                 Tarjonnat tarjonta = new Tarjonnat();
                 tarjonta.setId(4);
                 Tarjonta_yritys.lisaa(uusi, tarjonta);
@@ -95,15 +90,15 @@ public class Lisays extends HttpServlet {
 
             request.setAttribute("virheet", virheet);
             request.setAttribute("yritys", uusi);
-            naytaJSP("lisays.jsp", request, response);
+            Apuservlet.naytaJSP("lisays.jsp", request, response);
         }
     }
     
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

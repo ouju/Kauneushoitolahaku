@@ -47,13 +47,13 @@ public class Esittely extends HttpServlet {
 
         request.setAttribute("yritys", yritys);
         request.setAttribute("tarjonnat", Tarjonta_yritys.haeYrityksenTarjonta(yritys));
-        naytaJSP("esittely.jsp", request, response);
+        Apuservlet.naytaJSP("esittely.jsp", request, response);
     }
 
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-    }
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

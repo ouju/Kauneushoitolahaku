@@ -22,11 +22,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Haku extends HttpServlet {
 
-    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-        dispatcher.forward(request, response);
-
-    }
+//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
+//        dispatcher.forward(request, response);
+//
+//    }
 
     /**
      * Processes requests for both HTTP
@@ -46,11 +46,10 @@ public class Haku extends HttpServlet {
         String hakuNimella = request.getParameter("haeNimella");
         String hakuHinnalla = request.getParameter("haeHintataso");
         String hakuSijainnilla = request.getParameter("haeSijainti");
-//        String hakuTarjonnalla = request.getParameter("haeTarjontaa");
-//        System.out.println("OOOOPPPP"+hakuTarjonnalla);
+        
         List<Yritykset> y = new ArrayList();
         int lkm = 0;
-        System.out.println("HOHOHOH"+request.getAttribute("hiukset"));
+        
         if (hakuNimella != null && hakuNimella.length() > 0) {
             y = Yritykset.haeNimella(hakuNimella);
         } else if (hakuSijainnilla != null && hakuSijainnilla.length() > 0) {
@@ -68,14 +67,10 @@ public class Haku extends HttpServlet {
         } else {
             y = Yritykset.kaikkiYritykset();
         }
-//        for (Yritykset yritykset : y) {
-//             System.out.println(yritykset.getNimi());
-//        }
-
-        //request.setAttribute("yritykset", y);
+        
         if (y.isEmpty()) {
             request.setAttribute("viesti", "Yrityksiä ei löytynyt");
-            naytaJSP("haku.jsp", request, response);
+            Apuservlet.naytaJSP("haku.jsp", request, response);
         } else {
             lkm = y.size();
             if (lkm == 1) {
@@ -84,7 +79,7 @@ public class Haku extends HttpServlet {
                 request.setAttribute("lkm", "Haulla löytyi seuraavat " + lkm + " yritystä:");
             }
             request.setAttribute("listaus", y);
-            naytaJSP("haku.jsp", request, response);
+            Apuservlet.naytaJSP("haku.jsp", request, response);
         }
 
     }
