@@ -1,9 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Kauneushoitolahaku.Mallit;
 
+import Kauneushoitolahaku.Servletit.Apuservlet;
 import Kauneushoitolahaku.Tietokanta.Yhteys;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Tarjonta-taulukon sql-kyselyt, sekä getterit ja setterit
  *
  * @author Outi
  */
@@ -21,14 +20,30 @@ public class Tarjonnat {
     private int id;
     private String nimi;
 
+    /**
+     * Konstruktori ilman parametrejä
+     *
+     */
     public Tarjonnat() {
     }
 
+    /**
+     *
+     * @param tulos
+     * @throws SQLException
+     */
     public Tarjonnat(ResultSet tulos) throws SQLException {
         this.id = tulos.getInt("id");
         this.nimi = tulos.getString("nimi");
     }
 
+    /**
+     * Hakee tarjonnan nimellä
+     *
+     * @param nimi
+     * @return haetun tarjonnan id
+     * @throws SQLException
+     */
     public static int haeTarjontaaNimella(String nimi) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -45,28 +60,23 @@ public class Tarjonnat {
                 Tarjonnat tarjonnat = new Tarjonnat();
                 tarjonnat.setId(tulokset.getInt("id"));
                 tarjonnat.setNimi(tulokset.getString("nimi"));
-                System.out.println("TÄTÄTÄTTÄÄ "+tarjonnat.getId());
                 return tarjonnat.getId();
             } else {
                 return 000;
             }
 
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely,tulokset,yhteys);
         }
     }
 
+    /**
+     * Hakee tarjonnan id:llä
+     *
+     * @param id
+     * @return Tarjonta-olio
+     * @throws SQLException
+     */
     public static Tarjonnat haeId(int id) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -86,21 +96,16 @@ public class Tarjonnat {
             }
 
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely,tulokset,yhteys);
         }
     }
 
+    /**
+     * Hakee kaiken tarjonnan listana
+     *
+     * @return lista Tarjonnat-taulun sisällöstä
+     * @throws SQLException
+     */
     public static List<Tarjonnat> haeKaikki() throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -121,18 +126,7 @@ public class Tarjonnat {
             return l;
 
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely,tulokset,yhteys);
         }
     }
 

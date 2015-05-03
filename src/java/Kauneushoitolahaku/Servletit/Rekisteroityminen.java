@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Hallinnoi rekisteröitymistä
  *
  * @author Outi
  */
@@ -32,38 +32,33 @@ public class Rekisteroityminen extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws SQLException  
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        
+
         Tyontekija uusi = new Tyontekija();
         uusi.setTunnus(request.getParameter("tunnus"));
         uusi.setSalasana(request.getParameter("salasana"));
-        
-        if (uusi.getTunnus()!=null && !uusi.getTunnus().isEmpty() 
-              && uusi.getSalasana()!=null && !uusi.getSalasana().isEmpty()
-              && !Tyontekija.tunnusKaytossa(uusi.getTunnus())) {
-                uusi.lisaaTyontekija();
-                session.setAttribute("rekisteroity", "Käyttäjä rekisteröity onnistuneesti.");
-                response.sendRedirect("/Kauneushoitolahaku/kirjautuminen.jsp");
-            
-            } else {
-                Collection<String> virheet = uusi.getVirheet();
 
-                request.setAttribute("virheet", virheet);
-                request.setAttribute("yritys", uusi);
-                Apuservlet.naytaJSP("rekisteroidy.jsp", request, response);
-            }
+        if (uusi.getTunnus() != null && !uusi.getTunnus().isEmpty()
+                && uusi.getSalasana() != null && !uusi.getSalasana().isEmpty()
+                && !Tyontekija.tunnusKaytossa(uusi.getTunnus())) {
+            uusi.lisaaTyontekija();
+            session.setAttribute("rekisteroity", "Käyttäjä rekisteröity onnistuneesti.");
+            response.sendRedirect("/Kauneushoitolahaku/kirjautuminen.jsp");
+
+        } else {
+            Collection<String> virheet = uusi.getVirheet();
+
+            request.setAttribute("virheet", virheet);
+            request.setAttribute("yritys", uusi);
+            Apuservlet.naytaJSP("rekisteroidy.jsp", request, response);
+        }
     }
-    
-//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-//        dispatcher.forward(request, response);
-//
-//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

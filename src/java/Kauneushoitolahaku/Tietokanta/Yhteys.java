@@ -13,10 +13,17 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
+ * Ottaa yhteyden tietokantaan
  *
  * @author Outi
  */
 public class Yhteys {
+
+    /**
+     *
+     * @return yhteys
+     * @throws SQLException
+     */
     public static Connection getYhteys() throws SQLException {
         DataSource yhteysVarasto = null;
         try {

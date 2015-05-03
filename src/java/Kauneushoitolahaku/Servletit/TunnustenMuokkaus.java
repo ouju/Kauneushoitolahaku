@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Hallinnoi työntekijän tunnusten muokkausta
  *
  * @author Outi
  */
@@ -32,6 +32,8 @@ public class TunnustenMuokkaus extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws SQLException 
+     * @throws Exception  
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, Exception {
@@ -45,8 +47,8 @@ public class TunnustenMuokkaus extends HttpServlet {
 
         Tyontekija tyontekija = new Tyontekija();
 
-        int id = (Integer)session.getAttribute("tyontekija_id");
-        String tunnus = (String)session.getAttribute("tunnus");
+        int id = (Integer) session.getAttribute("tyontekija_id");
+        String tunnus = (String) session.getAttribute("tunnus");
         tyontekija.setId(id);
         tyontekija.setTunnus(request.getParameter("tunnus"));
         tyontekija.setSalasana(request.getParameter("salasana"));
@@ -65,11 +67,6 @@ public class TunnustenMuokkaus extends HttpServlet {
             Apuservlet.naytaJSP("omatTiedot.jsp", request, response);
         }
     }
-
-//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-//        dispatcher.forward(request, response);
-//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

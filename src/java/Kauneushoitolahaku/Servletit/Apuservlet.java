@@ -5,7 +5,9 @@
 package Kauneushoitolahaku.Servletit;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Toistuva koodi: näkymän näyttäminen ja kyselyn, tulosten 
+ * ja yhteyden sulkeminen
  *
  * @author Outi
  */
@@ -33,9 +37,57 @@ public class Apuservlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
     }
 
+    /**
+     * Näyttää näkymän
+     *
+     * @param sivu
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public static void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
         dispatcher.forward(request, response);
+    }
+
+    /**
+     * Sulkee kyselyn, tulokset ja yhteyden
+     *
+     * @param kysely
+     * @param tulokset
+     * @param yhteys
+     */
+    public static void suljeKTY(PreparedStatement kysely, ResultSet tulokset, Connection yhteys) {
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            tulokset.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
+    }
+
+    /**
+     * Sulkee kyselyn ja yhteyden
+     *
+     * @param kysely
+     * @param yhteys
+     */
+    public static void suljeKY(PreparedStatement kysely, Connection yhteys) {
+        try {
+            kysely.close();
+        } catch (Exception e) {
+        }
+        try {
+            yhteys.close();
+        } catch (Exception e) {
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

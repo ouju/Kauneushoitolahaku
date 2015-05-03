@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Hallinnoi yrityksen poistoa
  *
  * @author Outi
  */
@@ -29,23 +30,25 @@ public class Poisto extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws Exception  
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session = request.getSession(false);
-        
-        if(session.getAttribute("tunnus")==null){
+
+        if (session.getAttribute("tunnus") == null) {
             response.sendRedirect("/Kauneushoitolahaku/kirjautuminen");
         }
-        
+
         Yritykset yritys = new Yritykset();
-        
+
         int id = Integer.parseInt(request.getParameter("id"));
         yritys.setId(id);
-        
+
         yritys.poistaYritys();
+        session.setAttribute("ilmoitus", "Yritys poistettu onnistuneesti.");
         response.sendRedirect("/Kauneushoitolahaku/kirjautunut");
     }
 

@@ -19,7 +19,7 @@
             <div class="form-group" name="nimi" placeholder="Yrityksen nimi" value="${yritys.nimi}">
                 <label>Nimi</label><br>
                 <input type="text" name="nimi" class="form-control"
-                <c:out value="${yritys.nimi}"/>
+                       <c:out value="${yritys.nimi}"/>
             </div>
             <div class="form-group">
                 <label>Hintataso</label><br>

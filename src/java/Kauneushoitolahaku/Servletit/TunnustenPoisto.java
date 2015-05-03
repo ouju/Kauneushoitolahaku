@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Hallinnoi työntekijän tunnusten poistoa
  *
  * @author Outi
  */
@@ -29,6 +30,7 @@ public class TunnustenPoisto extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws Exception  
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
@@ -43,7 +45,7 @@ public class TunnustenPoisto extends HttpServlet {
         Tyontekija tyontekija = new Tyontekija();
         int id = (Integer) session.getAttribute("tyontekija_id");
         tyontekija.setId(id);
-        
+
         if (tyontekija.omistaakoYrityksia()) {
             session.setAttribute("ilmoitus", "Poista ensin hallitsemasi yritykset!");
             response.sendRedirect("/Kauneushoitolahaku/kirjautunut");

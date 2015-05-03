@@ -15,7 +15,7 @@
     <body>
         <form action="Esittely" method="POST">
 
-            <h1>${yritys.nimi}</h1>
+            <h1><c:out value="${yritys.nimi}"/></h1>
             <!-- Painikkeet tähän -->
             <p>
                 <a href="${yritys.kotisivut}" class="btn btn-default">Kotisivuille</a>
@@ -39,7 +39,7 @@
             </ul>
             <!-- Kuvaus tulee tähän -->
             <p>
-                ${yritys.kuvaus}
+                <c:out value="${yritys.kuvaus}"/>
             </p>
         </form>
     </body>

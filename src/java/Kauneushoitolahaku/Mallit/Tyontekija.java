@@ -4,6 +4,7 @@
  */
 package Kauneushoitolahaku.Mallit;
 
+import Kauneushoitolahaku.Servletit.Apuservlet;
 import Kauneushoitolahaku.Tietokanta.Yhteys;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Sisältää Tyontekija-tauluun liittyvät sql-kyselyt 
+ * sekä getterit ja setterit
  *
  * @author Outi
  */
@@ -24,26 +27,54 @@ public class Tyontekija {
     private String salasana;
     private Map<String, String> virheet = new HashMap<String, String>();
 
+    /**
+     * Konstruktori ilman parametrejä
+     *
+     */
     public Tyontekija() {
     }
-    
+
+    /**
+     *
+     * @param tulos
+     * @throws SQLException
+     */
     public Tyontekija(ResultSet tulos) throws SQLException {
         this.id = tulos.getInt("id");
         this.tunnus = tulos.getString("tunnus");
         this.salasana = tulos.getString("salasana");
     }
-    
-    public Tyontekija(int id, String tunnus, String salasana){
+
+    /**
+     * Konstruktori, jossa Tyontekija-taulun sarakkeet parametreinä
+     *
+     * @param id
+     * @param tunnus
+     * @param salasana
+     */
+    public Tyontekija(int id, String tunnus, String salasana) {
         this.id = id;
         this.tunnus = tunnus;
         this.salasana = salasana;
     }
-    
-    public Tyontekija(String tunnus, String salasana){
+
+    /**
+     *
+     * @param tunnus
+     * @param salasana
+     */
+    public Tyontekija(String tunnus, String salasana) {
         this.tunnus = tunnus;
         this.salasana = salasana;
     }
 
+    /**
+     * Tarkistaa, löytyykö tunnus jo kannasta
+     *
+     * @param tunnus
+     * @return boolean
+     * @throws SQLException
+     */
     public static boolean tunnusKaytossa(String tunnus) throws SQLException {
         String sql = "SELECT * FROM tyontekija WHERE tunnus = ?";
         Connection yhteys = Yhteys.getYhteys();
@@ -52,36 +83,21 @@ public class Tyontekija {
         ResultSet tulokset = kysely.executeQuery();
 
         if (tulokset.next()) {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely, tulokset, yhteys);
             return true;
         } else {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely, tulokset, yhteys);
             return false;
         }
     }
 
+    /**
+     * Etsii työntekijän id:n tunnuksen perusteella
+     *
+     * @param tunnus
+     * @return työntekijän id
+     * @throws SQLException
+     */
     public static int etsiTunnuksella(String tunnus) throws SQLException {
         String sql = "SELECT id FROM tyontekija WHERE tunnus = ?";
         Connection yhteys = Yhteys.getYhteys();
@@ -95,22 +111,17 @@ public class Tyontekija {
             tyontekija.setId(tulokset.getInt("id"));
         }
 
-        try {
-            tulokset.close();
-        } catch (Exception e) {
-        }
-        try {
-            kysely.close();
-        } catch (Exception e) {
-        }
-        try {
-            yhteys.close();
-        } catch (Exception e) {
-        }
+        Apuservlet.suljeKTY(kysely, tulokset, yhteys);
 
         return tyontekija.getId();
     }
 
+    /**
+     * Lisää työntekijän kantaan
+     *
+     * @return @throws SQLException 
+     * @throws SQLException
+     */
     public int lisaaTyontekija() throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -130,22 +141,16 @@ public class Tyontekija {
             this.setId(tulokset.getInt(1));
 
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely, tulokset, yhteys);
         }
         return this.getId();
     }
-    
+
+    /**
+     * Poistaa työntekijän kannasta
+     *
+     * @throws Exception
+     */
     public void poistaTunnukset() throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -156,21 +161,19 @@ public class Tyontekija {
             kysely.setInt(1, this.getId());
             kysely.execute();
         } finally {
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKY(kysely, yhteys);
         }
     }
 
+    /**
+     * Muokkaa työntekijän tunnusta ja/tai salasanaa
+     *
+     * @throws Exception
+     */
     public void muokkaaTunnuksia() throws Exception {
         Connection yhteys = null;
         PreparedStatement kysely = null;
-        
+
         try {
             String sql = "UPDATE tyontekija SET tunnus=?, salasana=? WHERE id=?";
             yhteys = Yhteys.getYhteys();
@@ -178,15 +181,20 @@ public class Tyontekija {
             kysely.setString(1, this.getTunnus());
             kysely.setString(2, this.getSalasana());
             kysely.setInt(3, this.getId());
-            
+
             kysely.executeUpdate();
         } finally {
-            kysely.close();
-            yhteys.close();
+            Apuservlet.suljeKY(kysely, yhteys);
         }
     }
-    
-    public boolean omistaakoYrityksia() throws SQLException{
+
+    /**
+     * Tarkistaa onko työntekijään liitetty yrityksiä
+     *
+     * @return @throws SQLException 
+     * @throws SQLException
+     */
+    public boolean omistaakoYrityksia() throws SQLException {
         String sql = "SELECT * FROM yritys, tyontekija WHERE tyontekija_id = ? AND tyontekija_id=tyontekija.id";
         Connection yhteys = Yhteys.getYhteys();
         PreparedStatement kysely = yhteys.prepareStatement(sql);
@@ -194,32 +202,10 @@ public class Tyontekija {
         ResultSet tulokset = kysely.executeQuery();
 
         if (tulokset.next()) {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely, tulokset, yhteys);
             return true;
         } else {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely, tulokset, yhteys);
             return false;
         }
     }
@@ -246,7 +232,11 @@ public class Tyontekija {
     }
 
     /**
+     * Antaa virheen jos tunnusta ei ole annettu 
+     * tai se on jo käytössä
+     * 
      * @param tunnus the tunnus to set
+     * @throws SQLException
      */
     public void setTunnus(String tunnus) throws SQLException {
         this.tunnus = tunnus;
@@ -268,6 +258,8 @@ public class Tyontekija {
     }
 
     /**
+     * Antaa virheen jos salasanaa ei ole annettu
+     * 
      * @param salasana the salasana to set
      */
     public void setSalasana(String salasana) {

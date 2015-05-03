@@ -4,6 +4,7 @@
  */
 package Kauneushoitolahaku.Mallit;
 
+import Kauneushoitolahaku.Servletit.Apuservlet;
 import Kauneushoitolahaku.Tietokanta.Yhteys;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
+ * Tarjonta_yritys-tauluun liittyvät kyselyt 
+ * sekä getterit ja setterit
  *
  * @author Outi
  */
@@ -21,15 +24,33 @@ public class Tarjonta_yritys {
     private int tarjonta_id;
     private int yritys_id;
 
+    /**
+     * Konstruktori ilman parametrejä
+     *
+     */
     public Tarjonta_yritys() {
     }
 
+    /**
+     * Konstruktori, jossa tarjonta_yritys-taulun
+     * sarakkeet parametreinä
+     *
+     * @param id
+     * @param tarjonta_id
+     * @param yritys_id
+     */
     public Tarjonta_yritys(int id, int tarjonta_id, int yritys_id) {
         this.id = id;
         this.tarjonta_id = tarjonta_id;
         this.yritys_id = yritys_id;
     }
 
+    /**
+     * Poistaa yritykseltä kaikki sille merkatut tarjonnat
+     *
+     * @param yritys
+     * @throws SQLException
+     */
     public static void nollaaYrityksenTarjonta(Yritykset yritys) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -41,21 +62,17 @@ public class Tarjonta_yritys {
             kysely.setInt(1, yritys.getId());
             kysely.execute();
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely,tulokset,yhteys);
         }
     }
 
+    /**
+     * Hakee yrityksen perusteella kaikki sen tarjoamat palvelut
+     *
+     * @param yritys
+     * @return lista tarjonnasta
+     * @throws SQLException
+     */
     public static ArrayList<String> haeYrityksenTarjonta(Yritykset yritys) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -75,21 +92,17 @@ public class Tarjonta_yritys {
             return lista;
 
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely,tulokset,yhteys);
         }
     }
 
+    /**
+     * Lisää yritykselle tarjontaa
+     *
+     * @param yritys
+     * @param tarjonta
+     * @throws SQLException
+     */
     public static void lisaa(Yritykset yritys, Tarjonnat tarjonta) throws SQLException {
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -104,18 +117,7 @@ public class Tarjonta_yritys {
             tulokset.next();
             int id = tulokset.getInt(1);
         } finally {
-            try {
-                tulokset.close();
-            } catch (Exception e) {
-            }
-            try {
-                kysely.close();
-            } catch (Exception e) {
-            }
-            try {
-                yhteys.close();
-            } catch (Exception e) {
-            }
+            Apuservlet.suljeKTY(kysely,tulokset,yhteys);
         }
     }
 

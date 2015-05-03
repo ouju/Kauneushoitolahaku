@@ -5,13 +5,13 @@
 package Kauneushoitolahaku.Servletit;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Hallinnoi työntekijän uloskirjautumista
  *
  * @author Outi
  */
@@ -33,13 +33,6 @@ public class Uloskirjautuminen extends HttpServlet {
         request.getSession(false).invalidate();
         response.sendRedirect("index.jsp");
     }
-//    public void naytaJSP(String sivu, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(sivu);
-//        dispatcher.forward(request, response);
-//
-//    }
-
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
